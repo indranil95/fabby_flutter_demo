@@ -1,0 +1,40 @@
+import 'dart:ui';
+
+class AppColors {
+  static const Color black = Color(0xFF000000);
+  static const Color white = Color(0xFFFFFFFF);
+  static const Color fabbyBondiBlue = Color(0xFFED9CAF);
+  static const Color fabbyBondiBlueOpa = Color(0xFFFBCBD6);
+  static const Color fabbyBondiBlueOpa10 = Color(0xFFF8E2E7);
+  static const Color fabbyBondiBlueDark = Color(0xFFF8688A);
+  static const Color lightBlack = Color(0xFF363636);
+  static const Color mainBg = Color(0xFFF3F1F1);
+  static const Color shimmerBg = Color(0xFFE5E5E5);
+  static const Color paymentSelectBack = Color(0xFFFDE9EE);
+  static const Color midGray = Color(0xFF686868);
+  static const Color lightBlueFabby = Color(0xff66ed9caf);
+  static const Color lightGrayAlpha = Color(0x1A999999);
+  static const Color googleBack = Color(0x00ff7a7b);
+  static const Color lightGray = Color(0xFF999999);
+  static const Color transparentGrey = Color(0xCC363636);
+  static const Color transparentLight = Color(0x1F15B1AC);
+  static const Color transparentColor = Color(0x00000000);
+  static const Color midPink = Color(0xFFD1EFEE);
+  static const Color cardBackColor = Color(0xFF222A67);
+  static const Color subTextColot = Color(0xFF212529);
+  static const Color subTextColotOpa = Color(0xFF33393E);
+  static const Color fabbyBack = Color(0xFFFFF7F9);
+  static const Color recentStroke = Color(0xFFE9E9E9);
+  static const Color recentTextColor = Color(0xFF081B27);
+  static const Color menuBack = Color(0xFFF0DDCB);
+  static const Color searchHintColor = Color(0xFF4E4E4F);
+  static const Color sortTextColor = Color(0xFF212529);
+  static const Color errorTextColor = Color(0xFFFF0000);
+  static const Color productDetailBack = Color(0x8080fbe0e6);
+  static const Color productDetailText = Color(0xFF1C1919);
+  static const Color removeTextColor = Color(0xFF474545);
+  static const Color couponBack = Color(0xFFFFE8E5);
+  static const Color myAccountText = Color(0xFF212121);
+  static const Color orderItemTextBack = Color(0xFF549CD5);
+  static const Color profileBlueText = Color(0xFF0066A1);
+}
