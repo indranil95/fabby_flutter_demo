@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fabby_demo/colors/colors.dart';
 
-import '../utils/shared_prefs.dart';
+import '../../utils/shared_prefs.dart';
 import 'home_screen.dart'; // Ensure this file exists and contains the AppColors
 
 class SplashScreen extends StatefulWidget {

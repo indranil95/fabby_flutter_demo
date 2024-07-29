@@ -30,8 +30,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_svg: ^2.0.4
-  shared_preferences: ^2.0.15  # Check for the latest version on pub.dev
+  flutter_svg: ^2.0.9
+  shared_preferences: ^2.0.15
+  http: ^0.13.0
+  provider: ^6.1.2
+  logger: ^1.1.0 # Check for the latest version on pub.dev
 
 
 
@@ -68,12 +71,14 @@ flutter:
     - assets/carouse3.png
     - assets/carouse4.png
     - assets/carouse5.png
-    - notification_fabby.svg
-    - notification_fabby_fill.svg
-    - wishlist_icon_fabby.svg
-    - wishlist_icon_fabby_fill.svg
-    - bag_fabby.svg
-    - bag_fabby_fill.svg
+    - assets/profile_img_login.png
+    - assets/notification_fabby.svg
+    - assets/notification_fabby_fill.svg
+    - assets/wishlist_icon_fabby.svg
+    - assets/wishlist_icon_fabby_fill.svg
+    - assets/bag_fabby.svg
+    - assets/bag_fabby_fill.svg
+    - assets/fabby_placeholder_image.svg
 
 
   # To add assets to your application, add an assets section, like this:

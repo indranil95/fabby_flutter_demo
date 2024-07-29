@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../utils/shared_prefs.dart';
+import '../../utils/shared_prefs.dart';
 import 'splash_screen.dart'; // Import your SplashScreen
 import 'home_screen.dart'; // Import your HomeScreen
-
 class StartScreen extends StatefulWidget {
   const StartScreen({super.key});
 
@@ -28,12 +27,16 @@ class _StartScreenState extends State<StartScreen> {
     if (firstTime == '1') {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()), // Navigate to HomeScreen
+        MaterialPageRoute(
+          builder: (context) => const HomeScreen(), // Navigate to HomeScreen
+        ),
       );
     } else {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const SplashScreen()), // Navigate to SplashScreen
+        MaterialPageRoute(
+          builder: (context) => const SplashScreen(), // Navigate to SplashScreen
+        ),
       );
     }
   }
