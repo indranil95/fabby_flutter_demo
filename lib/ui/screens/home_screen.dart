@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fabby_demo/colors/colors.dart';
+import 'package:flutter_fabby_demo/strings/strings.dart';
+import 'package:flutter_fabby_demo/ui/lists/all_product_list.dart';
 import 'package:flutter_fabby_demo/ui/screens/top_bar.dart';
-import 'package:provider/provider.dart'; // Import Provider
+import 'package:flutter_fabby_demo/utils/logger_service.dart';
+import 'package:flutter_fabby_demo/utils/text_utils.dart';
+import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
+
+import '../../AppConstant/app_constant.dart';
 import '../../viewModels/dashboard_viewmodel.dart';
 import '../lists/banner_list.dart';
+import '../lists/category_list.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,14 +21,24 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String _selectedCategory = ''; // Variable to store the selected category
+
   @override
   void initState() {
     super.initState();
-    // Call loadData when the screen is initialized
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final viewModel = Provider.of<DashboardViewModel>(context, listen: false);
       viewModel.loadBanner();
+      viewModel.loadCategories();
+      viewModel.loadAllProduct(AppConstants.allProduct,AppConstants.limit);// Load categories as well
     });
+  }
+
+  void _handleCategorySelection(String category) {
+    setState(() {
+      _selectedCategory = category; // Update the selected category
+    });
+    // You can add additional logic here if needed
   }
 
   @override
@@ -39,48 +58,82 @@ class _HomeScreenState extends State<HomeScreen> {
             return const Center(child: Text('No data available'));
           }
 
+          // Handle the dynamic widget list
+          List<Widget> categoryWidgets = [];
+          if (_selectedCategory == "All Products") {
+            LoggerService.i("all product");
+          } else if (_selectedCategory == "Dog") {
+            LoggerService.i("Dog");
+          } else if (_selectedCategory == "Cat") {
+            LoggerService.i("Cat");
+          }
+
           return Column(
             children: [
               SafeArea(
                 child: Container(
-                  // Add decoration to mimic AppBar styling
                   decoration: BoxDecoration(
-                    color: Colors.white, // Background color similar to AppBar
+                    color: Colors.white,
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 2,
                         blurRadius: 5,
-                        offset: const Offset(0, 2), // Shadow position
+                        offset: const Offset(0, 2),
                       ),
                     ],
                   ),
-                  child: const TopBarIcons(), // Use BottomIcons here
+                  child: const TopBarIcons(),
                 ),
               ),
-              // Set the height for BannerList
-              SizedBox(
-                height: 200.0, // Fixed height for the banner list
-                child: BannerList(
-                  items: viewModel.data!.data.webBanners, // Pass the list of banners
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: SizedBox(
+                  height: 200.0,
+                  child: BannerList(
+                    items: viewModel.data!.data.webBanners,
+                  ),
                 ),
               ),
-              // Add two more text widgets below the BannerList
-              const Padding(
-                padding: EdgeInsets.all(16.0),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                        'First Text View'
+                    Center(
+                      child: TextUtils.display(
+                        AppStrings.experienceFabby,
+                        fontSize: 20.0,
+                        color: AppColors.sortTextColor,
+                        fontFamily: 'DmSerifDisplay',
+                        fontWeight: FontWeight.normal,
+                      ),
                     ),
-                    SizedBox(height: 10), // Space between text views
-                    Text(
-                        'Second Text View'
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16.0), // Add padding between text and list
+                      child: SizedBox(
+                        height: 80.0, // Adjust height as needed
+                        child: CategoryList(
+                          items: viewModel.categories,
+                          onItemSelected: _handleCategorySelection, // Pass the callback
+                        ),
+                      ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16.0), // Add padding between text and list
+                      child: SizedBox(
+                        height: 80.0, // Adjust height as needed
+                        child: AllProductList(
+                          items: viewModel.allProductData!.data,
+                        ),
+                      ),
+                    ),
+                    // Here you can use the `categoryWidgets` list to include additional widgets
+                    // based on `_selectedCategory` or other conditions if needed
                   ],
                 ),
               ),
+
             ],
           );
         },

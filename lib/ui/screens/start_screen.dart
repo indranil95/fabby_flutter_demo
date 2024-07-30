@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import '../../utils/shared_prefs.dart';
+import '../../viewModels/dashboard_viewmodel.dart';
 import 'splash_screen.dart'; // Import your SplashScreen
 import 'home_screen.dart'; // Import your HomeScreen
 class StartScreen extends StatefulWidget {
@@ -18,6 +20,8 @@ class _StartScreenState extends State<StartScreen> {
   }
 
   Future<void> _checkFirstTimeLogin() async {
+    final viewModel = Provider.of<DashboardViewModel>(context, listen: false);
+    viewModel.loadGuest();
     final prefs = await SharedPrefsHelper.getInstance();
     final firstTime = prefs.getString('first_time');
 
@@ -32,6 +36,7 @@ class _StartScreenState extends State<StartScreen> {
         ),
       );
     } else {
+      viewModel
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

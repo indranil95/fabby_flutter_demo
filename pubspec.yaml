@@ -80,6 +80,119 @@ flutter:
     - assets/bag_fabby_fill.svg
     - assets/fabby_placeholder_image.svg
 
+  fonts:
+    - family: DmSerifDisplay
+      fonts:
+        - asset: assets/fonts/dmserifdisplay_italic.ttf
+          style: italic
+        - asset: assets/fonts/dmserifdisplay_regular.ttf
+          weight: 400
+
+    - family: Nunito
+      fonts:
+        - asset: assets/fonts/nunito_black.ttf
+          weight: 900
+        - asset: assets/fonts/nunito_bold.ttf
+          weight: 700
+        - asset: assets/fonts/nunito_extrabold.ttf
+          weight: 800
+        - asset: assets/fonts/nunito_extralight.ttf
+          weight: 200
+        - asset: assets/fonts/nunito_light.ttf
+          weight: 300
+        - asset: assets/fonts/nunito_medium.ttf
+          weight: 500
+        - asset: assets/fonts/nunito_regular.ttf
+          weight: 400
+        - asset: assets/fonts/nunito_semibold.ttf
+          weight: 600
+    - family: NunitoSans
+      fonts:
+        - asset: assets/fonts/nunitoaans_black.ttf
+          weight: 900
+        - asset: assets/fonts/nunitosans_blackitalic.ttf
+          weight: 900
+          style: italic
+        - asset: assets/fonts/nunitosans_bold.ttf
+          weight: 700
+        - asset: assets/fonts/nunitosans_bolditalic.ttf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/nunitosans_extrabold.ttf
+          weight: 800
+        - asset: assets/fonts/nunitosans_extrabolditalic.ttf
+          weight: 800
+          style: italic
+        - asset: assets/fonts/nunitosans_extralight.ttf
+          weight: 200
+        - asset: assets/fonts/nunitosans_extralightitalic.ttf
+          weight: 200
+          style: italic
+        - asset: assets/fonts/nunitosans_italic.ttf
+          style: italic
+        - asset: assets/fonts/nunitosans_light.ttf
+          weight: 300
+        - asset: assets/fonts/nunitosans_lightitalic.ttf
+          weight: 300
+          style: italic
+        - asset: assets/fonts/nunitosans_regular.ttf
+          weight: 400
+        - asset: assets/fonts/nunitosans_semibold.ttf
+          weight: 600
+        - asset: assets/fonts/nunitosans_semibolditalic.ttf
+          weight: 600
+          style: italic
+
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/poppins_black_900.ttf
+          weight: 900
+        - asset: assets/fonts/poppins_black_italic_900.ttf
+          weight: 900
+          style: italic
+        - asset: assets/fonts/poppins_bold_700.ttf
+          weight: 700
+        - asset: assets/fonts/poppins_bold_italic_700.ttf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/poppins_extrabold_800.ttf
+          weight: 800
+        - asset: assets/fonts/poppins_extrabold_italic_800.ttf
+          weight: 800
+          style: italic
+        - asset: assets/fonts/poppins_extralight_275.ttf
+          weight: 200
+        - asset: assets/fonts/poppins_extralight_italic_275.ttf
+          weight: 200
+          style: italic
+        - asset: assets/fonts/poppins_italic_400.ttf
+          weight: 400
+          style: italic
+        - asset: assets/fonts/poppins_light_300.ttf
+          weight: 300
+        - asset: assets/fonts/poppins_light_italic_300.ttf
+          weight: 300
+          style: italic
+        - asset: assets/fonts/poppins_medium.ttf
+          weight: 500
+        - asset: assets/fonts/poppins_medium_500.ttf
+          weight: 500
+        - asset: assets/fonts/poppins_medium_italic_500.ttf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/poppins_regular_400.ttf
+          weight: 400
+        - asset: assets/fonts/poppins_semibold_600.ttf
+          weight: 600
+        - asset: assets/fonts/poppins_semibold_italic_600.ttf
+          weight: 600
+          style: italic
+        - asset: assets/fonts/poppins_thin_250.ttf
+          weight: 100
+        - asset: assets/fonts/poppins_thin_italic_250.ttf
+          weight: 100
+          style: italic
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:
