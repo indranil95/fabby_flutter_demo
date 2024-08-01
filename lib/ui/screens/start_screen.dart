@@ -36,7 +36,7 @@ class _StartScreenState extends State<StartScreen> {
         ),
       );
     } else {
-      viewModel
+      //viewModel
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
