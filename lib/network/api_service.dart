@@ -47,7 +47,8 @@ class ApiService extends BaseApiService {
       String limit,
       String charLimit,
    T Function(Map<String, dynamic>) fromJson) async {
-    final url = Uri.parse('$baseUrl/api/products/$selectedItem?paginate=$paginate&limit=$limit&charlimit=$charLimit');
+    final String endpoint = "products/$selectedItem";
+    final url = Uri.parse('$baseUrl$endpoint?paginate=$paginate&limit=$limit&charlimit=$charLimit');
     try {
       // Log the request URL and method
       LoggerService.i('Request URL: $url');

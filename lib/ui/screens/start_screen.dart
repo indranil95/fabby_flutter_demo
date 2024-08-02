@@ -29,20 +29,10 @@ class _StartScreenState extends State<StartScreen> {
     await Future.delayed(const Duration(seconds: 2));
 
     if (firstTime == '1') {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const HomeScreen(), // Navigate to HomeScreen
-        ),
-      );
+      goToHomeScreen();
     } else {
       //viewModel
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const SplashScreen(), // Navigate to SplashScreen
-        ),
-      );
+      goToSplash();
     }
   }
 
@@ -69,6 +59,24 @@ class _StartScreenState extends State<StartScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  void goToHomeScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const HomeScreen(), // Navigate to HomeScreen
+      ),
+    );
+  }
+
+  void goToSplash() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SplashScreen(), // Navigate to SplashScreen
       ),
     );
   }

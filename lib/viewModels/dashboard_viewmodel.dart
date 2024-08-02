@@ -51,6 +51,7 @@ class DashboardViewModel extends ChangeNotifier {
       await prefs.saveString('accessToken', response!.token);
       await prefs.saveString('guestId', response.data.guestId);
       await prefs.saveString('userObject', response.data.user.toString());
+      await prefs.saveString('guestLogin', "1");
       guestSuccess=true;
     } catch (e) {
       _error = e.toString();
@@ -59,6 +60,11 @@ class DashboardViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+  Future<String?> getGuestLogin() async {
+    final prefs = await SharedPrefsHelper.getInstance();
+    return prefs.getString('guestLogin');
+  }
+
   Future<void> loadAllProduct(String selectedItem,
       String limit,
       ) async {

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fabby_demo/ui/screens/side_menu.dart';
+import 'package:flutter_fabby_demo/utils/logger_service.dart';
 import '../../utils/image_utils.dart'; // Import your image_utils.dart
 
 class TopBarIcons extends StatelessWidget {
@@ -32,13 +34,20 @@ class TopBarIcons extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Drawer icon
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.0),
-              child: Icon(
-                Icons.menu, // Drawer icon
-                size: 24.0, // Size of the icon
-                color: Colors.black, // Color of the icon
+            // Drawer icon with click event
+            GestureDetector(
+              onTap: () {
+                // Handle the click event here
+                goToSideMenu(context);
+
+              },
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.0),
+                child: Icon(
+                  Icons.menu, // Drawer icon
+                  size: 24.0, // Size of the icon
+                  color: Colors.black, // Color of the icon
+                ),
               ),
             ),
 
@@ -94,8 +103,19 @@ class TopBarIcons extends StatelessWidget {
               ),
             ),
           ],
+
         ),
       ),
     );
   }
+
+  void goToSideMenu(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SideMenuScreen(), // Navigate to HomeScreen
+      ),
+    );
+  }
+
 }

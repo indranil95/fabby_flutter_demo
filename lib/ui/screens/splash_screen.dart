@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
         curve: Curves.easeInOut,
       );
     } else {
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const HomeScreen()),
       );

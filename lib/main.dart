@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fabby_demo/utils/navigation_service.dart';
 import 'package:flutter_fabby_demo/viewModels/dashboard_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'ui/screens/start_screen.dart'; // Adjust import as needed
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        navigatorKey: NavigationService.navigatorKey,
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,

@@ -15,51 +15,53 @@ class AllProductItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 5.0), // Equivalent to XML margins
-      width: 140.0, // Equivalent to @dimen/_140sdp
+      margin: const EdgeInsets.symmetric(horizontal: 5.0),
+      width: 140.0,
+      height: 400.0,
       child: Card(
-        color: const Color(0xFFFFEDE1), // Equivalent to #FFEDE1
+        color: const Color(0xFFFFEDE1),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(40.0), // Equivalent to 40dp
+          borderRadius: BorderRadius.circular(20.0),
         ),
-        elevation: 2.0, // Slight elevation for shadow effect
+        elevation: 4.0,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(40.0), // Equivalent to 40dp
-              ),
-              clipBehavior: Clip.antiAlias,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
               child: Image.network(
                 imageUrl,
-                width: double.infinity,
-                height: 220.0, // Equivalent to 220dp
-                fit: BoxFit.cover, // Equivalent to fitCenter
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Center(child: Icon(Icons.error, color: Colors.red));
+                },
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              child: Text(
-                description,
-                style: const TextStyle(
-                  fontSize: 16.0, // Equivalent to 16sp
-                  color: Colors.black,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis, // Equivalent to ellipsize="end"
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-              child: Text(
-                price,
-                style: const TextStyle(
-                  fontSize: 14.0, // Equivalent to 14sp
-                  color: Colors.grey, // Replace with @color/sort_text_color if defined
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis, // Equivalent to ellipsize="end"
+              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    description,
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.black,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(height: 5.0), // Space between description and price
+                  Text(
+                    price,
+                    style: const TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.grey,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ),
             ),
           ],

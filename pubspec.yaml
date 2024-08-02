@@ -72,11 +72,13 @@ flutter:
     - assets/carouse4.png
     - assets/carouse5.png
     - assets/profile_img_login.png
+    - assets/side_menu_banner.png
     - assets/notification_fabby.svg
     - assets/notification_fabby_fill.svg
     - assets/wishlist_icon_fabby.svg
     - assets/wishlist_icon_fabby_fill.svg
     - assets/bag_fabby.svg
+    - assets/cross.svg
     - assets/bag_fabby_fill.svg
     - assets/fabby_placeholder_image.svg
 
