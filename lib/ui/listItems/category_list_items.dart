@@ -39,7 +39,7 @@ class CategoryListItem extends StatelessWidget {
                   fontSize: 15.0, // Increased fontSize for larger text
                   color: textColor,
                   fontFamily: 'NunitoSans',
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w300,
                   textAlign: TextAlign.center, // Center the text
                /* ),*/
               ),

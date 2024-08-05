@@ -70,6 +70,7 @@ class AppStrings {
   static const String getInTouch = "Get In Touch";
   static const String formSubmitted = "Form Submitted";
   static const String dumMobile = "+91 77770 60333";
+  static const String dumMail = "info@fabbyfurever.com";
   static const String clientMobile = "77770 60333";
   static const String fabbyFureverPrivateLimitedAddress = "Fabby Furever Private Limited, 701, Aryston Centre, Opp. JW Marriott Hotel, Juhu, Mumbai 49";
   static const String yourName = "Your name";
@@ -94,7 +95,7 @@ class AppStrings {
   static const String otherProductsYouMayLike = "Other Products You May Like";
   static const String pleaseFillPincodeField = "Please provide valid pincode";
   static const String aboutUs = "About Us";
-  static const String aboutUsFirst = "We envision a world..\nWhere every pet is treated with love, respect, and care.\nWhere pet parents have access to the best products and resources to ensure their pets lead healthy and fulfilling lives.\nThat is why we keep innovating, continuously improving and expanding our product range to meet the evolving needs of pets and their hoomans.";
+  static const String aboutUsFirst = "We envision a world..Where every pet is treated with love, respect, and care.Where pet parents have access to the best products and resources to ensure their pets lead healthy and fulfilling lives.That is why we keep innovating, continuously improving and expanding our product range to meet the evolving needs of pets and their hoomans.";
   static const String theFutureOfPetCare = "The future of pet care";
   static const String weAreFabbyFurever = "We are Fabby Furever";
   static const String buyNow = "Buy Now";

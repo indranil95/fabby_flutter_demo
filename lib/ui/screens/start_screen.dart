@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import '../../utils/navigation_service.dart';
 import '../../utils/shared_prefs.dart';
 import '../../viewModels/dashboard_viewmodel.dart';
 import 'splash_screen.dart'; // Import your SplashScreen
@@ -64,20 +65,13 @@ class _StartScreenState extends State<StartScreen> {
   }
 
   void goToHomeScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const HomeScreen(), // Navigate to HomeScreen
-      ),
-    );
+
+    NavigationService.navigateTo(const HomeScreen());
+
   }
 
   void goToSplash() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const SplashScreen(), // Navigate to SplashScreen
-      ),
-    );
+
+    NavigationService.navigateTo(const SplashScreen());
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fabby_demo/colors/colors.dart';
 
+import '../../utils/navigation_service.dart';
 import '../../utils/shared_prefs.dart';
 import 'home_screen.dart'; // Ensure this file exists and contains the AppColors
 
@@ -40,10 +41,8 @@ class _SplashScreenState extends State<SplashScreen> {
         curve: Curves.easeInOut,
       );
     } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
+
+      NavigationService.navigateTo(const HomeScreen());
     }
   }
 
@@ -115,7 +114,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 'Next',
                 style: TextStyle(
                   color: Colors.white,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w300,
                   fontSize: 16.0,
                 ),
               ),

@@ -5,7 +5,6 @@ import 'package:flutter_fabby_demo/ui/lists/all_product_list.dart';
 import 'package:flutter_fabby_demo/ui/screens/top_bar.dart';
 import 'package:flutter_fabby_demo/utils/logger_service.dart';
 import 'package:flutter_fabby_demo/utils/text_utils.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
 import '../../AppConstant/app_constant.dart';

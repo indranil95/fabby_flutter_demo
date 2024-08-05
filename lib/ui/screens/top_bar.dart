@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fabby_demo/ui/screens/side_menu.dart';
 import 'package:flutter_fabby_demo/utils/logger_service.dart';
-import '../../utils/image_utils.dart'; // Import your image_utils.dart
+import '../../utils/image_utils.dart';
+import '../../utils/navigation_service.dart'; // Import your image_utils.dart
 
 class TopBarIcons extends StatelessWidget {
   const TopBarIcons({super.key});
@@ -110,12 +111,8 @@ class TopBarIcons extends StatelessWidget {
   }
 
   void goToSideMenu(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const SideMenuScreen(), // Navigate to HomeScreen
-      ),
-    );
+
+    NavigationService.navigateTo(const SideMenuScreen());
   }
 
 }
