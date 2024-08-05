@@ -4,12 +4,55 @@ import 'package:flutter_fabby_demo/colors/colors.dart';
 import 'package:flutter_fabby_demo/strings/strings.dart';
 import 'package:flutter_fabby_demo/ui/screens/top_bar_detail.dart';
 import 'package:flutter_fabby_demo/utils/text_utils.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../utils/email_sender.dart';
 import '../../utils/image_utils.dart';
 
-class ContactUs extends StatelessWidget {
+class ContactUs extends StatefulWidget {
   const ContactUs({super.key});
+
+  @override
+  _MyFormState createState() => _MyFormState();
+}
+
+class _MyFormState extends State<ContactUs> {
+  late TextEditingController _controller;
+
+  Future<void> launchMap(String address) async {
+    final String query = Uri.encodeComponent(address);
+    final Uri mapUri = Uri.parse("geo:0,0?q=$query");
+
+    try {
+      if (await canLaunchUrl(mapUri)) {
+        await launchUrl(mapUri);
+      } else {
+        // Handle the case where no app can handle the URL
+        if (kDebugMode) {
+          print('Could not launch URL: $mapUri');
+        }
+      }
+    } catch (e) {
+      // Handle exceptions
+      if (kDebugMode) {
+        print('Exception: ${e.toString()}');
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the controller with an initial value
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose(); // Dispose of the controller when not needed
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +87,10 @@ class ContactUs extends StatelessWidget {
                     children: [
                       const SizedBox(height: 20.0),
                       GestureDetector(
-                        onTap: () {
-                          makePhoneCall(AppStrings.clientMobile);
+                        onTap: () async {
+                          await FlutterPhoneDirectCaller.callNumber(
+                              "7777060333");
+                          //makePhoneCall(AppStrings.clientMobile);
                           if (kDebugMode) {
                             print('Phone call container tapped');
                           }
@@ -70,7 +115,7 @@ class ContactUs extends StatelessWidget {
                       const SizedBox(height: 20.0),
                       GestureDetector(
                         onTap: () {
-                          openEmailApp(AppStrings.dumMail);
+                          EmailSender.openGmail(AppStrings.dumMail);
                           if (kDebugMode) {
                             print('Email container tapped');
                           }
@@ -106,30 +151,60 @@ class ContactUs extends StatelessWidget {
                       const SizedBox(height: 20.0),
                       GestureDetector(
                         onTap: () {
-                          openMap();
+                          launchMap(
+                              AppStrings.fabbyFureverPrivateLimitedAddress);
                           if (kDebugMode) {
                             print('Map container tapped');
                           }
                         },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SvgImage.asset('assets/location.svg'),
-                            const SizedBox(width: 20.0),
-                            Expanded(
-                              child: TextUtils.displayLargeText(
-                                AppStrings.fabbyFureverPrivateLimitedAddress,
-                                fontSize: 15.0,
-                                color: AppColors.white,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.normal,
-                                textAlign: TextAlign.start,
+                        child: Container(
+                          margin:
+                              const EdgeInsets.only(left: 20.0, right: 20.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgImage.asset('assets/location.svg'),
+                              const SizedBox(width: 20.0),
+                              Expanded(
+                                child: TextUtils.displayLargeText(
+                                  AppStrings.fabbyFureverPrivateLimitedAddress,
+                                  fontSize: 15.0,
+                                  color: AppColors.white,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.normal,
+                                  textAlign: TextAlign.start,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Card(
+                          color: AppColors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+                              children: [
+                                TextUtils.editableTextWithValue(
+                                  controller: _controller,
+                                  initialValue: 'Initial text value',
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue,
+                                  textAlign: TextAlign.left,
+                                  maxLines: 2,
+                                  fontFamily: 'Arial',
+                                  obscureText: false,
+                                  keyboardType: TextInputType.text,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -139,64 +214,5 @@ class ContactUs extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Future<void> openEmailApp(String recipientEmail) async {
-    final Uri emailUri = Uri(
-      scheme: 'mailto',
-      path: recipientEmail,
-    );
-
-    try {
-      if (await canLaunchUrl(emailUri)) {
-        await launchUrl(emailUri);
-      } else {
-        if (kDebugMode) {
-          print('No email clients installed.');
-        }
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print('Error: $e');
-      }
-    }
-  }
-
-  void makePhoneCall(String phoneNumber) async {
-    phoneNumber = phoneNumber.replaceAll(RegExp(r'[() \-]'), '');
-    final Uri phoneUri = Uri(scheme: 'tel', path: phoneNumber);
-
-    try {
-      if (await canLaunchUrl(phoneUri)) {
-        await launchUrl(phoneUri);
-      } else {
-        if (kDebugMode) {
-          print('Could not launch phone app');
-        }
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print('Exception: ${e.toString()}');
-      }
-    }
-  }
-
-  void openMap() async {
-    const String address = AppStrings.fabbyFureverPrivateLimitedAddress;
-    final Uri mapUri = Uri.parse("geo:0,0?q=${Uri.encodeComponent(address)}");
-
-    try {
-      if (await canLaunchUrl(mapUri)) {
-        await launchUrl(mapUri);
-      } else {
-        if (kDebugMode) {
-          print('Could not open map');
-        }
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print('Exception: ${e.toString()}');
-      }
-    }
   }
 }
