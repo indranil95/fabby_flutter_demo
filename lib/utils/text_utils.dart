@@ -45,57 +45,80 @@ class TextUtils {
       textAlign: textAlign,
     );
   }
-  // Method to create an editable text field with default styling
+
   static Widget editableText({
     required TextEditingController controller,
     double fontSize = 14.0,
     FontWeight fontWeight = FontWeight.normal,
-    Color color = Colors.black,
+    Color color = Colors.black, // Color for the text
+    Color hintColor = Colors.grey, // Color for hint text
     TextAlign textAlign = TextAlign.start,
     int maxLines = 1,
     String? fontFamily, // Added parameter for custom font
     bool obscureText = false, // To handle password fields
     TextInputType keyboardType = TextInputType.text, // To specify keyboard type
+    String? hintText, // Text to show as hint
+    EdgeInsetsGeometry? contentPadding, // Padding for the text field
+    void Function(String)? onChanged, // Callback for text changes
   }) {
+    // Attach listener to the TextEditingController if a callback is provided
+    if (onChanged != null) {
+      controller.addListener(() {
+        onChanged(controller.text);
+      });
+    }
+
     return TextField(
       controller: controller,
       style: TextStyle(
         fontSize: fontSize,
         fontWeight: fontWeight,
-        color: color,
+        color: color, // Apply the custom text color here
         fontFamily: fontFamily, // Apply the custom font here
       ),
       textAlign: textAlign,
       maxLines: maxLines,
       obscureText: obscureText,
       keyboardType: keyboardType,
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: TextStyle(
+          color: hintColor, // Apply the custom hint color here
+          fontFamily: fontFamily, // Apply the custom font for hint text
+        ),
+        contentPadding: contentPadding, // Apply padding for the text field
+        border: const OutlineInputBorder(), // Default border
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: color),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: color),
+        ),
+      ),
+    );
+  }
+  static Widget errorText(
+      String text, {
+        double fontSize = 12.0,
+        FontWeight fontWeight = FontWeight.normal,
+        Color color = Colors.red, // Color for error text
+        TextAlign textAlign = TextAlign.start,
+        int maxLines = 1,
+        TextOverflow overflow = TextOverflow.ellipsis,
+        String? fontFamily, // Added parameter for custom font
+      }) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+        color: color, // Apply the custom color here
+        fontFamily: fontFamily, // Apply the custom font here
+      ),
+      textAlign: textAlign,
+      maxLines: maxLines,
+      overflow: overflow,
     );
   }
 
-  // Method to create an editable text field with initial value
-  static Widget editableTextWithValue({
-    required TextEditingController controller,
-    required String initialValue,
-    double fontSize = 14.0,
-    FontWeight fontWeight = FontWeight.normal,
-    Color color = Colors.black,
-    TextAlign textAlign = TextAlign.start,
-    int maxLines = 1,
-    String? fontFamily, // Added parameter for custom font
-    bool obscureText = false, // To handle password fields
-    TextInputType keyboardType = TextInputType.text, // To specify keyboard type
-  }) {
-    controller.text = initialValue;
-    return editableText(
-      controller: controller,
-      fontSize: fontSize,
-      fontWeight: fontWeight,
-      color: color,
-      textAlign: textAlign,
-      maxLines: maxLines,
-      fontFamily: fontFamily,
-      obscureText: obscureText,
-      keyboardType: keyboardType,
-    );
-  }
 }

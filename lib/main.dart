@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fabby_demo/repository/contact_us_repository.dart';
 import 'package:flutter_fabby_demo/utils/navigation_service.dart';
+import 'package:flutter_fabby_demo/viewModels/contactus_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/dashboard_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'ui/screens/start_screen.dart'; // Adjust import as needed
@@ -27,6 +29,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => DashboardViewModel(
             DashboardRepository(ApiService()),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ContactUsViewModel(
+            ContactUsRepository(ApiService()),
           ),
         ),
       ],
