@@ -15,6 +15,9 @@ abstract class BaseApiService {
       String limit,
       String charLimit,
       T Function(Map<String, dynamic>) fromJson);
+  Future<BaseResponse<T>> getProductsCategoryMobile<T>(
+      String selectedItem,
+      T Function(Map<String, dynamic>) fromJson);
 
   Future<BaseResponse<T>> contactUs<T>(Map<String, dynamic> requestBody,
       T Function(Map<String, dynamic>) fromJson);

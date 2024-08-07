@@ -10,6 +10,7 @@ class DashboardViewModel extends ChangeNotifier {
   final DashboardRepository repository;
   BannerModel? _data;
   AllProductModel? _allProductData;
+  AllProductModel? _allProductCategoryMobile;
   GuestModel? _guestData;
   bool _loading = false;
   bool guestSuccess = false;
@@ -22,6 +23,7 @@ class DashboardViewModel extends ChangeNotifier {
   bool get loading => _loading;
   String get error => _error;
   AllProductModel? get allProductData => _allProductData;
+  AllProductModel? get allProductCategoryMobile => _allProductCategoryMobile;
   GuestModel? get guestData => _guestData;
 
   Future<void> loadBanner() async {
@@ -74,6 +76,22 @@ class DashboardViewModel extends ChangeNotifier {
     try {
       final response = await repository.allProductData(selectedItem,AppConstants.productPaginate,limit,AppConstants.charLimit);
       _allProductData = response;
+      _error = '';
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
+  }
+  Future<void> productsCategoryMobile(String selectedItem,
+      ) async {
+    _loading = true;
+    notifyListeners();
+
+    try {
+      final response = await repository.productsCategoryMobile(selectedItem);
+      _allProductCategoryMobile = response;
       _error = '';
     } catch (e) {
       _error = e.toString();

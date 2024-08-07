@@ -54,4 +54,18 @@ class DashboardRepository {
 
     return response.data;
   }
+  Future<AllProductModel?> productsCategoryMobile(
+      String selectedItem,
+      ) async {
+    final response = await apiService.getProductsCategoryMobile<AllProductModel>(
+      selectedItem,
+          (json) => AllProductModel.fromJson(json), // Adjust according to your model
+    );
+
+    if (response.error != null) {
+      throw Exception(response.error);
+    }
+
+    return response.data;
+  }
 }

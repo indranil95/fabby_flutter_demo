@@ -32,16 +32,13 @@ class CategoryListItem extends StatelessWidget {
           child: Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-              /*child: FittedBox(
-                fit: BoxFit.scaleDown, // Scale down the text if it overflows*/
-                child: TextUtils.display(
-                  label,
-                  fontSize: 15.0, // Increased fontSize for larger text
-                  color: textColor,
-                  fontFamily: 'NunitoSans',
-                  fontWeight: FontWeight.w300,
-                  textAlign: TextAlign.center, // Center the text
-               /* ),*/
+              child: TextUtils.display(
+                label,
+                fontSize: 15.0, // Increased fontSize for larger text
+                color: textColor,
+                fontFamily: 'NunitoSans',
+                fontWeight: FontWeight.w300,
+                textAlign: TextAlign.center, // Center the text
               ),
             ),
           ),
