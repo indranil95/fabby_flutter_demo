@@ -1,34 +1,76 @@
+import 'dart:convert';
+
+AllProductModel allProductModelFromJson(String str) => AllProductModel.fromJson(json.decode(str));
+
+String allProductModelToJson(AllProductModel data) => json.encode(data.toJson());
+
 class AllProductModel {
+  List<Datum> data;
+  bool success;
+  int error;
+  String statusCode;
+
   AllProductModel({
     required this.data,
     required this.success,
     required this.error,
     required this.statusCode,
   });
-  late final List<Data> data;
-  late final bool success;
-  late final int error;
-  late final String statusCode;
 
-  AllProductModel.fromJson(Map<String, dynamic> json){
-    data = List.from(json['data']).map((e)=>Data.fromJson(e)).toList();
-    success = json['success'];
-    error = json['error'];
-    statusCode = json['status_code'];
-  }
+  factory AllProductModel.fromJson(Map<String, dynamic> json) => AllProductModel(
+    data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+    success: json["success"],
+    error: json["error"],
+    statusCode: json["status_code"],
+  );
 
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['data'] = data.map((e)=>e.toJson()).toList();
-    _data['success'] = success;
-    _data['error'] = error;
-    _data['status_code'] = statusCode;
-    return _data;
-  }
+  Map<String, dynamic> toJson() => {
+    "data": List<dynamic>.from(data.map((x) => x.toJson())),
+    "success": success,
+    "error": error,
+    "status_code": statusCode,
+  };
 }
 
-class Data {
-  Data({
+class Datum {
+  int id;
+  String productName;
+  String slug;
+  String meteTitle;
+  String metaDescription;
+  String productId;
+  int quantity;
+  String price;
+  String barcode;
+  dynamic countryOfOrigin;
+  dynamic vatRate;
+  dynamic brandName;
+  int? categoryId;
+  int? subCategoryId;
+  dynamic unit;
+  String manufacturedBy;
+  dynamic description;
+  dynamic benefits;
+  dynamic activeIngredients;
+  String productImage;
+  String productImgStatus;
+  dynamic longDescription;
+  dynamic howToUse;
+  String whatIncluded;
+  String? amazonLink;
+  int height;
+  int width;
+  int length;
+  double weight;
+  dynamic type;
+  int status;
+  List<ProductImageArr> productImageArr;
+  dynamic offers;
+  Categories? categories;
+  SubCategory? subCategory;
+  List<Store> store;
+
+  Datum({
     required this.id,
     required this.productName,
     required this.slug,
@@ -38,224 +80,174 @@ class Data {
     required this.quantity,
     required this.price,
     required this.barcode,
-    this.countryOfOrigin,
-    this.vatRate,
-    this.brandName,
-    this.categoryId,
+    required this.countryOfOrigin,
+    required this.vatRate,
+    required this.brandName,
+    required this.categoryId,
     required this.subCategoryId,
-    this.unit,
+    required this.unit,
     required this.manufacturedBy,
-    this.description,
-    this.benefits,
-    this.activeIngredients,
+    required this.description,
+    required this.benefits,
+    required this.activeIngredients,
     required this.productImage,
     required this.productImgStatus,
-    this.longDescription,
-    this.howToUse,
+    required this.longDescription,
+    required this.howToUse,
     required this.whatIncluded,
-    this.amazonLink,
+    required this.amazonLink,
     required this.height,
     required this.width,
     required this.length,
     required this.weight,
-    this.type,
+    required this.type,
     required this.status,
     required this.productImageArr,
-    this.offers,
-    this.categories,
+    required this.offers,
+    required this.categories,
     required this.subCategory,
     required this.store,
   });
-  late final int id;
-  late final String productName;
-  late final String slug;
-  late final String meteTitle;
-  late final String metaDescription;
-  late final String productId;
-  late final int quantity;
-  late final String price;
-  late final String barcode;
-  late final Null countryOfOrigin;
-  late final Null vatRate;
-  late final Null brandName;
-  late final int? categoryId;
-  late final int subCategoryId;
-  late final Null unit;
-  late final String manufacturedBy;
-  late final Null description;
-  late final Null benefits;
-  late final Null activeIngredients;
-  late final String productImage;
-  late final String productImgStatus;
-  late final Null longDescription;
-  late final Null howToUse;
-  late final String whatIncluded;
-  late final String? amazonLink;
-  late final int height;
-  late final int width;
-  late final int length;
-  late final double weight;
-  late final Null type;
-  late final int status;
-  late final List<ProductImageArr> productImageArr;
-  late final Null offers;
-  late final Categories? categories;
-  late final SubCategory subCategory;
-  late final List<Store> store;
 
-  Data.fromJson(Map<String, dynamic> json){
-    id = json['id'];
-    productName = json['product_name'];
-    slug = json['slug'];
-    meteTitle = json['mete_title'];
-    metaDescription = json['meta_description'];
-    productId = json['productId'];
-    quantity = json['quantity'];
-    price = json['price'];
-    barcode = json['barcode'];
-    countryOfOrigin = null;
-    vatRate = null;
-    brandName = null;
-    categoryId = null;
-    subCategoryId = json['sub_category_id'];
-    unit = null;
-    manufacturedBy = json['manufactured_by'];
-    description = null;
-    benefits = null;
-    activeIngredients = null;
-    productImage = json['product_image'];
-    productImgStatus = json['product_img_status'];
-    longDescription = null;
-    howToUse = null;
-    whatIncluded = json['what_included'];
-    amazonLink = null;
-    height = json['height'];
-    width = json['width'];
-    length = json['length'];
-    weight = json['weight'];
-    type = null;
-    status = json['status'];
-    productImageArr = List.from(json['product_image_arr']).map((e)=>ProductImageArr.fromJson(e)).toList();
-    offers = null;
-    categories = null;
-    subCategory = SubCategory.fromJson(json['sub_category']);
-    store = List.from(json['store']).map((e)=>Store.fromJson(e)).toList();
-  }
+  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+    id: json["id"],
+    productName: json["product_name"],
+    slug: json["slug"],
+    meteTitle: json["mete_title"],
+    metaDescription: json["meta_description"],
+    productId: json["productId"],
+    quantity: json["quantity"],
+    price: json["price"],
+    barcode: json["barcode"],
+    countryOfOrigin: json["country_of_origin"],
+    vatRate: json["vat_rate"],
+    brandName: json["brand_name"],
+    categoryId: json["category_id"],
+    subCategoryId: json["sub_category_id"],
+    unit: json["unit"],
+    manufacturedBy: json["manufactured_by"],
+    description: json["description"],
+    benefits: json["benefits"],
+    activeIngredients: json["active_ingredients"],
+    productImage: json["product_image"],
+    productImgStatus: json["product_img_status"],
+    longDescription: json["long_description"],
+    howToUse: json["how_to_use"],
+    whatIncluded: json["what_included"],
+    amazonLink: json["amazon_link"],
+    height: json["height"],
+    width: json["width"],
+    length: json["length"],
+    weight: json["weight"]?.toDouble(),
+    type: json["type"],
+    status: json["status"],
+    productImageArr: List<ProductImageArr>.from(json["product_image_arr"].map((x) => ProductImageArr.fromJson(x))),
+    offers: json["offers"],
+    categories: json["categories"] == null ? null : Categories.fromJson(json["categories"]),
+    subCategory: json["sub_category"] == null ? null : SubCategory.fromJson(json["sub_category"]),
+    store: List<Store>.from(json["store"].map((x) => Store.fromJson(x))),
+  );
 
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['product_name'] = productName;
-    _data['slug'] = slug;
-    _data['mete_title'] = meteTitle;
-    _data['meta_description'] = metaDescription;
-    _data['productId'] = productId;
-    _data['quantity'] = quantity;
-    _data['price'] = price;
-    _data['barcode'] = barcode;
-    _data['country_of_origin'] = countryOfOrigin;
-    _data['vat_rate'] = vatRate;
-    _data['brand_name'] = brandName;
-    _data['category_id'] = categoryId;
-    _data['sub_category_id'] = subCategoryId;
-    _data['unit'] = unit;
-    _data['manufactured_by'] = manufacturedBy;
-    _data['description'] = description;
-    _data['benefits'] = benefits;
-    _data['active_ingredients'] = activeIngredients;
-    _data['product_image'] = productImage;
-    _data['product_img_status'] = productImgStatus;
-    _data['long_description'] = longDescription;
-    _data['how_to_use'] = howToUse;
-    _data['what_included'] = whatIncluded;
-    _data['amazon_link'] = amazonLink;
-    _data['height'] = height;
-    _data['width'] = width;
-    _data['length'] = length;
-    _data['weight'] = weight;
-    _data['type'] = type;
-    _data['status'] = status;
-    _data['product_image_arr'] = productImageArr.map((e)=>e.toJson()).toList();
-    _data['offers'] = offers;
-    _data['categories'] = categories;
-    _data['sub_category'] = subCategory.toJson();
-    _data['store'] = store.map((e)=>e.toJson()).toList();
-    return _data;
-  }
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "product_name": productName,
+    "slug": slug,
+    "mete_title": meteTitle,
+    "meta_description": metaDescription,
+    "productId": productId,
+    "quantity": quantity,
+    "price": price,
+    "barcode": barcode,
+    "country_of_origin": countryOfOrigin,
+    "vat_rate": vatRate,
+    "brand_name": brandName,
+    "category_id": categoryId,
+    "sub_category_id": subCategoryId,
+    "unit": unit,
+    "manufactured_by": manufacturedBy,
+    "description": description,
+    "benefits": benefits,
+    "active_ingredients": activeIngredients,
+    "product_image": productImage,
+    "product_img_status": productImgStatus,
+    "long_description": longDescription,
+    "how_to_use": howToUse,
+    "what_included": whatIncluded,
+    "amazon_link": amazonLink,
+    "height": height,
+    "width": width,
+    "length": length,
+    "weight": weight,
+    "type": type,
+    "status": status,
+    "product_image_arr": List<dynamic>.from(productImageArr.map((x) => x.toJson())),
+    "offers": offers,
+    "categories": categories?.toJson(),
+    "sub_category": subCategory?.toJson(),
+    "store": List<dynamic>.from(store.map((x) => x.toJson())),
+  };
+}
+
+class Categories {
+  int id;
+  String categoriesName;
+
+  Categories({
+    required this.id,
+    required this.categoriesName,
+  });
+
+  factory Categories.fromJson(Map<String, dynamic> json) => Categories(
+    id: json["id"],
+    categoriesName: json["categories_name"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "categories_name": categoriesName,
+  };
 }
 
 class ProductImageArr {
+  int id;
+  int productId;
+  String image;
+  int featuredImage;
+
   ProductImageArr({
     required this.id,
     required this.productId,
     required this.image,
     required this.featuredImage,
   });
-  late final int id;
-  late final int productId;
-  late final String image;
-  late final int featuredImage;
 
-  ProductImageArr.fromJson(Map<String, dynamic> json){
-    id = json['id'];
-    productId = json['product_id'];
-    image = json['image'];
-    featuredImage = json['featured_image'];
-  }
+  factory ProductImageArr.fromJson(Map<String, dynamic> json) => ProductImageArr(
+    id: json["id"],
+    productId: json["product_id"],
+    image: json["image"],
+    featuredImage: json["featured_image"],
+  );
 
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['product_id'] = productId;
-    _data['image'] = image;
-    _data['featured_image'] = featuredImage;
-    return _data;
-  }
-}
-
-class Categories {
-  Categories({
-    required this.id,
-    required this.categoriesName,
-  });
-  late final int id;
-  late final String categoriesName;
-
-  Categories.fromJson(Map<String, dynamic> json){
-    id = json['id'];
-    categoriesName = json['categories_name'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['categories_name'] = categoriesName;
-    return _data;
-  }
-}
-
-class SubCategory {
-  SubCategory({
-    required this.id,
-    required this.subcategoryName,
-  });
-  late final int id;
-  late final String subcategoryName;
-
-  SubCategory.fromJson(Map<String, dynamic> json){
-    id = json['id'];
-    subcategoryName = json['subcategory_name'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['subcategory_name'] = subcategoryName;
-    return _data;
-  }
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "product_id": productId,
+    "image": image,
+    "featured_image": featuredImage,
+  };
 }
 
 class Store {
+  int id;
+  String storeName;
+  String lat;
+  String lng;
+  String address;
+  String storeContact;
+  String storeEmail;
+  String storeWorkingHours;
+  int orderSlotThreshold;
+  Pivot pivot;
+
   Store({
     required this.id,
     required this.storeName,
@@ -268,47 +260,41 @@ class Store {
     required this.orderSlotThreshold,
     required this.pivot,
   });
-  late final int id;
-  late final String storeName;
-  late final String lat;
-  late final String lng;
-  late final String address;
-  late final String storeContact;
-  late final String storeEmail;
-  late final String storeWorkingHours;
-  late final int orderSlotThreshold;
-  late final Pivot pivot;
 
-  Store.fromJson(Map<String, dynamic> json){
-    id = json['id'];
-    storeName = json['store_name'];
-    lat = json['lat'];
-    lng = json['lng'];
-    address = json['address'];
-    storeContact = json['store_contact'];
-    storeEmail = json['store_email'];
-    storeWorkingHours = json['store_working_hours'];
-    orderSlotThreshold = json['order_slot_threshold'];
-    pivot = Pivot.fromJson(json['pivot']);
-  }
+  factory Store.fromJson(Map<String, dynamic> json) => Store(
+    id: json["id"],
+    storeName: json["store_name"],
+    lat: json["lat"],
+    lng: json["lng"],
+    address: json["address"],
+    storeContact: json["store_contact"],
+    storeEmail: json["store_email"],
+    storeWorkingHours: json["store_working_hours"],
+    orderSlotThreshold: json["order_slot_threshold"],
+    pivot: Pivot.fromJson(json["pivot"]),
+  );
 
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['store_name'] = storeName;
-    _data['lat'] = lat;
-    _data['lng'] = lng;
-    _data['address'] = address;
-    _data['store_contact'] = storeContact;
-    _data['store_email'] = storeEmail;
-    _data['store_working_hours'] = storeWorkingHours;
-    _data['order_slot_threshold'] = orderSlotThreshold;
-    _data['pivot'] = pivot.toJson();
-    return _data;
-  }
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "store_name": storeName,
+    "lat": lat,
+    "lng": lng,
+    "address": address,
+    "store_contact": storeContact,
+    "store_email": storeEmail,
+    "store_working_hours": storeWorkingHours,
+    "order_slot_threshold": orderSlotThreshold,
+    "pivot": pivot.toJson(),
+  };
 }
 
 class Pivot {
+  int productId;
+  int storeId;
+  int productQuantity;
+  DateTime createdAt;
+  DateTime updatedAt;
+
   Pivot({
     required this.productId,
     required this.storeId,
@@ -316,27 +302,40 @@ class Pivot {
     required this.createdAt,
     required this.updatedAt,
   });
-  late final int productId;
-  late final int storeId;
-  late final int productQuantity;
-  late final String createdAt;
-  late final String updatedAt;
 
-  Pivot.fromJson(Map<String, dynamic> json){
-    productId = json['product_id'];
-    storeId = json['store_id'];
-    productQuantity = json['product_quantity'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-  }
+  factory Pivot.fromJson(Map<String, dynamic> json) => Pivot(
+    productId: json["product_id"],
+    storeId: json["store_id"],
+    productQuantity: json["product_quantity"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+  );
 
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['product_id'] = productId;
-    _data['store_id'] = storeId;
-    _data['product_quantity'] = productQuantity;
-    _data['created_at'] = createdAt;
-    _data['updated_at'] = updatedAt;
-    return _data;
-  }
+  Map<String, dynamic> toJson() => {
+    "product_id": productId,
+    "store_id": storeId,
+    "product_quantity": productQuantity,
+    "created_at": createdAt.toIso8601String(),
+    "updated_at": updatedAt.toIso8601String(),
+  };
+}
+
+class SubCategory {
+  int id;
+  String subcategoryName;
+
+  SubCategory({
+    required this.id,
+    required this.subcategoryName,
+  });
+
+  factory SubCategory.fromJson(Map<String, dynamic> json) => SubCategory(
+    id: json["id"],
+    subcategoryName: json["subcategory_name"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "subcategory_name": subcategoryName,
+  };
 }

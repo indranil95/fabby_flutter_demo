@@ -582,11 +582,19 @@ class _MyFormState extends State<ContactUs> {
                                     ),
                                   ),
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
                       ),
+                      const SizedBox(height: 10.0),
+                      SizedBox(
+                          child: IconButton(
+                            icon: Image.asset('assets/insta_white.png'),
+                            iconSize: 20,
+                            onPressed: () {},
+                          ),
+                      )
                     ],
                   ),
                 ),

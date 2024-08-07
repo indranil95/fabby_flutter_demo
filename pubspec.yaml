@@ -89,6 +89,7 @@ flutter:
     - assets/calling.svg
     - assets/message.svg
     - assets/location.svg
+    - assets/insta_white.png
 
   fonts:
     - family: DmSerifDisplay
