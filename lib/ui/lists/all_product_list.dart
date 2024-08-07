@@ -14,7 +14,7 @@ class AllProductList extends StatelessWidget {
       itemCount: items.length,
       itemBuilder: (context, index) {
         final item = items[index];
-        return AllProductItems(imageUrl: item.productImage, description: item.productName, price: '',); // Updated to use imageUrl
+        return AllProductItems(imageUrl: item.productImage, description: item.productName, price: item.price,); // Updated to use imageUrl
       },
     );
   }

@@ -15,57 +15,73 @@ class AllProductItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 5.0),
-      width: 140.0,
-      height: 400.0,
-      child: Card(
-        color: const Color(0xFFFFEDE1),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        elevation: 4.0,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20.0),
-              child: Image.network(
-                imageUrl,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return const Center(child: Icon(Icons.error, color: Colors.red));
-                },
+      margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+      decoration: BoxDecoration(
+        color: Colors.white, // Background color for the outer box
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      width: 160.0, // Adjust the width to match your desired size
+      height: 250.0, // Set a fixed height for all items
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Card section with image and description
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                color: const Color(0xFFF8EDE8), // Background color for the card
+                borderRadius: BorderRadius.circular(15.0),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    description,
-                    style: const TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.black,
+                  ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(15.0),
+                      topRight: Radius.circular(15.0),
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                    child: Image.network(
+                      imageUrl,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: 90.0, // Set fixed image height
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Center(
+                          child: Icon(Icons.error, color: Colors.red),
+                        );
+                      },
+                    ),
                   ),
-                  SizedBox(height: 5.0), // Space between description and price
-                  Text(
-                    price,
-                    style: const TextStyle(
-                      fontSize: 14.0,
-                      color: Colors.grey,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      description,
+                      style: const TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.left,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Text(
+                      '₹ $price', // Added rupee symbol here
+                      style: const TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.left,
+                    ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

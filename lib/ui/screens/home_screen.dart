@@ -111,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 16.0), // Add padding between text and list
                       child: SizedBox(
-                        height: 80.0, // Adjust height as needed
+                        height: 60.0, // Adjust height as needed
                         child: CategoryList(
                           items: viewModel.categories,
                           onItemSelected: _handleCategorySelection, // Pass the callback
@@ -121,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 16.0), // Add padding between text and list
                       child: SizedBox(
-                        height: 80.0, // Adjust height as needed
+                        height: 190.0, // Adjust height as needed
                         child: AllProductList(
                           items: viewModel.allProductData!.data,
                         ),
@@ -132,7 +132,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-
             ],
           );
         },
