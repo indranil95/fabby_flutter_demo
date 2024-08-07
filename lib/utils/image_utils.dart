@@ -22,7 +22,7 @@ class PngImage {
 }
 
 class SvgImage {
-  static Widget asset(String assetPath, {double width = 35.0, double height = 25.0}) {
+  static Widget asset(String assetPath, {double width = 25.0, double height = 25.0}) {
     return SizedBox(
       width: width,
       height: height,
