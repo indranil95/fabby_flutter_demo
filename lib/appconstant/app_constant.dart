@@ -1,7 +1,7 @@
 class AppConstants {
 
   // Limits and pagination
-  static const String limit = '5';
+  static const String limit = '4';
   static const String charLimit = '30';
   static const String productLimit = '10';
   static const String allProduct = 'all_product';

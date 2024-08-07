@@ -18,16 +18,17 @@ class BannerListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     // Check if the image is SVG or PNG based on file extension
     bool isSvg = imageUrl.endsWith('.svg');
-    LoggerService.i("imageUrl: $imageUrl");
+    LoggerService.i("imageSVGUrl: $imageUrl");
+    final double screenWidth = (MediaQuery.of(context).size.width) - 20;
 
     return Container(
-      width: width, // Set the width for the container
+      width: width == 250.0 ? screenWidth : width, // Set the width for the container
       height: height, // Set the height for the container
       margin: const EdgeInsets.symmetric(horizontal: 8.0),
       child: isSvg
           ? SvgPicture.network(
         imageUrl,
-        fit: BoxFit.cover, // Ensure the SVG scales properly
+        fit: BoxFit.fill, // Ensure the SVG scales properly
         placeholderBuilder: (context) => Image.asset(
           'assets/fabby_placeholder_image.svg',
           fit: BoxFit.cover, // Ensure the placeholder scales properly
@@ -35,7 +36,7 @@ class BannerListItem extends StatelessWidget {
       )
           : Image.network(
         imageUrl,
-        fit: BoxFit.cover, // Ensure the PNG scales properly
+        fit: BoxFit.contain, // Ensure the PNG scales properly
         loadingBuilder: (context, child, progress) {
           if (progress == null) {
             return child;
