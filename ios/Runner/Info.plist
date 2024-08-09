@@ -45,9 +45,11 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-	<key>LSApplicationQueriesSchemes</key>
+    <key>LSApplicationQueriesSchemes</key>
     <array>
-      <string>tel</string>
+        <string>instagram</string>
+        <string>comgooglemaps</string>
+        <string>tel</string>
     </array>
 </dict>
 </plist>
