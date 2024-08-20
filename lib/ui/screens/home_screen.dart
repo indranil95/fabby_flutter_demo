@@ -31,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
       viewModel.loadBanner();
       viewModel.loadCategories();
       viewModel.loadAllProduct(AppConstants.allProduct, AppConstants.limit);
+      viewModel.blogsList(AppConstants.blogsStartLimit);
     });
   }
 
@@ -200,7 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: SizedBox(
                           height: 60.0, // Adjust height as needed
                           child: BlogsList(
-                            items: viewModel.categories,
+                            items: viewModel.blogsModelData?.data.articles ?? [],
                             // Pass the callback
                           ),
                         ),

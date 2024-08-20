@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_fabby_demo/models/all_product_model.dart';
+import 'package:flutter_fabby_demo/models/blogs_model.dart';
 import 'package:flutter_fabby_demo/models/guest_model.dart';
 
 import '../models/banner_model.dart';
@@ -54,6 +56,37 @@ class DashboardRepository {
 
     return response.data;
   }
+  Future<BlogsModel?> blogList(
+      String paginate,
+      String limit,
+      String charLimit,
+      ) async {
+    try {
+      // Define the fromJson function to convert JSON to BlogsModel
+      BlogsModel fromJson(Map<String, dynamic> json) => BlogsModel.fromJson(json);
+
+      // Call the apiService.blogList method
+      final response = await apiService.blogList(
+        paginate,
+        limit,
+        charLimit,
+        fromJson,
+      );
+
+      if (response.error != null) {
+        throw Exception(response.error);
+      }
+
+      return response.data;
+    } catch (e) {
+      // Handle any errors during the process
+      if (kDebugMode) {
+        print('Error: $e');
+      }
+      return null;
+    }
+  }
+
   Future<AllProductModel?> productsCategoryMobile(
       String selectedItem,
       ) async {

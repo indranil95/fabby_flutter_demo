@@ -194,6 +194,43 @@ class ApiService extends BaseApiService {
     }
   }
 
+  @override
+  Future<BaseResponse<T>> blogList<T>(String paginate, String limit, String charLimit, T Function(Map<String, dynamic> p1) fromJson) async {
+    const String endpoint = "articles/news";
+    //check
+    final url = Uri.parse('$baseUrl$endpoint?paginate=$paginate&limit=$limit&charlimit=$charLimit');
+    try {
+      // Log the request URL and method
+      LoggerService.i('Request URL: $url');
+
+      final response = await http.get(url);
+
+      // Log the response status code and body
+      LoggerService.i('Response Status Code: ${response.statusCode}');
+      LoggerService.i('Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        return BaseResponse<T>(
+          data: fromJson(data),
+          statusCode: response.statusCode,
+        );
+      } else {
+        return BaseResponse<T>(
+          statusCode: response.statusCode,
+          error: 'Error: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      // Log the exception
+      LoggerService.e('Exception: $e');
+      return BaseResponse<T>(
+        error: 'Exception: $e',
+      );
+    }
+  }
+
+
 
 
 }

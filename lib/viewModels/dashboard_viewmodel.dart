@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fabby_demo/models/all_product_model.dart';
+import 'package:flutter_fabby_demo/models/blogs_model.dart';
 import 'package:flutter_fabby_demo/models/guest_model.dart';
 import '../AppConstant/app_constant.dart';
 import '../repository/dashboard_repository.dart';
@@ -10,6 +11,7 @@ class DashboardViewModel extends ChangeNotifier {
   final DashboardRepository repository;
   BannerModel? _data;
   AllProductModel? _allProductData;
+  BlogsModel? _blogsModelData;
   AllProductModel? _allProductCategoryMobile;
   GuestModel? _guestData;
   bool _loading = false;
@@ -23,6 +25,7 @@ class DashboardViewModel extends ChangeNotifier {
   bool get loading => _loading;
   String get error => _error;
   AllProductModel? get allProductData => _allProductData;
+  BlogsModel? get blogsModelData => _blogsModelData;
   AllProductModel? get allProductCategoryMobile => _allProductCategoryMobile;
   GuestModel? get guestData => _guestData;
 
@@ -76,6 +79,23 @@ class DashboardViewModel extends ChangeNotifier {
     try {
       final response = await repository.allProductData(selectedItem,AppConstants.productPaginate,limit,AppConstants.charLimit);
       _allProductData = response;
+      _error = '';
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
+  }
+  Future<void> blogsList(
+      String limit,
+      ) async {
+    _loading = true;
+    notifyListeners();
+
+    try {
+      final response = await repository.blogList(AppConstants.productPaginate,limit,AppConstants.charLimit);
+      _blogsModelData = response;
       _error = '';
     } catch (e) {
       _error = e.toString();
