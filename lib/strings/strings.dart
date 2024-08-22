@@ -10,6 +10,7 @@ class AppStrings {
   static const String enterEmail = "Enter Email";
   static const String todo = "TODO";
   static const String ok = "ok";
+  static const String yourPassword = "your password";
   static const String unchecked = "unchecked";
   static const String nextToAIKhaleejCenter = "Next to AI Khaleej Center";
   static const String selectShopDropdown = "Select Shop";

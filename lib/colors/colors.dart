@@ -14,7 +14,7 @@ class AppColors {
   static const Color midGray = Color(0xFF686868);
   static const Color lightBlueFabby = Color(0xff66ed9caf);
   static const Color lightGrayAlpha = Color(0x1A999999);
-  static const Color googleBack = Color(0x00ff7a7b);
+  static const Color googleBack = Color(0xFFFF7A7B);
   static const Color lightGray = Color(0xFF999999);
   static const Color transparentGrey = Color(0xCC363636);
   static const Color transparentLight = Color(0x1F15B1AC);

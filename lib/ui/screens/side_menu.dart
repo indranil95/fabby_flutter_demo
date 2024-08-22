@@ -3,6 +3,7 @@ import 'package:flutter_fabby_demo/colors/colors.dart';
 import 'package:flutter_fabby_demo/strings/strings.dart';
 import 'package:flutter_fabby_demo/ui/screens/about_us.dart';
 import 'package:flutter_fabby_demo/ui/screens/contact_us.dart';
+import 'package:flutter_fabby_demo/ui/screens/login_screen.dart';
 import 'package:flutter_fabby_demo/ui/screens/privacy_policy.dart';
 
 import '../../utils/image_utils.dart';
@@ -97,67 +98,71 @@ class _SideMenuScreenState extends State<SideMenuScreen> {
                         textAlign: TextAlign.center, // Center the text
                       ),
                       const SizedBox(height: 10.0),
-                  GestureDetector(
-                    onTap: () {
-                      NavigationService.replaceWith(const ContactUs());
-                    },
-                    child: TextUtils.display(
-                        AppStrings.contactUs,
-                        fontSize: 16.0,
-                        // Increased fontSize for larger text
-                        color: AppColors.black,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.normal,
-                        textAlign: TextAlign.center, // Center the text
+                      GestureDetector(
+                        onTap: () {
+                          NavigationService.replaceWith(const ContactUs());
+                        },
+                        child: TextUtils.display(
+                          AppStrings.contactUs,
+                          fontSize: 16.0,
+                          // Increased fontSize for larger text
+                          color: AppColors.black,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.normal,
+                          textAlign: TextAlign.center, // Center the text
+                        ),
                       ),
-                  ),
                       const SizedBox(height: 10.0),
-                  GestureDetector(
-                    onTap: () {
-                      NavigationService.replaceWith(const AboutUs());
-                    },
-                    child: TextUtils.display(
-                        AppStrings.aboutUs,
-                        fontSize: 16.0,
-                        // Increased fontSize for larger text
-                        color: AppColors.black,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.normal,
-                        textAlign: TextAlign.center, // Center the text
+                      GestureDetector(
+                        onTap: () {
+                          NavigationService.replaceWith(const AboutUs());
+                        },
+                        child: TextUtils.display(
+                          AppStrings.aboutUs,
+                          fontSize: 16.0,
+                          // Increased fontSize for larger text
+                          color: AppColors.black,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.normal,
+                          textAlign: TextAlign.center, // Center the text
+                        ),
                       ),
-                  ),
                       const SizedBox(height: 10.0),
-                  GestureDetector(
-                    onTap: () {
-                      NavigationService.replaceWith(const PrivacyPolicy());
-                    },
-                    child: TextUtils.display(
-                        AppStrings.privacyPolicy,
-                        fontSize: 16.0,
-                        // Increased fontSize for larger text
-                        color: AppColors.black,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.normal,
-                        textAlign: TextAlign.center, // Center the text
+                      GestureDetector(
+                        onTap: () {
+                          NavigationService.replaceWith(const PrivacyPolicy());
+                        },
+                        child: TextUtils.display(
+                          AppStrings.privacyPolicy,
+                          fontSize: 16.0,
+                          // Increased fontSize for larger text
+                          color: AppColors.black,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.normal,
+                          textAlign: TextAlign.center, // Center the text
+                        ),
                       ),
-                  ),
-                    
                       const SizedBox(height: 10.0),
-                      SizedBox(
-                        width: 120.0,
-                        height: 50.0,
-                        child: Card(
-                          color: AppColors.fabbyBondiBlue,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: TextUtils.display(
-                              AppStrings.login,
-                              fontSize: 14.0,
-                              // Increased fontSize for larger text
-                              color: AppColors.white,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.normal,
-                              textAlign: TextAlign.center, // Center the text
+                      GestureDetector(
+                        onTap: () {
+                          NavigationService.replaceWith(const LoginScreen());
+                        },
+                        child: SizedBox(
+                          width: 120.0,
+                          height: 50.0,
+                          child: Card(
+                            color: AppColors.fabbyBondiBlue,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: TextUtils.display(
+                                AppStrings.login,
+                                fontSize: 14.0,
+                                // Increased fontSize for larger text
+                                color: AppColors.white,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.normal,
+                                textAlign: TextAlign.center, // Center the text
+                              ),
                             ),
                           ),
                         ),

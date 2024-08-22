@@ -24,4 +24,10 @@ abstract class BaseApiService {
 
   Future<BaseResponse<T>> contactUs<T>(Map<String, dynamic> requestBody,
       T Function(Map<String, dynamic>) fromJson);
+  Future<BaseResponse<T>> login<T>(
+      Map<String, dynamic> requestBody,
+      T Function(Map<String, dynamic>) fromJson);
+  Future<BaseResponse<T>> signUp<T>(
+      Map<String, dynamic> requestBody,
+      T Function(Map<String, dynamic>) fromJson);
 }

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fabby_demo/repository/contact_us_repository.dart';
+import 'package:flutter_fabby_demo/repository/login_repository.dart';
+import 'package:flutter_fabby_demo/repository/signup_repository.dart';
 import 'package:flutter_fabby_demo/utils/navigation_service.dart';
 import 'package:flutter_fabby_demo/viewModels/contactus_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/dashboard_viewmodel.dart';
+import 'package:flutter_fabby_demo/viewModels/login_viewmodel.dart';
+import 'package:flutter_fabby_demo/viewModels/signup_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'ui/screens/start_screen.dart'; // Adjust import as needed
 import 'repository/dashboard_repository.dart';
@@ -34,6 +38,16 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => ContactUsViewModel(
             ContactUsRepository(ApiService()),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LoginViewModel(
+            LoginRepository(ApiService()),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => SignUpViewModel(
+            SignupRepository(ApiService()),
           ),
         ),
       ],

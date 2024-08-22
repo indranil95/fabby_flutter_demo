@@ -89,6 +89,9 @@ flutter:
     - assets/calling.svg
     - assets/message.svg
     - assets/location.svg
+    - assets/login_back.svg
+    - assets/login_google.svg
+    - assets/login_bg.png
 
   fonts:
     - family: DmSerifDisplay
