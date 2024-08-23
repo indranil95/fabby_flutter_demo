@@ -305,6 +305,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               onTap: () async {
                 //NavigationService.replaceWith(const LoginScreen());
                 setState(() {
+                  _showfirstNameError=false;
+                  _showlastNameError=false;
                   _showEmailError = false;
                   _showPasswordError = false;
                 });

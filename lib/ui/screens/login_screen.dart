@@ -5,6 +5,7 @@ import 'package:flutter_fabby_demo/colors/colors.dart';
 import 'package:flutter_fabby_demo/ui/screens/create_account.dart';
 import 'package:flutter_fabby_demo/ui/screens/forgot_password.dart';
 import 'package:flutter_fabby_demo/ui/screens/home_screen.dart';
+import 'package:flutter_fabby_demo/ui/screens/otp_screen.dart';
 import 'package:flutter_fabby_demo/viewModels/login_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -134,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        NavigationService.navigateTo(const CreateAccountScreen());
+                        NavigationService.navigateTo(const /*CreateAccountScreen()*/OtpScreen());
                       },
                   ),
                 ],
