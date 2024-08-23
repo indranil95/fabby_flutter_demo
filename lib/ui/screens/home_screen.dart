@@ -63,6 +63,19 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.redAccent,
+        leading: IconButton(
+          iconSize: 20,
+          icon: const Icon(Icons.favorite),
+          onPressed: (
+
+              ) {
+            // ...
+          },
+        ),
+
+      ),
       body: Consumer<DashboardViewModel>(
         builder: (context, viewModel, child) {
           if (viewModel.loading) {
@@ -78,6 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
           }
 
           return SingleChildScrollView(
+
             child: Column(
               children: [
                 SafeArea(
@@ -108,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Center(
                         child: TextUtils.display(
@@ -121,35 +135,29 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 16.0),
-                        // Add padding between text and list
                         child: SizedBox(
-                          height: 60.0, // Adjust height as needed
+                          height: 60.0,
                           child: CategoryList(
                             items: viewModel.categories,
-                            onItemSelected:
-                            _handleCategorySelection, // Pass the callback
+                            onItemSelected: _handleCategorySelection,
                           ),
                         ),
                       ),
                       FutureBuilder<void>(
                         future: _loadProductsFuture,
                         builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                                child: CircularProgressIndicator());
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
                           }
 
                           if (snapshot.hasError) {
-                            return Center(
-                                child: Text('Error: ${snapshot.error}'));
+                            return Center(child: Text('Error: ${snapshot.error}'));
                           }
 
                           return Padding(
                             padding: const EdgeInsets.only(top: 16.0),
-                            // Add padding between text and list
                             child: SizedBox(
-                              height: 190.0, // Adjust height as needed
+                              height: 190.0,
                               child: _selectedCategory.isNotEmpty
                                   ? AllProductList(
                                 items: viewModel
@@ -157,21 +165,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                     [],
                               )
                                   : AllProductList(
-                                items:
-                                viewModel.allProductData?.data ?? [],
+                                items: viewModel.allProductData?.data ?? [],
                               ),
                             ),
                           );
                         },
                       ),
-                      const SizedBox(height: 10.0,),
+                      const SizedBox(height: 10.0),
                       Center(
                         child: Padding(
                           padding: const EdgeInsets.all(0.0),
                           child: Card(
                             color: AppColors.fabbyBondiBlue,
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 15.0,right: 15.0,top: 10.0,bottom: 10.0), // Add padding around the text inside the Card
+                              padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
                               child: TextUtils.display(
                                 AppStrings.viewAll,
                                 fontSize: 15.0,
@@ -183,8 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-
-                      const SizedBox(height: 10.0,),
+                      const SizedBox(height: 10.0),
                       Center(
                         child: TextUtils.display(
                           AppStrings.blogs,
@@ -194,23 +200,24 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.normal,
                         ),
                       ),
-                      const SizedBox(height: 10.0,),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
-                        // Add padding between text and list
-                        child: SizedBox(
-                          height: 60.0, // Adjust height as needed
-                          child: BlogsList(
-                            items: viewModel.blogsModelData?.data.articles ?? [],
-                            // Pass the callback
+                      const SizedBox(height: 10.0),
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 16.0,bottom: 20.0),
+                          child: SizedBox(
+                            height: 380.0,
+                            child: BlogsList(
+                              items: viewModel.blogsModelData?.data.articles ?? [],
+                            ),
                           ),
                         ),
                       ),
+                      const SizedBox(height: 10.0),
                     ],
                   ),
                 ),
               ],
-            ) ,
+            ),
           );
         },
       ),
