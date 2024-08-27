@@ -21,32 +21,30 @@ class CustomDialog extends StatelessWidget {
       content: TextUtils.display(
         message,
         fontSize: 15.0,
-        // Increased fontSize for larger text
         color: Colors.black,
         fontFamily: 'DmSerifDisplay',
         fontWeight: FontWeight.w300,
-        textAlign: TextAlign.center, // Center the text
+        textAlign: TextAlign.center,
       ),
       actions: <Widget>[
         Container(
           width: double.infinity,
-          height: 40.0,
+          height: 30.0,
           margin: const EdgeInsets.only(left: 20.0, right: 20.0),
           child: GestureDetector(
             onTap: () {
-              Navigator.of(context).pop();
+              onButtonPressed(); // Call the callback here
+              Navigator.of(context).pop(); // Close the dialog
             },
             child: Card(
               color: AppColors.fabbyBondiBlue,
               child: TextUtils.display(
                 buttonText,
                 fontSize: 15.0,
-                // Increased fontSize for larger text
                 color: Colors.white,
                 fontFamily: 'DmSerifDisplay',
                 fontWeight: FontWeight.w300,
-                textAlign: TextAlign.center, // Center the text
-                /* ),*/
+                textAlign: TextAlign.center,
               ),
             ),
           ),

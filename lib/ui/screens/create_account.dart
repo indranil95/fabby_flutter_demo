@@ -13,6 +13,7 @@ import '../../utils/image_utils.dart';
 import '../../utils/logger_service.dart';
 import '../../utils/navigation_service.dart';
 import '../../utils/text_utils.dart';
+import '../dialog/custom_dialog.dart';
 
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({super.key});
@@ -327,7 +328,10 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     requestBody);
                 if (viewModel.signUpData
                     ?.data != null) {
-                  NavigationService.replaceWith(const OtpScreen());
+                  await viewModel.sendOtpRequest(requestBody);
+                  if(viewModel.sendOtpData?.error == 200){
+                    showSimpleDialog(context,"Otp send successfully");
+                  }
                 }
                 } else {
                   if (_emailController.text.isEmpty) {
@@ -470,5 +474,25 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       caseSensitive: false,
     );
     return emailRegex.hasMatch(email);
+  }
+  void showSimpleDialog(BuildContext context, String s) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return CustomDialog(
+          message: s,
+          onButtonPressed: () {
+            LoggerService.d("hi","press");
+            Future.delayed(const Duration(seconds: 1), ()
+            {
+              NavigationService.replaceWithData(
+                  const OtpScreen(), data: {"email": _emailController.text});
+            });
+          },
+          buttonText: 'ok', // Customize button text if needed
+        );
+      },
+    );
   }
 }

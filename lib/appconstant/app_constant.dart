@@ -58,6 +58,7 @@ class AppConstants {
   static const String customer = 'customer';
   static const String notification = 'notification';
   static const String orderList = 'order_list';
+  static const String noData = 'No data';
 
   // Flags for login and guest status
   static const int loginFlag = 1;

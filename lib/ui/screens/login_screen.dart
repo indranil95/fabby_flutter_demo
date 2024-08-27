@@ -135,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        NavigationService.navigateTo(const /*CreateAccountScreen()*/OtpScreen());
+                        NavigationService.navigateTo(const CreateAccountScreen());
                       },
                   ),
                 ],

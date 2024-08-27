@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_fabby_demo/ui/screens/resetpassword_otp.dart';
-import 'package:flutter_fabby_demo/viewModels/forgotpassword_viewmodel.dart';
+import 'package:flutter_fabby_demo/ui/screens/resetpassword_screen.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 
 import '../../AppConstant/app_constant.dart';
@@ -10,48 +11,39 @@ import '../../strings/strings.dart';
 import '../../utils/image_utils.dart';
 import '../../utils/logger_service.dart';
 import '../../utils/navigation_service.dart';
+import '../../utils/snackbar_utils.dart';
 import '../../utils/tag_button.dart';
 import '../../utils/text_utils.dart';
+import '../../viewModels/resetpasswordotp_viewmodel.dart';
 import '../dialog/custom_dialog.dart';
 
-class ForgotPasswordScreen extends StatefulWidget {
-  const ForgotPasswordScreen({super.key});
+class ResetPasswordOtpScreen extends StatefulWidget {
+  const ResetPasswordOtpScreen({super.key});
 
   @override
-  _ForgotPasswordScreenState createState() => _ForgotPasswordScreenState();
-
+  _ResetPasswordOtpScreenState createState() => _ResetPasswordOtpScreenState();
 }
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  late TextEditingController _emailController;
-  String _emailError = "";
-  bool _showEmailError = false;
-  late  ForgotPasswordViewModel viewModel;
+
+class _ResetPasswordOtpScreenState extends State<ResetPasswordOtpScreen> {
+  bool completionStat = false;
+  String otpValue = "";
+  String emailValue = "";
+  late ResetPasswordOtpViewModel viewModel;
+
   @override
   void initState() {
     super.initState();
-    viewModel = Provider.of<ForgotPasswordViewModel>(context, listen: false);
-    _emailController = TextEditingController();
-    _emailController.addListener(() {
-      if (mounted) {
-        setState(() {
-          if (_emailController.text.isEmpty) {
-            _emailError = AppStrings.thisFieldIsRequired;
-            _showEmailError = true;
-          } else {
-            _emailError = "";
-            _showEmailError = false;
-          }
-        });
-      }
-    });
+    viewModel = Provider.of<ResetPasswordOtpViewModel>(context, listen: false);
   }
-  @override
-  void dispose() {
-    _emailController.dispose();
-    super.dispose();
-  }
+
   @override
   Widget build(BuildContext context) {
+    // Retrieve arguments
+    final data = ModalRoute
+        .of(context)
+        ?.settings
+        .arguments as Map<String, dynamic>?;
+    emailValue = data?['email'] ?? AppConstants.noData;
     return Scaffold(
       backgroundColor: AppColors.fabbyBack,
       body: SingleChildScrollView(
@@ -78,7 +70,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   top: 30.0, start: 20.0, end: 20),
               alignment: AlignmentDirectional.topStart,
               child: TextUtils.display(
-                AppStrings.resetPassword,
+                AppStrings.accountVerification,
                 fontSize: 20.0,
                 color: AppColors.sortTextColor,
                 fontFamily: 'DmSerifDisplay',
@@ -90,7 +82,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   top: 10.0, start: 20.0, end: 20),
               alignment: AlignmentDirectional.topStart,
               child: TextUtils.displayLargeText(
-                AppStrings.pleaseEnterYourEmailAddressMobileNumberBelowToReceiveVerificationCode,
+                AppStrings.pleaseEnterVerificationCodeSentOnYourEmail,
                 fontSize: 15.0,
                 color: AppColors.sortTextColor,
                 fontFamily: 'Poppins',
@@ -99,58 +91,84 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             ),
             Container(
               margin: const EdgeInsetsDirectional.only(
-                  top: 20.0, start: 20.0, end: 20.0),
+                  top: 30.0, start: 20.0, end: 20),
               alignment: AlignmentDirectional.topStart,
-              child: TextUtils.editableText(
-                controller: _emailController,
-                fontSize: 16.0,
-                fontWeight: FontWeight.normal,
-                color: AppColors.recentStroke,
-                hintColor: AppColors.lightGray,
-                textAlign: TextAlign.start,
-                maxLines: 1,
-                fontFamily: 'Poppins',
-                hintText: AppStrings.yourNameMobileNumber,
-                contentPadding:
-                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+              child: PinCodeTextField(
+                appContext: context,
+                length: 6,
+                obscureText: false,
+                animationType: AnimationType.fade,
+                cursorColor: Colors.white,
+                keyboardType: TextInputType.number,
+                textStyle: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+                pinTheme: PinTheme(
+                  shape: PinCodeFieldShape.box,
+                  borderRadius: BorderRadius.circular(5),
+                  fieldHeight: 48,
+                  fieldWidth: 50,
+                  activeFillColor: Colors.white,
+                  inactiveFillColor: Colors.white,
+                  activeColor: Colors.white,
+                  inactiveColor: Colors.white,
+                  selectedColor: Colors.white,
+                  borderWidth: 2,
+                ),
+                animationDuration: const Duration(milliseconds: 300),
+                backgroundColor: Colors.transparent,
+                enableActiveFill: true,
+                onCompleted: (v) {
+                  if (kDebugMode) {
+                    print("Completed $v");
+                  }
+                  completionStat = true;
+                  otpValue = v;
+                },
+                onChanged: (value) {
+                  if (kDebugMode) {
+                    print(value);
+                  }
+                  LoggerService.d("hi ", "length ${value.length}");
+                  if (value.length == 6) {
+                    completionStat = true;
+                  } else {
+                    completionStat = false;
+                  }
+                },
+                beforeTextPaste: (text) {
+                  if (kDebugMode) {
+                    print("Allowing to paste $text");
+                  }
+                  return true;
+                },
               ),
             ),
-            if (_showEmailError)
-              Container(
-                padding: const EdgeInsets.only(left: 20.0),
-                alignment: Alignment.topLeft,
-                child: TextUtils.errorText(
-                  _emailError,
-                  fontSize: 15.0,
-                  fontWeight: FontWeight.normal,
-                  color: Colors.red,
-                  textAlign: TextAlign.start,
-                  maxLines: 1,
-                  fontFamily: 'Poppins',
-                ),
-              ),
-            const SizedBox(height: 10.0),
             GestureDetector(
               onTap: () async {
-                if(_emailController.text.toString().isNotEmpty){
+                LoggerService.d("hi ", completionStat);
+                if (completionStat) {
                   final requestBody = {
-                    'email_or_mobile': _emailController.text,
+                    'email_or_mobile': emailValue,
+                    'otp': otpValue,
+                    'otp[]': AppConstants.otpArraySize,
                     'request_place': AppConstants.web,
                   };
-                  await viewModel.sendOtpRequest(requestBody);
-                  if(viewModel.sendOtpData?.error == 200){
-                    showSimpleDialog(context,"Otp send successfully");
-                  }
-                }else{
-                  if (_emailController.text.isEmpty) {
-                    LoggerService.i("inState", "_showNameError");
-                    _emailError = AppStrings.thisFieldIsRequired;
-                    _showEmailError = true;
+                  await viewModel.sendVerifyOtpRequest(requestBody);
+                  if (viewModel.otpData
+                      ?.success == true) {
+                    showSimpleDialog(context, "Otp verified successfully");
                   } else {
-                    _emailError = "";
-                    _showEmailError = false;
+                    SnackbarService.showErrorSnackbar(context, viewModel.otpData
+                    !.statusCode);
                   }
+                } else {
+                  SnackbarService.showErrorSnackbar(
+                      context, 'Please enter a valid OTP');
                 }
+                //NavigationService.replaceWith(const LoginScreen());
               },
               child: Container(
                 margin: const EdgeInsetsDirectional.only(
@@ -212,25 +230,26 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       ),
     );
   }
+
   void showSimpleDialog(BuildContext context, String s) {
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return CustomDialog(
-          message: s,
-          onButtonPressed: () {
-            LoggerService.d("hi","press");
-            Future.delayed(const Duration(seconds: 1), ()
-            {
-              NavigationService.replaceWithData(
-                  const ResetPasswordOtpScreen(), data: {"email": _emailController.text});
-            });
-          },
-          buttonText: 'ok', // Customize button text if needed
-        );
+            message: s,
+            onButtonPressed: () {
+              Future.delayed(const Duration(seconds: 1), ()
+              {
+                NavigationService.replaceWithData(
+                    const ResetPasswordScreen(), data: {"email": emailValue});
+              });
       },
+      buttonText: 'ok', // Customize button text if needed
     );
   }
 
-}
+  ,
+
+  );
+}}

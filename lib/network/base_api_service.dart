@@ -30,4 +30,13 @@ abstract class BaseApiService {
   Future<BaseResponse<T>> signUp<T>(
       Map<String, dynamic> requestBody,
       T Function(Map<String, dynamic>) fromJson);
+  Future<BaseResponse<T>> verifyOtpMobile<T>(
+      Map<String, dynamic> requestBody,
+      T Function(Map<String, dynamic>) fromJson);
+  Future<BaseResponse<T>> sendOtp<T>(
+      Map<String, dynamic> requestBody,
+      T Function(Map<String, dynamic>) fromJson);
+  Future<BaseResponse<T>> passwordReset<T>(
+      Map<String, dynamic> requestBody,
+      T Function(Map<String, dynamic>) fromJson);
 }

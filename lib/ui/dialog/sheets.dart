@@ -16,7 +16,7 @@ class PersistentBottomSheetWidget {
               color: AppColors.fabbyBondiBlue,
               fontFamily: 'DmSerifDisplay',
               fontWeight: FontWeight.w300,
-              textAlign: TextAlign.center, // Center the text
+              textAlign: TextAlign.center,
             ),
           ),
         );
@@ -24,3 +24,4 @@ class PersistentBottomSheetWidget {
     );
   }
 }
+

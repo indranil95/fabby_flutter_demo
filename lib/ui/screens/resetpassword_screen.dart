@@ -1,57 +1,79 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_fabby_demo/ui/screens/resetpassword_otp.dart';
-import 'package:flutter_fabby_demo/viewModels/forgotpassword_viewmodel.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 
 import '../../AppConstant/app_constant.dart';
 import '../../colors/colors.dart';
 import '../../strings/strings.dart';
+import '../../utils/editable_toggle.dart';
 import '../../utils/image_utils.dart';
 import '../../utils/logger_service.dart';
 import '../../utils/navigation_service.dart';
+import '../../utils/snackbar_utils.dart';
 import '../../utils/tag_button.dart';
 import '../../utils/text_utils.dart';
+import '../../viewModels/resetpassword_viewmodel.dart';
 import '../dialog/custom_dialog.dart';
 
-class ForgotPasswordScreen extends StatefulWidget {
-  const ForgotPasswordScreen({super.key});
+class ResetPasswordScreen extends StatefulWidget {
+  const ResetPasswordScreen({super.key});
 
   @override
-  _ForgotPasswordScreenState createState() => _ForgotPasswordScreenState();
-
+  _ResetPasswordScreenState createState() => _ResetPasswordScreenState();
 }
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  late TextEditingController _emailController;
-  String _emailError = "";
-  bool _showEmailError = false;
-  late  ForgotPasswordViewModel viewModel;
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
+  bool completionStat = false;
+  String otpValue="";
+  String emailValue="";
+  late ResetPasswordViewModel viewModel;
+  late TextEditingController _passwordController;
+  String _passwordError = "";
+  bool _showPasswordError = false;
+  late TextEditingController _cPasswordController;
+  String _cPasswordError = "";
+  bool _cShowPasswordError = false;
+
   @override
   void initState() {
     super.initState();
-    viewModel = Provider.of<ForgotPasswordViewModel>(context, listen: false);
-    _emailController = TextEditingController();
-    _emailController.addListener(() {
+    _passwordController = TextEditingController();
+    _cPasswordController = TextEditingController();
+    viewModel = Provider.of<ResetPasswordViewModel>(context, listen: false);
+    _passwordController.addListener(() {
       if (mounted) {
         setState(() {
-          if (_emailController.text.isEmpty) {
-            _emailError = AppStrings.thisFieldIsRequired;
-            _showEmailError = true;
+          if (_passwordController.text.isEmpty) {
+            _passwordError = AppStrings.thisFieldIsRequired;
+            _showPasswordError = true;
           } else {
-            _emailError = "";
-            _showEmailError = false;
+            _passwordError = "";
+            _showPasswordError = false;
+          }
+        });
+      }
+    });
+    _cPasswordController.addListener(() {
+      if (mounted) {
+        setState(() {
+          if (_cPasswordController.text.isEmpty) {
+            _cPasswordError = AppStrings.thisFieldIsRequired;
+            _cShowPasswordError = true;
+          } else {
+            _cPasswordError = "";
+            _cShowPasswordError = false;
           }
         });
       }
     });
   }
-  @override
-  void dispose() {
-    _emailController.dispose();
-    super.dispose();
-  }
+
   @override
   Widget build(BuildContext context) {
+    // Retrieve arguments
+    final data = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    emailValue=data?['email'] ?? AppConstants.noData;
     return Scaffold(
       backgroundColor: AppColors.fabbyBack,
       body: SingleChildScrollView(
@@ -78,7 +100,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   top: 30.0, start: 20.0, end: 20),
               alignment: AlignmentDirectional.topStart,
               child: TextUtils.display(
-                AppStrings.resetPassword,
+                AppStrings.accountVerification,
                 fontSize: 20.0,
                 color: AppColors.sortTextColor,
                 fontFamily: 'DmSerifDisplay',
@@ -90,7 +112,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   top: 10.0, start: 20.0, end: 20),
               alignment: AlignmentDirectional.topStart,
               child: TextUtils.displayLargeText(
-                AppStrings.pleaseEnterYourEmailAddressMobileNumberBelowToReceiveVerificationCode,
+                AppStrings.pleaseEnterVerificationCodeSentOnYourEmail,
                 fontSize: 15.0,
                 color: AppColors.sortTextColor,
                 fontFamily: 'Poppins',
@@ -98,29 +120,60 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               ),
             ),
             Container(
-              margin: const EdgeInsetsDirectional.only(
-                  top: 20.0, start: 20.0, end: 20.0),
-              alignment: AlignmentDirectional.topStart,
-              child: TextUtils.editableText(
-                controller: _emailController,
-                fontSize: 16.0,
-                fontWeight: FontWeight.normal,
-                color: AppColors.recentStroke,
-                hintColor: AppColors.lightGray,
-                textAlign: TextAlign.start,
-                maxLines: 1,
-                fontFamily: 'Poppins',
-                hintText: AppStrings.yourNameMobileNumber,
-                contentPadding:
-                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-              ),
-            ),
-            if (_showEmailError)
+                margin: const EdgeInsetsDirectional.only(
+                    top: 10.0, start: 20.0, end: 20.0),
+                alignment: AlignmentDirectional.topStart,
+                child: EditableTextWithToggle(
+                  controller: _passwordController,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.normal,
+                  color: AppColors.recentStroke,
+                  hintColor: AppColors.lightGray,
+                  textAlign: TextAlign.start,
+                  maxLines: 1,
+                  fontFamily: 'Poppins',
+                  hintText: AppStrings.enterYourPassword,
+                  contentPadding: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 15.0),
+                )),
+            if (_showPasswordError)
               Container(
                 padding: const EdgeInsets.only(left: 20.0),
                 alignment: Alignment.topLeft,
                 child: TextUtils.errorText(
-                  _emailError,
+                  _passwordError,
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.red,
+                  textAlign: TextAlign.start,
+                  maxLines: 1,
+                  fontFamily: 'Poppins',
+                ),
+              ),
+            const SizedBox(height: 10.0),
+            Container(
+                margin: const EdgeInsetsDirectional.only(
+                    top: 10.0, start: 20.0, end: 20.0),
+                alignment: AlignmentDirectional.topStart,
+                child: EditableTextWithToggle(
+                  controller: _cPasswordController,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.normal,
+                  color: AppColors.recentStroke,
+                  hintColor: AppColors.lightGray,
+                  textAlign: TextAlign.start,
+                  maxLines: 1,
+                  fontFamily: 'Poppins',
+                  hintText: AppStrings.confirmPassword,
+                  contentPadding: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 15.0),
+                )),
+            if (_cShowPasswordError)
+              Container(
+                padding: const EdgeInsets.only(left: 20.0),
+                alignment: Alignment.topLeft,
+                child: TextUtils.errorText(
+                  _cPasswordError,
                   fontSize: 15.0,
                   fontWeight: FontWeight.normal,
                   color: Colors.red,
@@ -132,25 +185,21 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             const SizedBox(height: 10.0),
             GestureDetector(
               onTap: () async {
-                if(_emailController.text.toString().isNotEmpty){
                   final requestBody = {
-                    'email_or_mobile': _emailController.text,
-                    'request_place': AppConstants.web,
+                    'email': emailValue,
+                    'password': _passwordController.text.toString(),
+                    'unique_id': AppConstants.blankLimit,
+                    'cpassword': _cPasswordController.text.toString(),
                   };
-                  await viewModel.sendOtpRequest(requestBody);
-                  if(viewModel.sendOtpData?.error == 200){
-                    showSimpleDialog(context,"Otp send successfully");
+                  await viewModel.passwordReset(requestBody);
+                  if (viewModel.passwordData
+                      ?.success == true) {
+                    showSimpleDialog(context,"Password updated successfully");
+                  }else{
+                    SnackbarService.showErrorSnackbar(context, viewModel.passwordData
+                    !.statusCode);
                   }
-                }else{
-                  if (_emailController.text.isEmpty) {
-                    LoggerService.i("inState", "_showNameError");
-                    _emailError = AppStrings.thisFieldIsRequired;
-                    _showEmailError = true;
-                  } else {
-                    _emailError = "";
-                    _showEmailError = false;
-                  }
-                }
+                //NavigationService.replaceWith(const LoginScreen());
               },
               child: Container(
                 margin: const EdgeInsetsDirectional.only(
@@ -212,6 +261,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       ),
     );
   }
+
   void showSimpleDialog(BuildContext context, String s) {
     showDialog(
       context: context,
@@ -220,17 +270,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         return CustomDialog(
           message: s,
           onButtonPressed: () {
-            LoggerService.d("hi","press");
-            Future.delayed(const Duration(seconds: 1), ()
-            {
-              NavigationService.replaceWithData(
-                  const ResetPasswordOtpScreen(), data: {"email": _emailController.text});
-            });
+            NavigationService.goBack();
           },
           buttonText: 'ok', // Customize button text if needed
         );
       },
     );
   }
-
 }

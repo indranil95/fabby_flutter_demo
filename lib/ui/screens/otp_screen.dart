@@ -1,26 +1,44 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fabby_demo/utils/logger_service.dart';
 import 'package:flutter_fabby_demo/utils/tag_button.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:provider/provider.dart';
 
+import '../../AppConstant/app_constant.dart';
 import '../../colors/colors.dart';
 import '../../strings/strings.dart';
 import '../../utils/image_utils.dart';
 import '../../utils/navigation_service.dart';
+import '../../utils/snackbar_utils.dart';
 import '../../utils/text_utils.dart';
+import '../../viewModels/otp_viewmodel.dart';
+import '../dialog/custom_dialog.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key});
 
   @override
   _OtpScreenState createState() => _OtpScreenState();
-
 }
+
 class _OtpScreenState extends State<OtpScreen> {
+  bool completionStat = false;
+  String otpValue="";
+  String emailValue="";
+  late OtpViewModel viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel = Provider.of<OtpViewModel>(context, listen: false);
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Retrieve arguments
+    final data = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    emailValue=data?['email'] ?? AppConstants.noData;
     return Scaffold(
       backgroundColor: AppColors.fabbyBack,
       body: SingleChildScrollView(
@@ -29,7 +47,7 @@ class _OtpScreenState extends State<OtpScreen> {
             SafeArea(
               child: Container(
                 margin:
-                const EdgeInsetsDirectional.only(top: 10.0, start: 20.0),
+                    const EdgeInsetsDirectional.only(top: 10.0, start: 20.0),
                 alignment: AlignmentDirectional.center,
                 child: SizedBox(
                   width: 250.0,
@@ -43,7 +61,8 @@ class _OtpScreenState extends State<OtpScreen> {
               ),
             ),
             Container(
-              margin: const EdgeInsetsDirectional.only(top: 30.0, start: 20.0,end: 20),
+              margin: const EdgeInsetsDirectional.only(
+                  top: 30.0, start: 20.0, end: 20),
               alignment: AlignmentDirectional.topStart,
               child: TextUtils.display(
                 AppStrings.accountVerification,
@@ -54,7 +73,8 @@ class _OtpScreenState extends State<OtpScreen> {
               ),
             ),
             Container(
-              margin: const EdgeInsetsDirectional.only(top: 10.0, start: 20.0,end: 20),
+              margin: const EdgeInsetsDirectional.only(
+                  top: 10.0, start: 20.0, end: 20),
               alignment: AlignmentDirectional.topStart,
               child: TextUtils.displayLargeText(
                 AppStrings.pleaseEnterVerificationCodeSentOnYourEmail,
@@ -65,7 +85,8 @@ class _OtpScreenState extends State<OtpScreen> {
               ),
             ),
             Container(
-              margin: const EdgeInsetsDirectional.only(top: 30.0, start: 20.0,end: 20),
+              margin: const EdgeInsetsDirectional.only(
+                  top: 30.0, start: 20.0, end: 20),
               alignment: AlignmentDirectional.topStart,
               child: PinCodeTextField(
                 appContext: context,
@@ -96,12 +117,20 @@ class _OtpScreenState extends State<OtpScreen> {
                 enableActiveFill: true,
                 onCompleted: (v) {
                   if (kDebugMode) {
-                    print("Completed");
+                    print("Completed $v");
                   }
+                  completionStat = true;
+                  otpValue=v;
                 },
                 onChanged: (value) {
                   if (kDebugMode) {
                     print(value);
+                  }
+                  LoggerService.d("hi ", "length ${value.length}");
+                  if (value.length == 6) {
+                    completionStat = true;
+                  } else {
+                    completionStat = false;
                   }
                 },
                 beforeTextPaste: (text) {
@@ -114,6 +143,26 @@ class _OtpScreenState extends State<OtpScreen> {
             ),
             GestureDetector(
               onTap: () async {
+                LoggerService.d("hi ", completionStat);
+                if (completionStat) {
+                  final requestBody = {
+                    'email_or_mobile': emailValue,
+                    'otp': otpValue,
+                    'otp[]': AppConstants.otpArraySize,
+                    'request_place': AppConstants.web,
+                  };
+                  await viewModel.sendVerifyOtpRequest(requestBody);
+                  if (viewModel.otpData
+                      ?.success == true) {
+                    showSimpleDialog(context,"Otp verified successfully");
+                  }else{
+                    SnackbarService.showErrorSnackbar(context, viewModel.otpData
+                        !.statusCode);
+                  }
+                } else {
+                  SnackbarService.showErrorSnackbar(
+                      context, 'Please enter a valid OTP');
+                }
                 //NavigationService.replaceWith(const LoginScreen());
               },
               child: Container(
@@ -148,35 +197,48 @@ class _OtpScreenState extends State<OtpScreen> {
                 ),
               ),
             ),
-            GestureDetector(
-              onTap: ()  {
-                //NavigationService.replaceWith(const LoginScreen());
-              },
-              child: Container(
-                margin: const EdgeInsetsDirectional.only(
-                    top: 10.0, start: 20.0, end: 20.0),
-                alignment: AlignmentDirectional.center,
+            Container(
+              margin: const EdgeInsetsDirectional.only(
+                  top: 10.0, start: 20.0, end: 20.0),
+              alignment: AlignmentDirectional.center,
+              width: double.infinity,
+              height: 50.0,
+              child: SizedBox(
                 width: double.infinity,
-                height: 50.0,
-                child: SizedBox(
-                  width: double.infinity,
-                  // Ensure the Card takes full width of the container
-                  height: double.infinity,
-                  // Ensure the Card takes full height of the container
-                  child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: CancelButton(text: "Cancel",height:50.0,width:double.infinity,onPressed: (){
+                // Ensure the Card takes full width of the container
+                height: double.infinity,
+                // Ensure the Card takes full height of the container
+                child: Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: CancelButton(
+                      text: "Cancel",
+                      height: 50.0,
+                      width: double.infinity,
+                      onPressed: () {
                         NavigationService.goBack();
-                      },)
-                  ),
-                ),
+                      },
+                    )),
               ),
             ),
-
           ],
         ),
       ),
     );
   }
 
+  void showSimpleDialog(BuildContext context, String s) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return CustomDialog(
+          message: s,
+          onButtonPressed: () {
+            NavigationService.goBack();
+          },
+          buttonText: 'ok', // Customize button text if needed
+        );
+      },
+    );
+  }
 }
