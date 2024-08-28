@@ -90,6 +90,7 @@ flutter:
     - assets/calling.svg
     - assets/message.svg
     - assets/location.svg
+    - assets/insta_white.png
     - assets/login_back.svg
     - assets/login_google.svg
     - assets/login_bg.png

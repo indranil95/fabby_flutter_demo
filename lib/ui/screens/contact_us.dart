@@ -10,11 +10,13 @@ import 'package:flutter_fabby_demo/viewModels/contactus_viewmodel.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../utils/custom_loader.dart';
 import '../../utils/email_sender.dart';
 import '../../utils/image_utils.dart';
 import '../../utils/navigation_service.dart';
+import 'dart:io';
 
 class ContactUs extends StatefulWidget {
   const ContactUs({super.key});
@@ -43,16 +45,24 @@ class _MyFormState extends State<ContactUs> {
   bool _showMessageError = false;
 
   Future<void> launchMap(String address) async {
+    Uri uri;
     final String query = Uri.encodeComponent(address);
-    final Uri mapUri = Uri.parse("geo:0,0?q=$query");
+    String googleUrl = "google.navigation:q=$query";
+    Uri googleUri = Uri.parse(googleUrl);
+    // Uri mapUri = Uri.parse("geo:0,0?q=$query");
+    if (Platform.isAndroid) {
+      uri = Uri.parse("geo:0,0?q=$query");
+    } else {
 
+      uri = Uri.parse("https://www.google.com/maps/search/Fabby+Furever+Private+Limited,+701,+Aryston+Centre,+Opp.+JW+Marriott+Hotel,+Juhu,+Mumbai+49/@19.1013038,72.8089442,14z?entry=ttu");
+    }
     try {
-      if (await canLaunchUrl(mapUri)) {
-        await launchUrl(mapUri);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri);
       } else {
         // Handle the case where no app can handle the URL
         if (kDebugMode) {
-          print('Could not launch URL: $mapUri');
+          print('Could not launch URL: $uri');
         }
       }
     } catch (e) {
@@ -60,6 +70,29 @@ class _MyFormState extends State<ContactUs> {
       if (kDebugMode) {
         print('Exception: ${e.toString()}');
       }
+    }
+  }
+
+  void launchInstagram() async {
+    var nativeUrl = "instagram://user?username=FabbyFurever"; https://www.instagram.com/FabbyFurever/
+    var webUrl = "https://www.instagram.com/FabbyFurever/";
+
+    try {
+      print("nativeUrl clicked");
+      await launchUrlString(nativeUrl, mode: LaunchMode.externalApplication);
+    } catch (e) {
+      print(e);
+      print("webUrl clicked");
+      await launchUrlString(webUrl, mode: LaunchMode.platformDefault);
+    }
+  }
+
+  void launchCaller() async {
+    Uri phoneno = Uri.parse('tel:+917777060333');
+    if (await launchUrl(phoneno)) {
+      //dialer opened
+    } else {
+      //dailer is not opened
     }
   }
 
@@ -207,13 +240,14 @@ class _MyFormState extends State<ContactUs> {
                             children: [
                               const SizedBox(height: 20.0),
                               GestureDetector(
-                                onTap: () async {
-                                  await FlutterPhoneDirectCaller.callNumber(
-                                      "7777060333");
-                                  //makePhoneCall(AppStrings.clientMobile);
-                                  if (kDebugMode) {
-                                    print('Phone call container tapped');
-                                  }
+                                onTap: () {
+                                  launchCaller();
+                                  // await FlutterPhoneDirectCaller.callNumber(
+                                  //     "7777060333");
+                                  // //makePhoneCall(AppStrings.clientMobile);
+                                  // if (kDebugMode) {
+                                  //   print('Phone call container tapped');
+                                  // }
                                 },
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -582,7 +616,21 @@ class _MyFormState extends State<ContactUs> {
                                     ),
                                   ),
                                 ),
-                              )
+                              ),
+                              const SizedBox(height: 10.0),
+                              SizedBox(
+                                height: 60.0,
+                                width: 60.0,
+                                child: IconButton(
+                                    padding: const EdgeInsets.all(0.0),
+                                  icon: Image.asset('assets/insta_white.png'),
+                                  iconSize: 60.0,
+                                  onPressed: () {
+                                    launchInstagram();
+                                  },
+                                ),
+                              ),
+                              const SizedBox(height: 20.0),
                             ],
                           ),
                         ),
