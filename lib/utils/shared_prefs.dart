@@ -31,6 +31,10 @@ class SharedPrefsHelper {
   bool? getBool(String key) {
     return _prefs?.getBool(key);
   }
+  // Method to clear all stored preferences
+  Future<void> clearAll() async {
+    await _prefs?.clear();
+  }
 
 // Add more methods as needed for other data types
 }

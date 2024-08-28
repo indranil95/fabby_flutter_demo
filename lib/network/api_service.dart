@@ -123,7 +123,7 @@ class ApiService extends BaseApiService {
       // Log the request URL and method
       LoggerService.i('Request URL: $fullUrl');
 
-      final response = await http.get(fullUrl);
+      final response = await http.post(fullUrl);
 
       // Log the response status code and body
       LoggerService.i('Response Status Code: ${response.statusCode}');

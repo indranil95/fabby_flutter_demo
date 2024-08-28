@@ -5,9 +5,11 @@ import 'package:flutter_fabby_demo/ui/screens/about_us.dart';
 import 'package:flutter_fabby_demo/ui/screens/contact_us.dart';
 import 'package:flutter_fabby_demo/ui/screens/login_screen.dart';
 import 'package:flutter_fabby_demo/ui/screens/privacy_policy.dart';
+import 'package:flutter_fabby_demo/ui/screens/wishlist_screen.dart';
 
 import '../../utils/image_utils.dart';
 import '../../utils/navigation_service.dart';
+import '../../utils/shared_prefs.dart';
 import '../../utils/text_utils.dart';
 
 class SideMenuScreen extends StatefulWidget {
@@ -78,14 +80,19 @@ class _SideMenuScreenState extends State<SideMenuScreen> {
                         textAlign: TextAlign.center, // Center the text
                       ),
                       const SizedBox(height: 10.0),
-                      TextUtils.display(
-                        AppStrings.wishlist,
-                        fontSize: 16.0,
-                        // Increased fontSize for larger text
-                        color: AppColors.black,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.normal,
-                        textAlign: TextAlign.center, // Center the text
+                      GestureDetector(
+                        onTap: () {
+                          NavigationService.navigateTo(const WishListScreen());
+                        },
+                        child: TextUtils.display(
+                          AppStrings.wishlist,
+                          fontSize: 16.0,
+                          // Increased fontSize for larger text
+                          color: AppColors.black,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.normal,
+                          textAlign: TextAlign.center, // Center the text
+                        ),
                       ),
                       const SizedBox(height: 10.0),
                       TextUtils.display(
@@ -145,6 +152,7 @@ class _SideMenuScreenState extends State<SideMenuScreen> {
                       const SizedBox(height: 10.0),
                       GestureDetector(
                         onTap: () {
+                          clearData();
                           NavigationService.replaceWith(const LoginScreen());
                         },
                         child: SizedBox(
@@ -207,4 +215,8 @@ class _SideMenuScreenState extends State<SideMenuScreen> {
       ),
     );
   }
+}
+Future<void> clearData() async {
+  final prefs = await SharedPrefsHelper.getInstance();
+  prefs.clearAll();
 }
