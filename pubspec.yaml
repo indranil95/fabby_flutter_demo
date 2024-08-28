@@ -89,6 +89,7 @@ flutter:
     - assets/calling.svg
     - assets/message.svg
     - assets/location.svg
+    - assets/testimonial_logo.png
 
   fonts:
     - family: DmSerifDisplay

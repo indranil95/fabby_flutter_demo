@@ -11,6 +11,8 @@ import '../../AppConstant/app_constant.dart';
 import '../../viewModels/dashboard_viewmodel.dart';
 import '../lists/banner_list.dart';
 import '../lists/category_list.dart';
+import 'package:flutter_fabby_demo/ui/listItems/Testimonial_items.dart';
+import 'package:flutter_fabby_demo/ui/lists/testimonial_list.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -211,6 +213,56 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
+                      ),
+
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(0.0),
+                          child: Card(
+                            color: AppColors.cardBackColor,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
+                              child: TextUtils.display(
+                                AppStrings.viewAll,
+                                fontSize: 15.0,
+                                color: AppColors.white,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10.0),
+                      Center(
+                        child: TextUtils.display(
+                          "What Pet Lovers Say About Us",
+                          fontSize: 20.0,
+                          color: AppColors.sortTextColor,
+                          fontFamily: 'DmSerifDisplay',
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      const SizedBox(height: 10.0),
+                      const TestimonialsList(
+                        testimonials: [
+                          {
+                            "name": "Juhi Shetty",
+                            "title": "Dog Lover",
+                            "testimonial": "I'm so impressed with the results I've seen since using Fabby's Deo Fresh. The deodorizing spray keeps my dog Leo, smelling fresh between baths. Fabby Furever now has become an essential part of our routine, ensuring my dog looks,smells and feels amazing.",// Replace with actual image URL
+                          },
+                          {
+                            "name": "Kartik U",
+                            "title": "Dog Lover",
+                            "testimonial": "Dealing with ticks and fleas used to be a constant battle until I discovered Fabby Furever's Anti Tick & Flea spray. It's become a lifesaver for my dog, offering protection without the harsh chemicals. I highly recommend it to every pet owner looking for a reliable and safe solution",
+                          },
+                          {
+                            "name": "Loyal Dsouza",
+                            "title": "Dog Lover",
+                            "testimonial": "I've tried several anti-tick and flea products, and Fabby’s Anit tick Spray is hands down the best. It not only protected my dog from ticks and fleas but also provided long-lasting relief. I can't thank Fabby enough for creating a product that truly cares for our furry friends.",
+                          },
+                          // Add more testimonials here...
+                        ],
                       ),
                       const SizedBox(height: 10.0),
                     ],
