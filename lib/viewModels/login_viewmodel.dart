@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_fabby_demo/models/login_model.dart';
 import 'package:flutter_fabby_demo/repository/login_repository.dart';
@@ -36,7 +38,7 @@ class LoginViewModel extends ChangeNotifier {
       _loginData = response;
       _error = '';
       final prefs = await SharedPrefsHelper.getInstance();
-      await prefs.saveString('loginUserObject', response.data.toString() );
+      await prefs.saveObject<Data>('loginUserObject', response.data!,(Data data) => jsonEncode(data.toJson()), );
       await prefs.saveString('loginSuccess', "1");
       await prefs.saveString('accessToken', response.token.toString());
     } catch (e) {

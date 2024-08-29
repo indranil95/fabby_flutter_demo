@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_fabby_demo/repository/start_repository.dart';
 
@@ -30,7 +32,7 @@ class StartViewModel extends ChangeNotifier {
       final prefs = await SharedPrefsHelper.getInstance();
       await prefs.saveString('accessToken', response!.token);
       await prefs.saveString('guestId', response.data.guestId);
-      await prefs.saveString('userObject', response.data.user.toString());
+      await prefs.saveObject<User>('userObject', response.data.user,(User data) => jsonEncode(data.toJson()),);
       await prefs.saveString('guestLogin', "1");
       guestSuccess = true;
     } catch (e) {

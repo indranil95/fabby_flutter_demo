@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_fabby_demo/repository/contact_us_repository.dart';
 import 'package:flutter_fabby_demo/repository/forgotpassword_repository.dart';
 import 'package:flutter_fabby_demo/repository/login_repository.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_fabby_demo/repository/resetpassword_otp_repository.dart'
 import 'package:flutter_fabby_demo/repository/resetpassword_repository.dart';
 import 'package:flutter_fabby_demo/repository/signup_repository.dart';
 import 'package:flutter_fabby_demo/repository/start_repository.dart';
+import 'package:flutter_fabby_demo/repository/wishlist_repository.dart';
 import 'package:flutter_fabby_demo/utils/navigation_service.dart';
 import 'package:flutter_fabby_demo/viewModels/contactus_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/dashboard_viewmodel.dart';
@@ -17,6 +19,7 @@ import 'package:flutter_fabby_demo/viewModels/resetpassword_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/resetpasswordotp_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/signup_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/start_viewmodel.dart';
+import 'package:flutter_fabby_demo/viewModels/wishlist_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'ui/screens/start_screen.dart'; // Adjust import as needed
 import 'repository/dashboard_repository.dart';
@@ -26,6 +29,7 @@ import 'utils/shared_prefs.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeApp(); // Initialize SharedPrefsHelper method
+  //debugPaintSizeEnabled = true; // Enable debug painting
   runApp(const MyApp());
 }
 
@@ -83,6 +87,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => ForgotPasswordViewModel(
             ForgotPasswordRepository(ApiService()),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => WishlistViewModel(
+            WishlistRepository(ApiService()),
           ),
         ),
       ],

@@ -1,8 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_fabby_demo/models/resetpassword_model.dart';
-import 'package:flutter_fabby_demo/models/verifyotp_model.dart';
-
-import '../repository/resetpassword_otp_repository.dart';
 import '../repository/resetpassword_repository.dart';
 
 class ResetPasswordViewModel extends ChangeNotifier {

@@ -39,4 +39,7 @@ abstract class BaseApiService {
   Future<BaseResponse<T>> passwordReset<T>(
       Map<String, dynamic> requestBody,
       T Function(Map<String, dynamic>) fromJson);
+  Future<BaseResponse<T>> wishList<T>(
+      Map<String, dynamic> requestBody,
+      T Function(Map<String, dynamic>) fromJson);
 }

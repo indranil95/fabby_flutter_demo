@@ -1,4 +1,5 @@
 // shared_prefs_helper.dart
+import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefsHelper {
@@ -34,6 +35,21 @@ class SharedPrefsHelper {
   // Method to clear all stored preferences
   Future<void> clearAll() async {
     await _prefs?.clear();
+  }
+  // Generic method to save any object with a toJson() method
+  Future<void> saveObject<T>(String key, T object, String Function(T) toJson) async {
+    String jsonString = toJson(object);
+    await saveString(key, jsonString);
+  }
+
+  // Generic method to retrieve any object using a fromJson() factory constructor
+  T? getObject<T>(String key, T Function(Map<String, dynamic>) fromJson) {
+    String? jsonString = getString(key);
+    if (jsonString != null) {
+      Map<String, dynamic> jsonMap = jsonDecode(jsonString);
+      return fromJson(jsonMap);
+    }
+    return null;
   }
 
 // Add more methods as needed for other data types

@@ -98,6 +98,7 @@ flutter:
     - assets/tick.svg
     - assets/wishlist_add_to_cart_icon.svg
     - assets/delete_icon_wishlist.svg
+    - assets/delete_icon_item.svg
 
   fonts:
     - family: DmSerifDisplay

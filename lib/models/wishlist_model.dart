@@ -1,33 +1,23 @@
-import 'dart:convert';
-
-// Convert a JSON string to a WishListModel instance
-WishListModel wishListModelFromJson(String str) => WishListModel.fromJson(json.decode(str));
-
-// Convert a WishListModel instance to a JSON string
-String wishListModelToJson(WishListModel data) => json.encode(data.toJson());
-
 class WishListModel {
   List<Data> data;
-  String error;
-  String statusCode;
+  String? error;
+  String? statusCode;
   bool success;
 
   WishListModel({
     required this.data,
-    required this.error,
-    required this.statusCode,
+    this.error,
+    this.statusCode,
     required this.success,
   });
 
-  // Create a WishListModel instance from a JSON map
   factory WishListModel.fromJson(Map<String, dynamic> json) => WishListModel(
     data: List<Data>.from(json["data"].map((x) => Data.fromJson(x))),
-    error: json["error"],
-    statusCode: json["status_code"],
-    success: json["success"],
+    error: json["error"]?.toString(),
+    statusCode: json["status_code"]?.toString(),
+    success: json["success"] ?? false,
   );
 
-  // Convert a WishListModel instance to a JSON map
   Map<String, dynamic> toJson() => {
     "data": List<dynamic>.from(data.map((x) => x.toJson())),
     "error": error,
@@ -37,7 +27,7 @@ class WishListModel {
 }
 
 class Data {
-  String guestId;
+  String? guestId;
   int id;
   Product product;
   int productId;
@@ -45,7 +35,7 @@ class Data {
   bool isCheck;
 
   Data({
-    required this.guestId,
+    this.guestId,
     required this.id,
     required this.product,
     required this.productId,
@@ -53,17 +43,15 @@ class Data {
     required this.isCheck,
   });
 
-  // Create a Data instance from a JSON map
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    guestId: json["guestid"],
+    guestId: json["guestid"]?.toString(),
     id: json["id"],
     product: Product.fromJson(json["product"]),
     productId: json["product_id"],
     userId: json["user_id"],
-    isCheck: json["isCheck"],
+    isCheck: json["isCheck"] ?? false,
   );
 
-  // Convert a Data instance to a JSON map
   Map<String, dynamic> toJson() => {
     "guestid": guestId,
     "id": id,
@@ -76,11 +64,11 @@ class Data {
 
 class Product {
   dynamic activeIngredients;
-  String amazonLink;
-  String barcode;
+  String? amazonLink;
+  String? barcode;
   dynamic benefits;
   dynamic brandName;
-  int categoryId;
+  int? categoryId;
   dynamic countryOfOrigin;
   dynamic description;
   int height;
@@ -88,54 +76,53 @@ class Product {
   int id;
   int length;
   dynamic longDescription;
-  String manufacturedBy;
+  String? manufacturedBy;
   String price;
   String productId;
   String productImage;
-  String productImgStatus;
+  String? productImgStatus;
   String productName;
   int quantity;
   int status;
-  int subCategoryId;
+  int? subCategoryId;
   dynamic type;
   dynamic unit;
   dynamic vatRate;
   double weight;
-  String whatIncluded;
+  String? whatIncluded;
   int width;
 
   Product({
-    required this.activeIngredients,
-    required this.amazonLink,
-    required this.barcode,
-    required this.benefits,
-    required this.brandName,
-    required this.categoryId,
-    required this.countryOfOrigin,
-    required this.description,
+    this.activeIngredients,
+    this.amazonLink,
+    this.barcode,
+    this.benefits,
+    this.brandName,
+    this.categoryId,
+    this.countryOfOrigin,
+    this.description,
     required this.height,
-    required this.howToUse,
+    this.howToUse,
     required this.id,
     required this.length,
-    required this.longDescription,
-    required this.manufacturedBy,
+    this.longDescription,
+    this.manufacturedBy,
     required this.price,
     required this.productId,
     required this.productImage,
-    required this.productImgStatus,
+    this.productImgStatus,
     required this.productName,
     required this.quantity,
     required this.status,
-    required this.subCategoryId,
-    required this.type,
-    required this.unit,
-    required this.vatRate,
+    this.subCategoryId,
+    this.type,
+    this.unit,
+    this.vatRate,
     required this.weight,
-    required this.whatIncluded,
+    this.whatIncluded,
     required this.width,
   });
 
-  // Create a Product instance from a JSON map
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     activeIngredients: json["active_ingredients"],
     amazonLink: json["amazon_link"],
@@ -162,12 +149,11 @@ class Product {
     type: json["type"],
     unit: json["unit"],
     vatRate: json["vat_rate"],
-    weight: json["weight"].toDouble(),
+    weight: json["weight"]?.toDouble() ?? 0.0,
     whatIncluded: json["what_included"],
     width: json["width"],
   );
 
-  // Convert a Product instance to a JSON map
   Map<String, dynamic> toJson() => {
     "active_ingredients": activeIngredients,
     "amazon_link": amazonLink,
