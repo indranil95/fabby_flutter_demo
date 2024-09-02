@@ -10,6 +10,8 @@ class WishListList extends StatelessWidget {
   final Function(int) onMoveToCart;
   final Function(int) onDelete;
   final Function(int) onTick;
+  final bool areAllItemsSelected;
+
 
   const WishListList({
     super.key,
@@ -17,6 +19,7 @@ class WishListList extends StatelessWidget {
     required this.onMoveToCart,
     required this.onDelete,
     required this.onTick,
+    required this.areAllItemsSelected,
   });
 
   @override
@@ -24,6 +27,7 @@ class WishListList extends StatelessWidget {
     // Flatten the list of Data objects from all WishListModel instances
     final List<Data> allData = items;
     LoggerService.d("list ", allData.length);
+    LoggerService.d("areAllItemsSelected list  ", areAllItemsSelected);
     return Expanded(
         child: GridView.builder(
       padding: const EdgeInsets.all(0), // Optional padding
@@ -49,8 +53,9 @@ class WishListList extends StatelessWidget {
             onMoveToCart(index);
           },
           onTick: () {
-            onTick(index);
-          }, // Access product description
+            onTick(index);// Pass the state here// Access product description
+          },
+          isInitiallyTicked: areAllItemsSelected,
         );
       },
     ));

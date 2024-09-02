@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fabby_demo/utils/logger_service.dart';
 
 import '../../colors/colors.dart';
 import '../../utils/image_utils.dart';
-import '../../utils/logger_service.dart';
 import '../../utils/text_utils.dart';
 
 class WishlistItem extends StatefulWidget {
@@ -12,6 +12,7 @@ class WishlistItem extends StatefulWidget {
   final VoidCallback onDelete;
   final VoidCallback onMoveToCart;
   final VoidCallback onTick;
+  final bool isInitiallyTicked; // New parameter for initial ticked state
 
   const WishlistItem({
     super.key,
@@ -21,6 +22,7 @@ class WishlistItem extends StatefulWidget {
     required this.onDelete,
     required this.onMoveToCart,
     required this.onTick,
+    required this.isInitiallyTicked, // Default to false
   });
 
   @override
@@ -31,7 +33,24 @@ class _WishlistItemState extends State<WishlistItem> {
   bool isTicked = false;
 
   @override
+  void initState() {
+    super.initState();
+    isTicked = widget.isInitiallyTicked; // Initialize state in initState
+  }
+
+  @override
+  void didUpdateWidget(covariant WishlistItem oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.isInitiallyTicked != oldWidget.isInitiallyTicked) {
+      setState(() {
+        isTicked = widget.isInitiallyTicked; // Update state when widget changes
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    LoggerService.d("isInitiallyTicked item ${widget.isInitiallyTicked}");
     return Container(
       width: 180,
       margin: const EdgeInsets.only(left: 5, right: 5, bottom: 10),
@@ -58,7 +77,8 @@ class _WishlistItemState extends State<WishlistItem> {
                     child: SvgImage.asset(
                       isTicked
                           ? 'assets/tick.svg' // Replace with the ticked image asset
-                          : 'assets/light_pink_border.svg', // Replace with the unticked image asset
+                          : 'assets/light_pink_border.svg',
+                      // Replace with the unticked image asset
                       width: 16.0,
                       height: 16.0,
                     ),

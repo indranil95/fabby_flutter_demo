@@ -12,6 +12,7 @@ import 'package:flutter_fabby_demo/viewModels/wishlist_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 import '../../strings/strings.dart';
+import '../../utils/snackbar_utils.dart';
 
 class WishListScreen extends StatefulWidget {
   const WishListScreen({super.key});
@@ -21,6 +22,11 @@ class WishListScreen extends StatefulWidget {
 }
 
 class _WishListScreenState extends State<WishListScreen> {
+  List<int> selectedIds = [];
+  List<int> selectedProductIds = [];
+  String itemCountDisplayText = "0/0 items Selected";
+  bool areAllItemsSelected = false; // New variable to track all selection
+
   late WishlistViewModel viewModel;
 
   @override
@@ -43,6 +49,49 @@ class _WishListScreenState extends State<WishListScreen> {
     viewModel.wishlist(requestBody);
   }
 
+  void _onItemTick(int itemId, int productId) {
+    setState(() {
+      if (!selectedIds.contains(itemId)) {
+        selectedIds.add(itemId);
+        selectedProductIds.add(productId);
+      } else {
+        selectedIds.remove(itemId);
+        selectedProductIds.remove(productId);
+      }
+    });
+  }
+
+  void _toggleSelectAll(int totalItems) {
+    setState(() {
+      areAllItemsSelected = !areAllItemsSelected;
+      LoggerService.d("areAllItemsSelected $areAllItemsSelected");
+      selectedIds.clear();
+      selectedProductIds.clear();
+
+      if (areAllItemsSelected) {
+        for (var item in viewModel.wishListData?.data ?? []) {
+          selectedIds.add(item.id);
+          selectedProductIds.add(item.productId);
+        }
+      }
+      _updateItemCountDisplay(totalItems);
+    });
+  }
+
+  void _updateItemCountDisplay(int totalItems) {
+    setState(() {
+      if (selectedIds.length <= totalItems) {
+        // Update the text with selected and total items
+        itemCountDisplayText =
+            "${selectedIds.length}/$totalItems items Selected";
+        areAllItemsSelected = selectedIds.length == totalItems;
+      } else {
+        // Reset to 0/0 if count exceeds total items
+        itemCountDisplayText = "0/0 items Selected";
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,6 +102,7 @@ class _WishListScreenState extends State<WishListScreen> {
         child: Consumer<WishlistViewModel>(
           builder: (context, viewModel, child) {
             final items = viewModel.wishListData?.data;
+            final itemCount = items?.length ?? 0;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -60,13 +110,23 @@ class _WishListScreenState extends State<WishListScreen> {
                   padding: const EdgeInsets.all(20.0),
                   child: Row(
                     children: [
-                      SvgImage.asset('assets/light_pink_border.svg',
-                          width: 16.0, height: 16.0),
+                      GestureDetector(
+                        onTap: () {
+                          _toggleSelectAll(itemCount);
+                        },
+                        child: SvgImage.asset(
+                            areAllItemsSelected
+                                ? 'assets/tick.svg' // Replace with the ticked image asset
+                                : 'assets/light_pink_border.svg',
+                            width: 16.0,
+                            height: 16.0),
+                      ),
+
                       const SizedBox(
                         width: 10.0,
                       ),
                       TextUtils.display(
-                        "0/0 items Selected",
+                        itemCountDisplayText,
                         fontSize: 14.0,
                         // Increased fontSize for larger text
                         color: AppColors.sortTextColor,
@@ -85,8 +145,29 @@ class _WishListScreenState extends State<WishListScreen> {
                                 width: 35.0,
                                 height: 35.0),
                             const SizedBox(width: 10.0),
-                            SvgImage.asset('assets/delete_icon_wishlist.svg',
-                                width: 35.0, height: 35.0),
+                            GestureDetector(
+                              onTap: () {
+                                LoggerService.d("message", selectedProductIds);
+                                if (selectedProductIds.isEmpty) {
+                                  SnackbarService.showErrorSnackbar(context,
+                                      'Please select a product to remove');
+                                } else {
+                                  final requestBody = {
+                                    'ids': selectedProductIds,
+                                  };
+                                  viewModel.removeWishItemMultiple(requestBody);
+                                  if (viewModel
+                                          .removeItemModelMultiple?.success ==
+                                      true) {
+                                    _fetchWishlist();
+                                  }
+                                }
+                              },
+                              child: SvgImage.asset(
+                                  'assets/delete_icon_wishlist.svg',
+                                  width: 35.0,
+                                  height: 35.0),
+                            ),
                           ],
                         ),
                       )
@@ -98,15 +179,30 @@ class _WishListScreenState extends State<WishListScreen> {
                   onMoveToCart: (int index) {
                     // Handle move to cart action here
                     LoggerService.d('Move to Cart clicked at index: $index');
+                    final item = items[index];
+                    //viewModel.addToCart(item.productId, item.product.productName);
                   },
                   onDelete: (int index) {
                     // Handle delete action here
                     LoggerService.d('Delete clicked at index: $index');
+                    final item = items[index];
+                    final requestBody = {
+                      'ids': item.id,
+                    };
+                    viewModel.removeWishItem(requestBody);
+                    if (viewModel.removeItemModel?.success == true) {
+                      _fetchWishlist();
+                    }
                   },
                   onTick: (int index) {
                     // Handle tick action here
                     LoggerService.d('Tick clicked at index: $index');
+                    final item = items[index];
+                    _onItemTick(item.id, item.productId);
+                    _updateItemCountDisplay(itemCount);
                   },
+                  areAllItemsSelected:
+                      areAllItemsSelected, // Pass this to the list
                 )
               ],
             );

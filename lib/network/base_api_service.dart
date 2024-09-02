@@ -42,4 +42,13 @@ abstract class BaseApiService {
   Future<BaseResponse<T>> wishList<T>(
       Map<String, dynamic> requestBody,
       T Function(Map<String, dynamic>) fromJson);
+  Future<BaseResponse<T>> removeWishItem<T>(
+      Map<String, dynamic> requestBody,
+      T Function(Map<String, dynamic>) fromJson);
+  Future<BaseResponse<T>> removeWishItemMultiple<T>(
+      Map<String, dynamic> requestBody,
+      T Function(Map<String, dynamic>) fromJson);
+  Future<BaseResponse<T>> addToCart<T>(
+      Map<String, dynamic> requestBody,
+      T Function(Map<String, dynamic>) fromJson);
 }
