@@ -8,6 +8,8 @@ import 'package:flutter_fabby_demo/utils/text_utils.dart';
 import 'package:provider/provider.dart';
 
 import '../../AppConstant/app_constant.dart';
+import '../../utils/logger_service.dart';
+import '../../utils/navigation_service.dart';
 import '../../viewModels/dashboard_viewmodel.dart';
 import '../lists/banner_list.dart';
 import '../lists/category_list.dart';
@@ -202,6 +204,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 60.0, // Adjust height as needed
                           child: BlogsList(
                             items: viewModel.blogsModelData?.data.articles ?? [],
+                            onMoveToBlogDetail: (int index) {
+                              // Handle move to cart action here
+                              LoggerService.d('Blog Detail clicked at index: $index');
+                              final item = viewModel.blogsModelData?.data.articles ?? [][index];
+                              NavigationService.na(
+                              const OtpScreen(), data: {"email": _emailController.text});
+                              });
+                            },
                             // Pass the callback
                           ),
                         ),

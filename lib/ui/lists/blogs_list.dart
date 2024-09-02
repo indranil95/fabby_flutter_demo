@@ -5,8 +5,9 @@ import 'package:flutter_fabby_demo/ui/listItems/blogs_list_item.dart';
 
 class BlogsList extends StatelessWidget {
   final List<Articles> items; // Ensure this matches your data type
+  final Function(int) onMoveToBlogDetail;
 
-  const BlogsList({super.key, required this.items});
+  const BlogsList({super.key, required this.items, required this.onMoveToBlogDetail});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,9 @@ class BlogsList extends StatelessWidget {
       itemCount: items.length,
       itemBuilder: (context, index) {
         final item = items[index];
-        return  BlogsListItems(imageUrl: item.image, title: item.title, description: item.description,); // Updated to use imageUrl
+        return  BlogsListItems(imageUrl: item.image, title: item.title, description: item.description, onMoveToBlogDetail: () {
+          onMoveToBlogDetail(index);
+        },); // Updated to use imageUrl
       },
     );
   }
