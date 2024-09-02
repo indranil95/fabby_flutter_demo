@@ -99,6 +99,7 @@ flutter:
     - assets/wishlist_add_to_cart_icon.svg
     - assets/delete_icon_wishlist.svg
     - assets/delete_icon_item.svg
+    - assets/testimonial_logo.png
 
   fonts:
     - family: DmSerifDisplay

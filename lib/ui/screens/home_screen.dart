@@ -11,6 +11,8 @@ import '../../AppConstant/app_constant.dart';
 import '../../viewModels/dashboard_viewmodel.dart';
 import '../lists/banner_list.dart';
 import '../lists/category_list.dart';
+import 'package:flutter_fabby_demo/ui/listItems/Testimonial_items.dart';
+import 'package:flutter_fabby_demo/ui/lists/testimonial_list.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -63,6 +65,19 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.redAccent,
+        leading: IconButton(
+          iconSize: 20,
+          icon: const Icon(Icons.favorite),
+          onPressed: (
+
+              ) {
+            // ...
+          },
+        ),
+
+      ),
       body: Consumer<DashboardViewModel>(
         builder: (context, viewModel, child) {
           if (viewModel.loading) {
@@ -78,6 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
           }
 
           return SingleChildScrollView(
+
             child: Column(
               children: [
                 SafeArea(
@@ -108,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Center(
                         child: TextUtils.display(
@@ -121,35 +137,29 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 16.0),
-                        // Add padding between text and list
                         child: SizedBox(
-                          height: 60.0, // Adjust height as needed
+                          height: 60.0,
                           child: CategoryList(
                             items: viewModel.categories,
-                            onItemSelected:
-                            _handleCategorySelection, // Pass the callback
+                            onItemSelected: _handleCategorySelection,
                           ),
                         ),
                       ),
                       FutureBuilder<void>(
                         future: _loadProductsFuture,
                         builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                                child: CircularProgressIndicator());
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
                           }
 
                           if (snapshot.hasError) {
-                            return Center(
-                                child: Text('Error: ${snapshot.error}'));
+                            return Center(child: Text('Error: ${snapshot.error}'));
                           }
 
                           return Padding(
                             padding: const EdgeInsets.only(top: 16.0),
-                            // Add padding between text and list
                             child: SizedBox(
-                              height: 190.0, // Adjust height as needed
+                              height: 190.0,
                               child: _selectedCategory.isNotEmpty
                                   ? AllProductList(
                                 items: viewModel
@@ -157,21 +167,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                     [],
                               )
                                   : AllProductList(
-                                items:
-                                viewModel.allProductData?.data ?? [],
+                                items: viewModel.allProductData?.data ?? [],
                               ),
                             ),
                           );
                         },
                       ),
-                      const SizedBox(height: 10.0,),
+                      const SizedBox(height: 10.0),
                       Center(
                         child: Padding(
                           padding: const EdgeInsets.all(0.0),
                           child: Card(
                             color: AppColors.fabbyBondiBlue,
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 15.0,right: 15.0,top: 10.0,bottom: 10.0), // Add padding around the text inside the Card
+                              padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
                               child: TextUtils.display(
                                 AppStrings.viewAll,
                                 fontSize: 15.0,
@@ -183,8 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-
-                      const SizedBox(height: 10.0,),
+                      const SizedBox(height: 10.0),
                       Center(
                         child: TextUtils.display(
                           AppStrings.blogs,
@@ -194,23 +202,74 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.normal,
                         ),
                       ),
-                      const SizedBox(height: 10.0,),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
-                        // Add padding between text and list
-                        child: SizedBox(
-                          height: 60.0, // Adjust height as needed
-                          child: BlogsList(
-                            items: viewModel.blogsModelData?.data.articles ?? [],
-                            // Pass the callback
+                      const SizedBox(height: 10.0),
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 16.0,bottom: 20.0),
+                          child: SizedBox(
+                            height: 380.0,
+                            child: BlogsList(
+                              items: viewModel.blogsModelData?.data.articles ?? [],
+                            ),
                           ),
                         ),
                       ),
+
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(0.0),
+                          child: Card(
+                            color: AppColors.cardBackColor,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
+                              child: TextUtils.display(
+                                AppStrings.viewAll,
+                                fontSize: 15.0,
+                                color: AppColors.white,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10.0),
+                      Center(
+                        child: TextUtils.display(
+                          "What Pet Lovers Say About Us",
+                          fontSize: 20.0,
+                          color: AppColors.sortTextColor,
+                          fontFamily: 'DmSerifDisplay',
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      const SizedBox(height: 10.0),
+                      const TestimonialsList(
+                        testimonials: [
+                          {
+                            "name": "Juhi Shetty",
+                            "title": "Dog Lover",
+                            "testimonial": "I'm so impressed with the results I've seen since using Fabby's Deo Fresh. The deodorizing spray keeps my dog Leo, smelling fresh between baths. Fabby Furever now has become an essential part of our routine, ensuring my dog looks,smells and feels amazing.",// Replace with actual image URL
+                          },
+                          {
+                            "name": "Kartik U",
+                            "title": "Dog Lover",
+                            "testimonial": "Dealing with ticks and fleas used to be a constant battle until I discovered Fabby Furever's Anti Tick & Flea spray. It's become a lifesaver for my dog, offering protection without the harsh chemicals. I highly recommend it to every pet owner looking for a reliable and safe solution",
+                          },
+                          {
+                            "name": "Loyal Dsouza",
+                            "title": "Dog Lover",
+                            "testimonial": "I've tried several anti-tick and flea products, and Fabby’s Anit tick Spray is hands down the best. It not only protected my dog from ticks and fleas but also provided long-lasting relief. I can't thank Fabby enough for creating a product that truly cares for our furry friends.",
+                          },
+                          // Add more testimonials here...
+                        ],
+                      ),
+                      const SizedBox(height: 10.0),
                     ],
                   ),
                 ),
               ],
-            ) ,
+            ),
           );
         },
       ),
