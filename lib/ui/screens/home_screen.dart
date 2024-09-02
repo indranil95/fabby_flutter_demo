@@ -3,11 +3,14 @@ import 'package:flutter_fabby_demo/colors/colors.dart';
 import 'package:flutter_fabby_demo/strings/strings.dart';
 import 'package:flutter_fabby_demo/ui/lists/all_product_list.dart';
 import 'package:flutter_fabby_demo/ui/lists/blogs_list.dart';
+import 'package:flutter_fabby_demo/ui/screens/Blogs.dart';
 import 'package:flutter_fabby_demo/ui/screens/top_bar.dart';
 import 'package:flutter_fabby_demo/utils/text_utils.dart';
 import 'package:provider/provider.dart';
 
 import '../../AppConstant/app_constant.dart';
+import '../../utils/logger_service.dart';
+import '../../utils/navigation_service.dart';
 import '../../viewModels/dashboard_viewmodel.dart';
 import '../lists/banner_list.dart';
 import '../lists/category_list.dart';
@@ -65,19 +68,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.redAccent,
-        leading: IconButton(
-          iconSize: 20,
-          icon: const Icon(Icons.favorite),
-          onPressed: (
-
-              ) {
-            // ...
-          },
-        ),
-
-      ),
       body: Consumer<DashboardViewModel>(
         builder: (context, viewModel, child) {
           if (viewModel.loading) {
@@ -93,7 +83,6 @@ class _HomeScreenState extends State<HomeScreen> {
           }
 
           return SingleChildScrollView(
-
             child: Column(
               children: [
                 SafeArea(
@@ -138,10 +127,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       Padding(
                         padding: const EdgeInsets.only(top: 16.0),
                         child: SizedBox(
-                          height: 60.0,
+                          height: 60.0, // Adjust height as needed
                           child: CategoryList(
                             items: viewModel.categories,
-                            onItemSelected: _handleCategorySelection,
+                            onItemSelected:
+                            _handleCategorySelection, // Pass the callback
                           ),
                         ),
                       ),
@@ -202,6 +192,25 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.normal,
                         ),
                       ),
+                      const SizedBox(height: 10.0,),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16.0),
+                        // Add padding between text and list
+                        child: SizedBox(
+                          height: 60.0, // Adjust height as needed
+                          child: BlogsList(
+                            items: viewModel.blogsModelData?.data.articles ?? [],
+                            onMoveToBlogDetail: (int index) {
+                              // Handle move to cart action here
+                              LoggerService.d('Blog Detail clicked at index: $index');
+                              final items = viewModel.blogsModelData?.data.articles ?? [];
+                              final item=items[index];
+                              /*NavigationService.navigateToWithData(
+                              const BlogScreen(), data: {"email": _emailController.text});
+                              });*/
+                              NavigationService.navigateToWithData( BlogScreen(),data: {"slug":item.slug});
+                            },
+                            // Pass the callback
                       const SizedBox(height: 10.0),
                       Center(
                         child: Padding(
@@ -269,7 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ],
-            ),
+            ) ,
           );
         },
       ),

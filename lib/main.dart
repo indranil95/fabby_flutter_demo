@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_fabby_demo/models/blogs_detail_model.dart';
 import 'package:flutter_fabby_demo/repository/contact_us_repository.dart';
 import 'package:flutter_fabby_demo/repository/forgotpassword_repository.dart';
 import 'package:flutter_fabby_demo/repository/login_repository.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_fabby_demo/repository/wishlist_repository.dart';
 import 'package:flutter_fabby_demo/utils/navigation_service.dart';
 import 'package:flutter_fabby_demo/viewModels/contactus_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/dashboard_viewmodel.dart';
+import 'package:flutter_fabby_demo/viewModels/blogdetail_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/forgotpassword_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/login_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/otp_viewmodel.dart';
@@ -23,6 +25,7 @@ import 'package:flutter_fabby_demo/viewModels/wishlist_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'ui/screens/start_screen.dart'; // Adjust import as needed
 import 'repository/dashboard_repository.dart';
+import 'repository/blog_detail_repository.dart';
 import 'network/api_service.dart';
 import 'utils/shared_prefs.dart';
 
@@ -92,6 +95,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => WishlistViewModel(
             WishlistRepository(ApiService()),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => BlogDetailViewModel(
+            BlogDetailRepository(ApiService()),
           ),
         ),
       ],
