@@ -182,7 +182,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10.0),
+
+                      const SizedBox(height: 10.0,),
                       Center(
                         child: TextUtils.display(
                           AppStrings.blogs,
@@ -197,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: const EdgeInsets.only(top: 16.0),
                         // Add padding between text and list
                         child: SizedBox(
-                          height: 60.0, // Adjust height as needed
+                          height: 260.0, // Adjust height as needed
                           child: BlogsList(
                             items: viewModel.blogsModelData?.data.articles ?? [],
                             onMoveToBlogDetail: (int index) {
@@ -210,17 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               });*/
                               NavigationService.navigateToWithData( BlogScreen(),data: {"slug":item.slug});
                             },
-                            // Pass the callback
-                      const SizedBox(height: 10.0),
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 16.0,bottom: 20.0),
-                          child: SizedBox(
-                            height: 380.0,
-                            child: BlogsList(
-                              items: viewModel.blogsModelData?.data.articles ?? [],
-                            ),
-                          ),
+                           ),
                         ),
                       ),
 
