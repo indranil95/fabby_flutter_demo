@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'package:flutter_fabby_demo/models/blogs_model.dart';
 import 'package:http/http.dart' as http;
 import '../models/all_product_model.dart';
+import '../models/blogs_detail_model.dart';
 import '../utils/logger_service.dart';
 import 'base_api_service.dart';
 import 'base_response.dart';
@@ -230,7 +232,61 @@ class ApiService extends BaseApiService {
     }
   }
 
+  // Future<BlogsDetailDataModel> fetchBlogData() async {
+  //   final response = await http.get(Uri.parse('your_api_url'));
+  //
+  //   if (response.statusCode == 200) {
+  //     return BlogsDetailDataModel.fromJson(json.decode(response.body));
+  //   } else {
+  //     throw Exception('Failed to load blog data');
+  //   }
+  // }
 
+  Future<List<BlogsModel>> fetchBlogs() async {
+    final response = await http.get(Uri.parse('your_api_url'));
+
+    if (response.statusCode == 200) {
+      List<dynamic> data = json.decode(response.body);
+      return data.map((json) => BlogsModel.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load blogs');
+    }
+  }
+
+  @override
+  Future<BaseResponse<T>> getBlogDetail<T>(String slug, T Function(Map<String, dynamic>) fromJson) async {
+    final url = "blog_details/news/$slug";
+    final fullUrl = Uri.parse('$baseUrl$url');
+    try {
+      // Log the request URL and method
+      LoggerService.i('Request URL: $fullUrl');
+
+      final response = await http.get(fullUrl);
+
+      // Log the response status code and body
+      LoggerService.i('Response Status Code: ${response.statusCode}');
+      LoggerService.i('Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        return BaseResponse<T>(
+          data: fromJson(data),
+          statusCode: response.statusCode,
+        );
+      } else {
+        return BaseResponse<T>(
+          statusCode: response.statusCode,
+          error: 'Error: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      // Log the exception
+      LoggerService.e('Exception: $e');
+      return BaseResponse<T>(
+        error: 'Exception: $e',
+      );
+    }
+  }
 
 
 }
