@@ -3,6 +3,7 @@ import 'package:flutter_fabby_demo/colors/colors.dart';
 import 'package:flutter_fabby_demo/strings/strings.dart';
 import 'package:flutter_fabby_demo/ui/lists/all_product_list.dart';
 import 'package:flutter_fabby_demo/ui/lists/blogs_list.dart';
+import 'package:flutter_fabby_demo/ui/screens/Blogs.dart';
 import 'package:flutter_fabby_demo/ui/screens/top_bar.dart';
 import 'package:flutter_fabby_demo/utils/text_utils.dart';
 import 'package:provider/provider.dart';
@@ -207,10 +208,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             onMoveToBlogDetail: (int index) {
                               // Handle move to cart action here
                               LoggerService.d('Blog Detail clicked at index: $index');
-                              final item = viewModel.blogsModelData?.data.articles ?? [][index];
-                              NavigationService.na(
-                              const OtpScreen(), data: {"email": _emailController.text});
-                              });
+                              final items = viewModel.blogsModelData?.data.articles ?? [];
+                              final item=items[index];
+                              /*NavigationService.navigateToWithData(
+                              const BlogScreen(), data: {"email": _emailController.text});
+                              });*/
+                              NavigationService.navigateToWithData( BlogScreen(),data: {"slug":item.slug});
                             },
                             // Pass the callback
                           ),
