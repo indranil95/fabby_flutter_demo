@@ -40,6 +40,7 @@ dependencies:
   permission_handler: ^11.3.1
   flutter_phone_direct_caller: ^2.1.0
   mailer: ^5.1.0
+  loading_animation_widget: ^1.2.1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -99,6 +100,7 @@ flutter:
     - assets/wishlist_add_to_cart_icon.svg
     - assets/delete_icon_wishlist.svg
     - assets/delete_icon_item.svg
+    - assets/ic_no_data.svg
 
   fonts:
     - family: DmSerifDisplay

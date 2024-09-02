@@ -9,6 +9,7 @@ import 'package:flutter_fabby_demo/utils/image_utils.dart';
 import 'package:flutter_fabby_demo/utils/logger_service.dart';
 import 'package:flutter_fabby_demo/utils/text_utils.dart';
 import 'package:flutter_fabby_demo/viewModels/wishlist_viewmodel.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../strings/strings.dart';
@@ -101,6 +102,17 @@ class _WishListScreenState extends State<WishListScreen> {
         padding: const EdgeInsets.all(10.0),
         child: Consumer<WishlistViewModel>(
           builder: (context, viewModel, child) {
+            if (viewModel.loading) {
+              return  Center(
+                child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.fabbyBondiBlue, size: 50.0),
+              );
+            }
+            /*if (viewModel.error.isNotEmpty) {
+              return Center(
+                child: SnackbarService.showErrorSnackbar(context, viewModel.error);
+
+              );
+            }*/
             final items = viewModel.wishListData?.data;
             final itemCount = items?.length ?? 0;
             return Column(
@@ -146,7 +158,7 @@ class _WishListScreenState extends State<WishListScreen> {
                                 height: 35.0),
                             const SizedBox(width: 10.0),
                             GestureDetector(
-                              onTap: () {
+                              onTap: () async{
                                 LoggerService.d("message", selectedProductIds);
                                 if (selectedProductIds.isEmpty) {
                                   SnackbarService.showErrorSnackbar(context,
@@ -155,11 +167,15 @@ class _WishListScreenState extends State<WishListScreen> {
                                   final requestBody = {
                                     'ids': selectedProductIds,
                                   };
-                                  viewModel.removeWishItemMultiple(requestBody);
+                                  await viewModel.removeWishItemMultiple(requestBody);
                                   if (viewModel
                                           .removeItemModelMultiple?.success ==
                                       true) {
-                                    _fetchWishlist();
+                                    Future.delayed(const Duration(seconds: 2), ()
+                                    {
+                                      _fetchWishlist();
+                                    });
+
                                   }
                                 }
                               },
@@ -182,16 +198,19 @@ class _WishListScreenState extends State<WishListScreen> {
                     final item = items[index];
                     //viewModel.addToCart(item.productId, item.product.productName);
                   },
-                  onDelete: (int index) {
+                  onDelete: (int index) async{
                     // Handle delete action here
                     LoggerService.d('Delete clicked at index: $index');
                     final item = items[index];
                     final requestBody = {
                       'ids': item.id,
                     };
-                    viewModel.removeWishItem(requestBody);
+                    await viewModel.removeWishItem(requestBody);
                     if (viewModel.removeItemModel?.success == true) {
-                      _fetchWishlist();
+                      Future.delayed(const Duration(seconds: 2), ()
+                      {
+                        _fetchWishlist();
+                      });
                     }
                   },
                   onTick: (int index) {
@@ -203,7 +222,11 @@ class _WishListScreenState extends State<WishListScreen> {
                   },
                   areAllItemsSelected:
                       areAllItemsSelected, // Pass this to the list
-                )
+                ),
+                SvgImage.asset(
+                    'assets/ic_no_data.svg',
+                    width: double.infinity,
+                    height: 250.0),
               ],
             );
           },
