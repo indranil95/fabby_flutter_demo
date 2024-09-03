@@ -237,6 +237,7 @@ class _ResetPasswordOtpScreenState extends State<ResetPasswordOtpScreen> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return CustomDialog(
+            maxLines: 1,
             message: s,
             onButtonPressed: () {
               Future.delayed(const Duration(seconds: 1), ()

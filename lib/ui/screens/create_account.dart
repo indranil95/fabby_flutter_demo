@@ -481,6 +481,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return CustomDialog(
+          maxLines: 1,
           message: s,
           onButtonPressed: () {
             LoggerService.d("hi","press");

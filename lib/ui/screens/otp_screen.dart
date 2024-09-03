@@ -232,6 +232,7 @@ class _OtpScreenState extends State<OtpScreen> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return CustomDialog(
+          maxLines: 1,
           message: s,
           onButtonPressed: () {
             NavigationService.goBack();

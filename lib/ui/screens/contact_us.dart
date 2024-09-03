@@ -191,6 +191,7 @@ class _MyFormState extends State<ContactUs> {
       context: context,
       builder: (BuildContext context) {
         return CustomDialog(
+          maxLines: 1,
           message: 'Form Submitted',
           onButtonPressed: () {
             NavigationService.goBack();

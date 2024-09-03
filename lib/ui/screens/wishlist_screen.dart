@@ -1,8 +1,10 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_fabby_demo/AppConstant/app_constant.dart';
 import 'package:flutter_fabby_demo/colors/colors.dart';
 import 'package:flutter_fabby_demo/models/wishlist_model.dart';
+import 'package:flutter_fabby_demo/ui/dialog/custom_add_to_cart_dialog.dart';
 import 'package:flutter_fabby_demo/ui/lists/wishlist_list.dart';
 import 'package:flutter_fabby_demo/ui/screens/top_bar_detail.dart';
 import 'package:flutter_fabby_demo/utils/image_utils.dart';
@@ -14,6 +16,7 @@ import 'package:provider/provider.dart';
 
 import '../../strings/strings.dart';
 import '../../utils/snackbar_utils.dart';
+import '../dialog/custom_dialog.dart';
 
 class WishListScreen extends StatefulWidget {
   const WishListScreen({super.key});
@@ -48,6 +51,71 @@ class _WishListScreenState extends State<WishListScreen> {
     };
 
     viewModel.wishlist(requestBody);
+  }
+
+  void removeItemDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomDialog(
+          maxLines: 2,
+          message: 'Item removed from wishlist successfully.',
+          onButtonPressed: () {
+            _fetchWishlist();
+          },
+          buttonText: 'ok', // Customize button text if needed
+        );
+      },
+    );
+  }
+
+  void addToCartDialog(BuildContext context, String title, String productName) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomAddToCartDialog(
+          maxLines: 2,
+          title: title,
+          message: productName,
+          onButtonPressed: () {
+            _fetchWishlist();
+          },
+          buttonText: 'ok', // Customize button text if needed
+        );
+      },
+    );
+  }
+
+  void removeMultipleItemDialog(BuildContext context, int count) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomDialog(
+          maxLines: 2,
+          message: '$count Items removed from wishlist successfully.',
+          onButtonPressed: () {
+            _fetchWishlist();
+          },
+          buttonText: 'ok', // Customize button text if needed
+        );
+      },
+    );
+  }
+
+  void moveToCartDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomDialog(
+          maxLines: 2,
+          message: 'Items moved to cart successfully',
+          onButtonPressed: () {
+            _fetchWishlist();
+          },
+          buttonText: 'ok', // Customize button text if needed
+        );
+      },
+    );
   }
 
   void _onItemTick(int itemId, int productId) {
@@ -103,8 +171,9 @@ class _WishListScreenState extends State<WishListScreen> {
         child: Consumer<WishlistViewModel>(
           builder: (context, viewModel, child) {
             if (viewModel.loading) {
-              return  Center(
-                child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.fabbyBondiBlue, size: 50.0),
+              return Center(
+                child: LoadingAnimationWidget.staggeredDotsWave(
+                    color: AppColors.fabbyBondiBlue, size: 50.0),
               );
             }
             /*if (viewModel.error.isNotEmpty) {
@@ -152,30 +221,46 @@ class _WishListScreenState extends State<WishListScreen> {
                         alignment: Alignment.centerRight,
                         child: Row(
                           children: [
-                            SvgImage.asset(
-                                'assets/wishlist_add_to_cart_icon.svg',
-                                width: 35.0,
-                                height: 35.0),
+                            GestureDetector(
+                              onTap: () async {
+                                if (selectedProductIds.isEmpty) {
+                                  SnackbarService.showErrorSnackbar(context,
+                                      'Please select a product to move to cart');
+                                } else {
+                                  String mainId = await viewModel.getMainId();
+                                  String? guestId =
+                                      await viewModel.getGuestId();
+                                  await viewModel.moveToCart(selectedProductIds,
+                                      int.parse(mainId), guestId.toString());
+                                  if (viewModel.moveToCartModel?.statusCode ==
+                                      "Success") {
+                                    moveToCartDialog(context);
+                                  }
+                                }
+                              },
+                              child: SvgImage.asset(
+                                  'assets/wishlist_add_to_cart_icon.svg',
+                                  width: 35.0,
+                                  height: 35.0),
+                            ),
                             const SizedBox(width: 10.0),
                             GestureDetector(
-                              onTap: () async{
-                                LoggerService.d("message", selectedProductIds);
-                                if (selectedProductIds.isEmpty) {
+                              onTap: () async {
+                                LoggerService.d("message", selectedIds);
+                                if (selectedIds.isEmpty) {
                                   SnackbarService.showErrorSnackbar(context,
                                       'Please select a product to remove');
                                 } else {
                                   final requestBody = {
-                                    'ids': selectedProductIds,
+                                    'ids': selectedIds,
                                   };
-                                  await viewModel.removeWishItemMultiple(requestBody);
+                                  await viewModel
+                                      .removeWishItemMultiple(requestBody);
                                   if (viewModel
                                           .removeItemModelMultiple?.success ==
                                       true) {
-                                    Future.delayed(const Duration(seconds: 2), ()
-                                    {
-                                      _fetchWishlist();
-                                    });
-
+                                    removeMultipleItemDialog(
+                                        context, selectedIds.length);
                                   }
                                 }
                               },
@@ -190,43 +275,64 @@ class _WishListScreenState extends State<WishListScreen> {
                     ],
                   ),
                 ),
-                WishListList(
-                  items: items as List<Data>,
-                  onMoveToCart: (int index) {
-                    // Handle move to cart action here
-                    LoggerService.d('Move to Cart clicked at index: $index');
-                    final item = items[index];
-                    //viewModel.addToCart(item.productId, item.product.productName);
-                  },
-                  onDelete: (int index) async{
-                    // Handle delete action here
-                    LoggerService.d('Delete clicked at index: $index');
-                    final item = items[index];
-                    final requestBody = {
-                      'ids': item.id,
-                    };
-                    await viewModel.removeWishItem(requestBody);
-                    if (viewModel.removeItemModel?.success == true) {
-                      Future.delayed(const Duration(seconds: 2), ()
-                      {
-                        _fetchWishlist();
-                      });
-                    }
-                  },
-                  onTick: (int index) {
-                    // Handle tick action here
-                    LoggerService.d('Tick clicked at index: $index');
-                    final item = items[index];
-                    _onItemTick(item.id, item.productId);
-                    _updateItemCountDisplay(itemCount);
-                  },
-                  areAllItemsSelected:
-                      areAllItemsSelected, // Pass this to the list
-                ),
-                SvgImage.asset(
-                    'assets/ic_no_data.svg',
-                    width: double.infinity,
-                    height: 250.0),
+                itemCount > 0
+                    ? WishListList(
+                        items: items as List<Data>,
+                        onMoveToCart: (int index) async {
+                          // Handle move to cart action here
+                          LoggerService.d(
+                              'Move to Cart clicked at index: $index');
+                          final item = items[index];
+                          String mainId = await viewModel.getMainId();
+                          String? guestId = await viewModel.getGuestId();
+                          final requestBody = {
+                            'cart_count': AppConstants.wishListCartCount,
+                            'guestid': guestId,
+                            'product_id': item.productId,
+                            'product_name': item.product.productName,
+                            'store_id': AppConstants.storeId,
+                            'user_id': mainId,
+                          };
+                          await viewModel.addToCart(requestBody);
+                          if (viewModel.addToCartModel?.statusCode ==
+                              "Success") {
+                            addToCartDialog(context, AppStrings.addedToCart,
+                                item.product.productName);
+                          } else {
+                            addToCartDialog(
+                                context,
+                                AppStrings.productAlreadyInCart,
+                                item.product.productName);
+                          }
+                        },
+                        onDelete: (int index) async {
+                          // Handle delete action here
+                          LoggerService.d('Delete clicked at index: $index');
+                          final item = items[index];
+                          final requestBody = {
+                            'ids': item.id,
+                          };
+                          await viewModel.removeWishItem(requestBody);
+                          if (viewModel.removeItemModel?.success == true) {
+                            removeItemDialog(context);
+                          }
+                        },
+                        onTick: (int index) {
+                          // Handle tick action here
+                          LoggerService.d('Tick clicked at index: $index');
+                          final item = items[index];
+                          _onItemTick(item.id, item.productId);
+                          _updateItemCountDisplay(itemCount);
+                        },
+                        areAllItemsSelected:
+                            areAllItemsSelected, // Pass this to the list
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.only(
+                            left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
+                        child: SvgImage.asset('assets/ic_no_data.svg',
+                            width: double.infinity, height: 250.0),
+                      ),
               ],
             );
           },

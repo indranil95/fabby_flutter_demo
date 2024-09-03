@@ -218,6 +218,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return CustomDialog(
+          maxLines: 1,
           message: s,
           onButtonPressed: () {
             LoggerService.d("hi","press");

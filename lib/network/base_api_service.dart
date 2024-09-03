@@ -51,10 +51,12 @@ abstract class BaseApiService {
   Future<BaseResponse<T>> addToCart<T>(
       Map<String, dynamic> requestBody,
       T Function(Map<String, dynamic>) fromJson);
-
-  // Future<BaseResponse<T>> getBlogDetail<T>(
-  //     String url, T Function(Map<String, dynamic>) fromJson);
-
   Future<BaseResponse<T>> getBlogDetail<T>(
       String slug, T Function(Map<String, dynamic>) fromJson);
+  Future<BaseResponse<T>> moveToCart<T>(
+      List<int> productIds,
+      int userId,
+      String guestId,
+      T Function(Map<String, dynamic>) fromJson,
+      );
 }

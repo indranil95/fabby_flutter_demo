@@ -7,12 +7,14 @@ class CustomDialog extends StatelessWidget {
   final String message;
   final VoidCallback onButtonPressed;
   final String buttonText;
+  final int maxLines; // Optional maxLines field
 
   const CustomDialog({
     super.key,
     required this.message,
     required this.onButtonPressed,
     this.buttonText = 'OK', // Default button text
+    required this.maxLines,
   });
 
   @override
@@ -25,6 +27,7 @@ class CustomDialog extends StatelessWidget {
         fontFamily: 'DmSerifDisplay',
         fontWeight: FontWeight.w300,
         textAlign: TextAlign.center,
+        maxLines: maxLines,
       ),
       actions: <Widget>[
         Container(

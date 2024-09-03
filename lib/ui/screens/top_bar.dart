@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fabby_demo/ui/screens/side_menu.dart';
+import 'package:flutter_fabby_demo/ui/screens/wishlist_screen.dart';
 import 'package:flutter_fabby_demo/utils/logger_service.dart';
+
 import '../../utils/image_utils.dart';
 import '../../utils/navigation_service.dart'; // Import your image_utils.dart
 
@@ -10,8 +12,10 @@ class TopBarIcons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(bottom: 5.0), // Equivalent to marginBottom in XML
-      height: 70.0, // Equivalent to @dimen/_50sdp
+      padding: const EdgeInsets.only(bottom: 5.0),
+      // Equivalent to marginBottom in XML
+      height: 70.0,
+      // Equivalent to @dimen/_50sdp
       decoration: BoxDecoration(
         color: Colors.white, // Background color
         boxShadow: [
@@ -40,7 +44,6 @@ class TopBarIcons extends StatelessWidget {
               onTap: () {
                 // Handle the click event here
                 goToSideMenu(context);
-
               },
               child: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.0),
@@ -74,7 +77,12 @@ class TopBarIcons extends StatelessWidget {
                   const SizedBox(width: 10.0),
 
                   // Wishlist icon
-                  SvgImage.asset('assets/wishlist_icon_fabby.svg'),
+                  GestureDetector(
+                    onTap: () {
+                      NavigationService.navigateTo(const WishListScreen());
+                    },
+                    child: SvgImage.asset('assets/wishlist_icon_fabby.svg'),
+                  ),
 
                   const SizedBox(width: 10.0),
 
@@ -94,7 +102,8 @@ class TopBarIcons extends StatelessWidget {
                     child: const Center(
                       child: CircleAvatar(
                         radius: 13.0,
-                        backgroundImage: AssetImage('assets/profile_img_login.png'), // Profile image
+                        backgroundImage: AssetImage(
+                            'assets/profile_img_login.png'), // Profile image
                       ),
                     ),
                   ),
@@ -104,15 +113,12 @@ class TopBarIcons extends StatelessWidget {
               ),
             ),
           ],
-
         ),
       ),
     );
   }
 
   void goToSideMenu(BuildContext context) {
-
     NavigationService.navigateTo(const SideMenuScreen());
   }
-
 }
