@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fabby_demo/ui/screens/cart_screen.dart';
 import 'package:flutter_fabby_demo/ui/screens/side_menu.dart';
 import 'package:flutter_fabby_demo/ui/screens/wishlist_screen.dart';
-import 'package:flutter_fabby_demo/utils/logger_service.dart';
 
 import '../../utils/image_utils.dart';
 import '../../utils/navigation_service.dart'; // Import your image_utils.dart
@@ -87,7 +87,12 @@ class TopBarIcons extends StatelessWidget {
                   const SizedBox(width: 10.0),
 
                   // Cart icon
-                  SvgImage.asset('assets/bag_fabby.svg'),
+                  GestureDetector(
+                    onTap: () {
+                      NavigationService.navigateTo(const CartScreen());
+                    },
+                    child: SvgImage.asset('assets/bag_fabby.svg'),
+                  ),
 
                   const SizedBox(width: 10.0),
 

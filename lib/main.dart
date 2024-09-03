@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_fabby_demo/models/blogs_detail_model.dart';
+import 'package:flutter_fabby_demo/repository/cart_repository.dart';
 import 'package:flutter_fabby_demo/repository/contact_us_repository.dart';
 import 'package:flutter_fabby_demo/repository/forgotpassword_repository.dart';
 import 'package:flutter_fabby_demo/repository/login_repository.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_fabby_demo/repository/signup_repository.dart';
 import 'package:flutter_fabby_demo/repository/start_repository.dart';
 import 'package:flutter_fabby_demo/repository/wishlist_repository.dart';
 import 'package:flutter_fabby_demo/utils/navigation_service.dart';
+import 'package:flutter_fabby_demo/viewModels/cart_viewModel.dart';
 import 'package:flutter_fabby_demo/viewModels/contactus_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/dashboard_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/blogdetail_viewmodel.dart';
@@ -95,6 +97,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => WishlistViewModel(
             WishlistRepository(ApiService()),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CartViewModel(
+            CartRepository(ApiService()),
           ),
         ),
         ChangeNotifierProvider(
