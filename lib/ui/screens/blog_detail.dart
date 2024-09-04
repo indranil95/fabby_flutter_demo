@@ -13,6 +13,9 @@ import '../../network/api_service.dart';
 
 import '../../strings/strings.dart';
 import '../../utils/html_renderer.dart';
+import '../../utils/navigation_service.dart';
+import '../../viewModels/dashboard_viewmodel.dart';
+import '../lists/blogs_list_vertical.dart';
 
 class BlogScreen extends StatefulWidget {
   BlogScreen({super.key});
@@ -22,14 +25,17 @@ class BlogScreen extends StatefulWidget {
 
 class _BlogScreenState extends State<BlogScreen> {
   late BlogDetailViewModel viewModel;
+  late DashboardViewModel dashboardViewModel;
   String slug = AppConstants.noData;
   @override
   void initState() {
     super.initState();
     viewModel = Provider.of<BlogDetailViewModel>(context, listen: false);
+    // dashboardViewModel = Provider.of<DashboardViewModel>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (slug.isNotEmpty && slug != AppConstants.noData) {
         viewModel.getBlogDetailRequest(slug);
+        // dashboardViewModel.blogsList("10");
       }
     });
   }
@@ -76,7 +82,21 @@ class _BlogScreenState extends State<BlogScreen> {
                   const SizedBox(height: 24.0),
                   TextUtils.display(AppStrings.recentBlogs,fontSize: 20, fontWeight: FontWeight.bold),
                   const SizedBox(height: 16.0),
-
+                  // Expanded(
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(16.0),
+                  //     // Wrap the list with Expanded to allow it to grow and fill the available space
+                  //     child: BlogsListVertical(
+                  //       items: dashboardViewModel.blogsModelData?.data.articles ?? [],
+                  //       onMoveToBlogDetail: (int index) {
+                  //         LoggerService.d('Blog Detail clicked at index: $index');
+                  //         final items = dashboardViewModel.blogsModelData?.data.articles ?? [];
+                  //         final item = items[index];
+                  //         NavigationService.navigateToWithData(BlogScreen(), data: {"slug": item.slug});
+                  //       },
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
