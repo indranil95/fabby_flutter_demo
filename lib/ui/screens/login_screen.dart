@@ -14,6 +14,7 @@ import '../../utils/editable_toggle.dart';
 import '../../utils/image_utils.dart';
 import '../../utils/logger_service.dart';
 import '../../utils/navigation_service.dart';
+import '../../utils/snackbar_utils.dart';
 import '../../utils/text_utils.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -244,8 +245,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     .sendLoginRequest(
                     requestBody);
                 if (viewModel.loginData
-                    ?.data != null) {
+                    ?.success == true) {
                   NavigationService.replaceWith(const HomeScreen());
+                }else{
+                  SnackbarService.showErrorSnackbar(context, viewModel.loginData
+                      !.error.toString());
                 }
               } else {
                 if (_emailController.text.isEmpty) {
