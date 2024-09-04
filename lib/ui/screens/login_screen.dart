@@ -77,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.fabbyBack,
-      body: Column(
+      body: SingleChildScrollView(child: Column(
         children: [
           SafeArea(
             child: Container(
@@ -157,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
               fontFamily: 'Poppins',
               hintText: AppStrings.yourNameMobileNumber,
               contentPadding:
-                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+              const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
             ),
           ),
           if (_showEmailError)
@@ -183,7 +183,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 controller: _passwordController,
                 fontSize: 16.0,
                 fontWeight: FontWeight.normal,
-                color: AppColors.recentStroke,
+                borderColor: AppColors.recentStroke, // Border color for the outer border
+                textColor: AppColors.black, // Text color for typing
                 hintColor: AppColors.lightGray,
                 textAlign: TextAlign.start,
                 maxLines: 1,
@@ -376,7 +377,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           )
         ],
-      ),
+      ),),
     );
   }
 }
