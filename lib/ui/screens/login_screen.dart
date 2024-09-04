@@ -6,6 +6,7 @@ import 'package:flutter_fabby_demo/ui/screens/create_account.dart';
 import 'package:flutter_fabby_demo/ui/screens/forgot_password.dart';
 import 'package:flutter_fabby_demo/ui/screens/home_screen.dart';
 import 'package:flutter_fabby_demo/ui/screens/otp_screen.dart';
+import 'package:flutter_fabby_demo/utils/snackbar_utils.dart';
 import 'package:flutter_fabby_demo/viewModels/login_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -243,8 +244,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     .sendLoginRequest(
                     requestBody);
                 if (viewModel.loginData
-                    ?.data != null) {
+                    ?.success == true) {
                   NavigationService.replaceWith(const HomeScreen());
+                }else{
+                  SnackbarService.showErrorSnackbar(context, viewModel.loginData
+                      !.error.toString());
                 }
               } else {
                 if (_emailController.text.isEmpty) {
