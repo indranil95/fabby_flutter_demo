@@ -73,7 +73,7 @@ class TextUtils {
       style: TextStyle(
         fontSize: fontSize,
         fontWeight: fontWeight,
-        color: color, // Apply the custom text color here
+        color: Colors.black, // Apply the custom text color here
         fontFamily: fontFamily, // Apply the custom font here
       ),
       textAlign: textAlign,
