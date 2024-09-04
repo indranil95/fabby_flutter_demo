@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String _emailError = "";
   String _passwordError = "";
   bool _showEmailError = false;
-  bool _showPasswordError = false;
+  bool _showPasswordError = false; // check
 
   @override
   void initState() {
