@@ -89,10 +89,10 @@ class TextUtils {
         contentPadding: contentPadding, // Apply padding for the text field
         border: const OutlineInputBorder(), // Default border
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: color),
+          borderSide: BorderSide(color: color.withOpacity(0.8)),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: color),
+          borderSide: BorderSide(color: color.withOpacity(0.8)),
         ),
       ),
     );
