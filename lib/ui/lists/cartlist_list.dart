@@ -11,6 +11,8 @@ class CartListList extends StatelessWidget {
   final List<Carts> items; // Ensure this matches your data type
   final Function(int) onDelete;
   final Function(int) onTick;
+  final Function(int) onPlus;
+  final Function(int) onMinus;
   final bool areAllItemsSelected;
 
 
@@ -19,6 +21,8 @@ class CartListList extends StatelessWidget {
     required this.items,
     required this.onDelete,
     required this.onTick,
+    required this.onPlus,
+    required this.onMinus,
     required this.areAllItemsSelected,
   });
 
@@ -45,6 +49,12 @@ class CartListList extends StatelessWidget {
               },
               onTick: () {
                 onTick(index);// Pass the state here// Access product description
+              },
+              onPlus: () {
+                onPlus(index);// Pass the state here// Access product description
+              },
+              onMinus: () {
+                onMinus(index);// Pass the state here// Access product description
               },
               isInitiallyTicked: areAllItemsSelected,
             );

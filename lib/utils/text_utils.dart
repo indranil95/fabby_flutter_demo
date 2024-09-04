@@ -11,6 +11,7 @@ class TextUtils {
     int maxLines = 1,
     TextOverflow overflow = TextOverflow.ellipsis,
     String? fontFamily, // Added parameter for custom font
+    TextDecoration decoration = TextDecoration.none, // Added parameter
   }) {
     return Text(
       text,
@@ -19,6 +20,7 @@ class TextUtils {
         fontWeight: fontWeight,
         color: color,
         fontFamily: fontFamily, // Apply the custom font here
+        decoration: decoration,
       ),
       textAlign: textAlign,
       maxLines: maxLines,
@@ -86,8 +88,10 @@ class TextUtils {
           color: hintColor, // Apply the custom hint color here
           fontFamily: fontFamily, // Apply the custom font for hint text
         ),
-        contentPadding: contentPadding, // Apply padding for the text field
-        border: const OutlineInputBorder(), // Default border
+        contentPadding: contentPadding,
+        // Apply padding for the text field
+        border: const OutlineInputBorder(),
+        // Default border
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: color),
         ),
@@ -97,16 +101,17 @@ class TextUtils {
       ),
     );
   }
+
   static Widget errorText(
-      String text, {
-        double fontSize = 12.0,
-        FontWeight fontWeight = FontWeight.normal,
-        Color color = Colors.red, // Color for error text
-        TextAlign textAlign = TextAlign.start,
-        int maxLines = 1,
-        TextOverflow overflow = TextOverflow.ellipsis,
-        String? fontFamily, // Added parameter for custom font
-      }) {
+    String text, {
+    double fontSize = 12.0,
+    FontWeight fontWeight = FontWeight.normal,
+    Color color = Colors.red, // Color for error text
+    TextAlign textAlign = TextAlign.start,
+    int maxLines = 1,
+    TextOverflow overflow = TextOverflow.ellipsis,
+    String? fontFamily, // Added parameter for custom font
+  }) {
     return Text(
       text,
       style: TextStyle(
@@ -120,5 +125,4 @@ class TextUtils {
       overflow: overflow,
     );
   }
-
 }

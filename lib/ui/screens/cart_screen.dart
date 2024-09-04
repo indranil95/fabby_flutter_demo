@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_fabby_demo/AppConstant/app_constant.dart';
+import 'package:flutter_fabby_demo/models/cart_data_model.dart';
 import 'package:flutter_fabby_demo/ui/lists/cartlist_list.dart';
 import 'package:flutter_fabby_demo/ui/screens/top_bar_detail.dart';
-import 'package:flutter_fabby_demo/viewModels/cart_viewmodel.dart';
+import 'package:flutter_fabby_demo/viewModels/cart_viewModel.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../AppConstant/app_constant.dart';
 import '../../colors/colors.dart';
-import '../../models/cart_data_model.dart';
 import '../../strings/strings.dart';
 import '../../utils/image_utils.dart';
 import '../../utils/logger_service.dart';
@@ -25,13 +25,28 @@ class _CartScreenState extends State<CartScreen> {
   List<int> selectedProductIds = [];
   String itemCountDisplayText = "0/0 items Selected";
   bool areAllItemsSelected = false; // New variable to track all selection
-
   late CartViewModel viewModel;
 
   @override
   void initState() {
-
+    viewModel = Provider.of<CartViewModel>(context, listen: false);
+    _fetchCartList();
     super.initState();
+  }
+
+  Future<void> _fetchCartList() async {
+    // Fetch mainId and guestId asynchronously
+    String mainId = await viewModel.getMainId();
+    String? guestId = await viewModel.getGuestId();
+
+    final requestBody = {
+      'buy_now': AppConstants.blankLimit,
+      'store_id': AppConstants.storeId,
+      'user_id': int.parse(mainId),
+      'guestid': guestId ?? null, // Handle the case where guestId is null
+    };
+
+    viewModel.cartDataList(requestBody);
   }
 
   void _onItemTick(int itemId, int productId) {
@@ -68,7 +83,7 @@ class _CartScreenState extends State<CartScreen> {
       if (selectedIds.length <= totalItems) {
         // Update the text with selected and total items
         itemCountDisplayText =
-            "${selectedIds.length}/$totalItems items Selected";
+        "${selectedIds.length}/$totalItems items Selected";
         areAllItemsSelected = selectedIds.length == totalItems;
       } else {
         // Reset to 0/0 if count exceeds total items
@@ -79,8 +94,6 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    viewModel = Provider.of<CartViewModel>(context, listen: false);
-    _fetchCartList();
     return Scaffold(
       appBar: const TopBarDetail(title: AppStrings.cart),
       backgroundColor: AppColors.fabbyBack,
@@ -102,6 +115,7 @@ class _CartScreenState extends State<CartScreen> {
             }*/
             final items = viewModel.cartData?.data?.carts;
             final itemCount = items?.length ?? 0;
+            LoggerService.d("itemCount: ", itemCount);
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -165,17 +179,15 @@ class _CartScreenState extends State<CartScreen> {
                 itemCount > 0
                     ? CartListList(
                         items: items as List<Carts>,
-                        onDelete: (int index) async {
-                          // Handle delete action here
-                          LoggerService.d('Delete clicked at index: $index');
-                        },
+                        onDelete: (int index) async {},
                         onTick: (int index) {
-                          // Handle tick action here
                           LoggerService.d('Tick clicked at index: $index');
-                          //final item = items[index];
-                          //_onItemTick(item.id, item.productId);
+                          final item = items[index];
+                          //_onItemTick(item.id as int, int.parse(item.product!.productId) );
                           _updateItemCountDisplay(itemCount);
                         },
+                        onPlus: (int index) {},
+                        onMinus: (int index) {},
                         areAllItemsSelected:
                             areAllItemsSelected, // Pass this to the list
                       )
@@ -191,20 +203,5 @@ class _CartScreenState extends State<CartScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> _fetchCartList() async {
-    // Fetch mainId and guestId asynchronously
-    String mainId = await viewModel.getMainId();
-    String? guestId = await viewModel.getGuestId();
-
-    final requestBody = {
-      'buy_now': AppConstants.blankLimit,
-      'store_id': AppConstants.storeId,
-      'userid': mainId,
-      'guestid': guestId ?? "", // Handle the case where guestId is null
-    };
-
-    viewModel.cartDataList(requestBody);
   }
 }

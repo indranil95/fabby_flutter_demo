@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fabby_demo/utils/logger_service.dart';
 
 import '../../colors/colors.dart';
+import '../../strings/strings.dart';
+import '../../utils/custom_network_image.dart';
 import '../../utils/image_utils.dart';
 import '../../utils/text_utils.dart';
 
@@ -11,6 +13,8 @@ class CartListItem extends StatefulWidget {
   final String? price;
   final VoidCallback onDelete;
   final VoidCallback onTick;
+  final VoidCallback onPlus;
+  final VoidCallback onMinus;
   final bool isInitiallyTicked; // New parameter for initial ticked state
 
   const CartListItem({
@@ -20,6 +24,8 @@ class CartListItem extends StatefulWidget {
     required this.price,
     required this.onDelete,
     required this.onTick,
+    required this.onPlus,
+    required this.onMinus,
     required this.isInitiallyTicked, // Default to false
   });
 
@@ -57,25 +63,41 @@ class _WishlistItemState extends State<CartListItem> {
             children: [
               Card(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(20),
                 ),
                 child: Container(
-                  width: 100,
-                  height: 100,
+                  width: 115,
+                  height: 115,
                   child: Stack(
                     children: [
+                      // Center the network image
+                      Center(
+                        child: CustomNetworkImage(
+                          imageUrl: widget.imageSrc.toString(),
+                          height: double.infinity,
+                          width: double.infinity,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                      // Position the light pink border image in the top left corner
                       Positioned(
                         top: 10,
                         left: 10,
-                        child: Image.asset(
-                          'assets/light_pink_border.png', // Replace with actual image path
-                          width: 16,
-                          height: 16,
-                        ),
-                      ),
-                      Center(
-                        child: Image.asset(
-                          'assets/fabby_icon.png', // Replace with actual image path
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              isTicked = !isTicked;
+                            });
+                            widget.onTick(); // Correctly invoke onTick
+                          },
+                          child: SvgImage.asset(
+                            isTicked
+                                ? 'assets/tick.svg' // Replace with the ticked image asset
+                                : 'assets/light_pink_border.svg',
+                            // Replace with the unticked image asset
+                            width: 16.0,
+                            height: 16.0,
+                          ),
                         ),
                       ),
                     ],
@@ -91,56 +113,67 @@ class _WishlistItemState extends State<CartListItem> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          const SizedBox(
+                            width: 10.0,
+                          ),
                           Expanded(
-                            child: Text(
-                              'Title Here', // Replace with actual title
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontWeight: FontWeight.normal,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                            child: TextUtils.display(
+                              widget.title.toString(),
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.normal,
                               maxLines: 2,
                             ),
+                          ),
+                          const SizedBox(
+                            width: 10.0,
                           ),
                           GestureDetector(
                             onTap: () {
                               // Handle remove action
                             },
-                            child: Text(
-                              'Remove',
-                              style: TextStyle(
-                                color: Colors.red, // Replace with your color
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                              ),
-                            ),
+                            child: TextUtils.display(AppStrings.remove,
+                                fontSize: 13,
+                                color: Colors.black,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.normal,
+                                maxLines: 2,
+                                decoration: TextDecoration.underline),
                           ),
+                          const SizedBox(
+                            width: 10.0,
+                          )
                         ],
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Text(
-                        'Quantity',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey, // Replace with your color
-                        ),
+                      padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                      child: TextUtils.display(
+                        AppStrings.quantity,
+                        fontSize: 12,
+                        color: AppColors.sortTextColor,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.normal,
+                        maxLines: 2,
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
+                      padding: const EdgeInsets.only(top: 10.0, left: 10.0),
                       child: Container(
                         width: 100,
                         height: 35,
                         decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                              'assets/quantity_back.png', // Replace with actual background
-                            ),
-                            fit: BoxFit.cover,
+                          color: Colors.white,
+                          // Equivalent to `solid android:color="@color/white"`
+                          border: Border.all(
+                            color: AppColors.fabbyBondiBlue,
+                            // Equivalent to `stroke android:color="@color/light_blue_fabby"`
+                            width:
+                                1.0, // Equivalent to `stroke android:width="@dimen/_1sdp"`
                           ),
+                          borderRadius: BorderRadius.circular(
+                              5.0), // Equivalent to `corners android:radius="5dp"`
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -149,37 +182,36 @@ class _WishlistItemState extends State<CartListItem> {
                               onTap: () {
                                 // Handle decrement
                               },
-                              child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Text(
+                              child: Container(
+                                width: 40.0,
+                                // Set the desired width for the button
+                                alignment: Alignment.center,
+                                child: TextUtils.display(
                                   '-',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-                            Text(
-                              '0', // Replace with actual count
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.blue, // Replace with your color
-                                fontWeight: FontWeight.bold,
-                              ),
+                            TextUtils.display(
+                              '1', // Replace with actual count
+                              fontSize: 18,
+                              color: AppColors.sortTextColor,
+                              // Replace with your color
+                              fontWeight: FontWeight.bold,
                             ),
                             GestureDetector(
                               onTap: () {
                                 // Handle increment
                               },
-                              child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Text(
+                              child: Container(
+                                width: 40.0,
+                                // Set the desired width for the button
+                                alignment: Alignment.center,
+                                child: TextUtils.display(
                                   '+',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
@@ -191,26 +223,23 @@ class _WishlistItemState extends State<CartListItem> {
                       visible: false, // Set to true if out of stock
                       child: Padding(
                         padding: const EdgeInsets.only(top: 10.0),
-                        child: Text(
+                        child: TextUtils.display(
                           'Out of stock',
-                          style: TextStyle(
-                            color: Colors.red, // Replace with your color
-                            fontSize: 14,
-                          ),
+                          color: AppColors.errorTextColor,
+                          // Replace with your color
+                          fontSize: 14,
                         ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
+                      padding: const EdgeInsets.only(top: 10.0, right: 10.0),
                       child: Align(
                         alignment: Alignment.centerRight,
-                        child: Text(
-                          '\$Price', // Replace with actual price
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        child: TextUtils.display(
+                          "${widget.price} ",
+                          fontSize: 18,
+                          color: AppColors.black,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
@@ -219,9 +248,10 @@ class _WishlistItemState extends State<CartListItem> {
               ),
             ],
           ),
-          Divider(
+          const Divider(
             thickness: 1,
-            color: Colors.blue.withOpacity(0.5), // Replace with your color
+            color: AppColors.fabbyBondiBlueOpa,
+            // Replace with your color
             indent: 10,
             endIndent: 10,
             height: 20,

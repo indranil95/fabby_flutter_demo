@@ -4,10 +4,24 @@ import 'package:flutter_fabby_demo/models/blogs_model.dart';
 import 'package:http/http.dart' as http;
 
 import '../utils/logger_service.dart';
+import '../utils/shared_prefs.dart';
 import 'base_api_service.dart';
 import 'base_response.dart';
 
 class ApiService extends BaseApiService {
+  late final String token ;
+
+  ApiService() {
+    _initToken();
+  }
+  Future<void> _initToken() async {
+    token = await getAccessToken() ?? ''; // Provide a default value if null
+  }
+  Future<String?> getAccessToken() async {
+    final prefs = await SharedPrefsHelper.getInstance();
+    return prefs.getString('accessToken');
+  }
+
   @override
   Future<BaseResponse<T>> getBanner<T>(
       String url, T Function(Map<String, dynamic>) fromJson) async {
@@ -682,10 +696,11 @@ class ApiService extends BaseApiService {
       // Log the request URL and method
       LoggerService.i('Request URL: $fullUrl');
       LoggerService.i('Request Body: ${json.encode(requestBody)}');
+      LoggerService.i('Request header: token: $token');
 
       final response = await http.post(
         fullUrl,
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json','Authorization': 'Bearer $token',},
         body: json.encode(requestBody),
       );
 
@@ -767,6 +782,5 @@ class ApiService extends BaseApiService {
       );
     }
   }
-
 
 }
