@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fabby_demo/models/cart_data_model.dart';
 import 'package:flutter_fabby_demo/ui/lists/cartlist_list.dart';
 import 'package:flutter_fabby_demo/ui/screens/top_bar_detail.dart';
+import 'package:flutter_fabby_demo/utils/snackbar_utils.dart';
 import 'package:flutter_fabby_demo/viewModels/cart_viewModel.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,7 @@ import '../../strings/strings.dart';
 import '../../utils/image_utils.dart';
 import '../../utils/logger_service.dart';
 import '../../utils/text_utils.dart';
+import '../dialog/custom_dialog.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -49,14 +51,21 @@ class _CartScreenState extends State<CartScreen> {
     viewModel.cartDataList(requestBody);
   }
 
-  void _onItemTick(int itemId, int productId) {
+  void _onItemTick(dynamic itemId, String? productId) {
     setState(() {
-      if (!selectedIds.contains(itemId)) {
-        selectedIds.add(itemId);
-        selectedProductIds.add(productId);
+      int parsedItemId =
+          itemId is int ? itemId : int.tryParse(itemId.toString()) ?? 0;
+
+      // Handle null productId
+      int parsedProductId =
+          productId != null ? int.tryParse(productId) ?? 0 : 0;
+
+      if (!selectedIds.contains(parsedItemId)) {
+        selectedIds.add(parsedItemId);
+        selectedProductIds.add(parsedProductId);
       } else {
-        selectedIds.remove(itemId);
-        selectedProductIds.remove(productId);
+        selectedIds.remove(parsedItemId);
+        selectedProductIds.remove(parsedProductId);
       }
     });
   }
@@ -83,13 +92,29 @@ class _CartScreenState extends State<CartScreen> {
       if (selectedIds.length <= totalItems) {
         // Update the text with selected and total items
         itemCountDisplayText =
-        "${selectedIds.length}/$totalItems items Selected";
+            "${selectedIds.length}/$totalItems items Selected";
         areAllItemsSelected = selectedIds.length == totalItems;
       } else {
         // Reset to 0/0 if count exceeds total items
         itemCountDisplayText = "0/0 items Selected";
       }
     });
+  }
+
+  void removeItemDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomDialog(
+          maxLines: 2,
+          message: 'Item removed from wishlist successfully.',
+          onButtonPressed: () {
+            _fetchCartList();
+          },
+          buttonText: 'ok', // Customize button text if needed
+        );
+      },
+    );
   }
 
   @override
@@ -164,6 +189,36 @@ class _CartScreenState extends State<CartScreen> {
                             GestureDetector(
                               onTap: () async {
                                 LoggerService.d("message", selectedIds);
+                                if (selectedIds.isEmpty) {
+                                  SnackbarService.showErrorSnackbar(context,
+                                      'Please select a product to remove');
+                                } else {
+                                  String mainId = await viewModel.getMainId();
+                                  final requestBody = {
+                                    'product_id': selectedIds,
+                                    'user_id': mainId,
+                                    'cart_count':
+                                        AppConstants.cartRemoveSingleCartCount,
+                                    'store_id': AppConstants.storeId,
+                                  };
+                                  await viewModel
+                                      .removeMultipleItem(requestBody);
+                                  if (viewModel
+                                          .removeMultipleItemModel?.success ==
+                                      true) {
+                                    removeItemDialog(
+                                        context,
+                                        viewModel.removeMultipleItemModel!
+                                                .statusCode ??
+                                            'Unknown error occurred');
+                                  } else {
+                                    SnackbarService.showErrorSnackbar(
+                                        context,
+                                        viewModel.removeMultipleItemModel!
+                                                .statusCode ??
+                                            'Unknown error occurred');
+                                  }
+                                }
                               },
                               child: SvgImage.asset(
                                   'assets/delete_icon_wishlist.svg',
@@ -179,11 +234,36 @@ class _CartScreenState extends State<CartScreen> {
                 itemCount > 0
                     ? CartListList(
                         items: items as List<Carts>,
-                        onDelete: (int index) async {},
+                        onDelete: (int index) async {
+                          final item = items[index];
+                          String mainId = await viewModel.getMainId();
+                          String? guestId = await viewModel.getGuestId();
+                          final requestBody = {
+                            'cart_count':
+                                AppConstants.cartRemoveSingleCartCount,
+                            'guestid': guestId,
+                            'product_id': item.productId,
+                            'store_id': AppConstants.storeId,
+                            'user_id': mainId,
+                          };
+                          await viewModel.removeSingleItem(requestBody);
+                          if (viewModel.removeSingleItemModel?.success ==
+                              true) {
+                            removeItemDialog(
+                                context,
+                                viewModel.removeSingleItemModel!.statusCode ??
+                                    'Unknown error occurred');
+                          } else {
+                            SnackbarService.showErrorSnackbar(
+                                context,
+                                viewModel.removeSingleItemModel!.statusCode ??
+                                    'Unknown error occurred');
+                          }
+                        },
                         onTick: (int index) {
                           LoggerService.d('Tick clicked at index: $index');
                           final item = items[index];
-                          //_onItemTick(item.id as int, int.parse(item.product!.productId) );
+                          _onItemTick(item.id, item.product!.productId);
                           _updateItemCountDisplay(itemCount);
                         },
                         onPlus: (int index) {},

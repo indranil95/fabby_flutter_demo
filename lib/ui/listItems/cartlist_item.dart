@@ -130,9 +130,8 @@ class _WishlistItemState extends State<CartListItem> {
                             width: 10.0,
                           ),
                           GestureDetector(
-                            onTap: () {
-                              // Handle remove action
-                            },
+                            onTap:
+                              widget.onDelete,
                             child: TextUtils.display(AppStrings.remove,
                                 fontSize: 13,
                                 color: Colors.black,
