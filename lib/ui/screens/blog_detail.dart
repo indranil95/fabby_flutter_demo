@@ -74,7 +74,7 @@ class _BlogScreenState extends State<BlogScreen> {
                     ),
                   ),
                   const SizedBox(height: 16.0),
-                  TextUtils.display(blogData.title,fontSize: 24, fontWeight: FontWeight.bold),
+                  TextUtils.display(blogData.title,fontSize: 24, fontWeight: FontWeight.bold, maxLines: 2),
                   const SizedBox(height: 8.0),
                   HtmlRenderer(
                     htmlData: blogData.articleContents[0].description,

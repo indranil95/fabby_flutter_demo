@@ -208,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: const EdgeInsets.only(top: 16.0),
                         // Add padding between text and list
                         child: SizedBox(
-                          height: 380.0, // Adjust height as needed
+                          height: 250.0, // Adjust height as needed
                           child: BlogsList(
 
                             items: viewModel.blogsModelData?.data.articles ?? [],
