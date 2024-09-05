@@ -103,6 +103,7 @@ flutter:
     - assets/delete_icon_wishlist.svg
     - assets/delete_icon_item.svg
     - assets/ic_no_data.svg
+    - assets/return_icon.svg
 
   fonts:
     - family: DmSerifDisplay

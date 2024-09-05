@@ -247,7 +247,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 child: Padding(
                     padding: const EdgeInsets.all(0.0),
                     child: CancelButton(
-                      text: "Cancel",
+                      text: AppStrings.cancel,
                       height: 50.0,
                       width: double.infinity,
                       onPressed: () {

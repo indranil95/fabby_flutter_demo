@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_fabby_demo/models/add_to_cart_model.dart';
 import 'package:flutter_fabby_demo/models/cart_data_model.dart';
 import 'package:flutter_fabby_demo/models/guest_model.dart' as GuestData;
 import 'package:flutter_fabby_demo/models/login_model.dart'
@@ -35,6 +36,9 @@ class CartViewModel extends ChangeNotifier {
   MoveToWishListModel? _moveToWishListModel;
 
   MoveToWishListModel? get moveToWishListModel => _moveToWishListModel;
+  AddToCartModel? _addToCartModel;
+
+  AddToCartModel? get addToCartModel => _addToCartModel;
 
   Future<void> cartDataList(Map<String, dynamic> requestBody) async {
     _loading = true;
@@ -109,6 +113,26 @@ class CartViewModel extends ChangeNotifier {
       }
 
       _removeMultipleItemModel = response;
+      _error = '';
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
+  }
+  Future<void> addToCartMain(Map<String, dynamic> requestBody) async {
+    _loading = true;
+    notifyListeners();
+
+    try {
+      final response = await repository.addToCartMain(requestBody);
+
+      if (response == null) {
+        throw Exception('Failed to send contact us request');
+      }
+
+      _addToCartModel = response;
       _error = '';
     } catch (e) {
       _error = e.toString();

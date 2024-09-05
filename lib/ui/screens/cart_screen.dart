@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../../AppConstant/app_constant.dart';
 import '../../colors/colors.dart';
 import '../../strings/strings.dart';
+import '../../utils/continue_shopping.dart';
 import '../../utils/image_utils.dart';
 import '../../utils/logger_service.dart';
 import '../../utils/text_utils.dart';
@@ -116,7 +117,7 @@ class _CartScreenState extends State<CartScreen> {
       },
     );
   }
-
+  double totalPrice=0.0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -180,40 +181,6 @@ class _CartScreenState extends State<CartScreen> {
                           children: [
                             GestureDetector(
                               onTap: () async {
-                                if (selectedProductIds.isEmpty) {
-                                  SnackbarService.showErrorSnackbar(context,
-                                      'Please select a product to move to wishlist');
-                                } else {
-                                  String mainId = await viewModel.getMainId();
-                                  String? guestId =
-                                      await viewModel.getGuestId();
-                                  final requestBody = {
-                                    'productid': selectedProductIds,
-                                    'userid': mainId,
-                                    'guestid': guestId,
-                                  };
-                                  await viewModel.moveToWishList(requestBody);
-                                  if (viewModel.moveToWishListModel?.success ==
-                                      true) {
-                                            removeItemDialog(context, viewModel.moveToWishListModel?.statusCode??
-                                                'Unknown error occurred');
-                                  }
-                                  else {
-                                    SnackbarService.showErrorSnackbar(
-                                        context,
-                                        viewModel.moveToWishListModel?.statusCode ??
-                                            'Unknown error occurred');
-                                  }
-                                }
-                              },
-                              child: SvgImage.asset(
-                                  'assets/wishlist_add_to_cart_icon.svg',
-                                  width: 35.0,
-                                  height: 35.0),
-                            ),
-                            const SizedBox(width: 10.0),
-                            GestureDetector(
-                              onTap: () async {
                                 LoggerService.d("message", selectedIds);
                                 if (selectedIds.isEmpty) {
                                   SnackbarService.showErrorSnackbar(context,
@@ -250,6 +217,41 @@ class _CartScreenState extends State<CartScreen> {
                                   'assets/delete_icon_wishlist.svg',
                                   width: 35.0,
                                   height: 35.0),
+                            ),
+                            const SizedBox(width: 10.0),
+                            GestureDetector(
+                              onTap: () async {
+                                if (selectedProductIds.isEmpty) {
+                                  SnackbarService.showErrorSnackbar(context,
+                                      'Please select a product to move to wishlist');
+                                } else {
+                                  String mainId = await viewModel.getMainId();
+                                  String? guestId =
+                                      await viewModel.getGuestId();
+                                  final requestBody = {
+                                    'productid': selectedProductIds,
+                                    'userid': mainId,
+                                    'guestid': guestId,
+                                  };
+                                  await viewModel.moveToWishList(requestBody);
+                                  if (viewModel.moveToWishListModel?.success ==
+                                      true) {
+                                    removeItemDialog(
+                                        context,
+                                        viewModel.moveToWishListModel
+                                                ?.statusCode ??
+                                            'Unknown error occurred');
+                                  } else {
+                                    SnackbarService.showErrorSnackbar(
+                                        context,
+                                        viewModel.moveToWishListModel
+                                                ?.statusCode ??
+                                            'Unknown error occurred');
+                                  }
+                                }
+                              },
+                              child: SvgImage.asset('assets/return_icon.svg',
+                                  width: 35.0, height: 35.0),
                             ),
                           ],
                         ),
@@ -296,20 +298,59 @@ class _CartScreenState extends State<CartScreen> {
                           LoggerService.d('plus clicked at index: $index');
                           final item = items[index];
                           String mainId = await viewModel.getMainId();
+                          String? guestId = await viewModel.getGuestId();
+                          num count = item.cartCount! + 1;
                           final requestBody = {
-                            'cart_count': selectedIds,
-                            'guestid': mainId,
-                            'product_id':
-                            AppConstants.cartRemoveSingleCartCount,
-                            'product_name': AppConstants.storeId,
+                            'cart_count': count,
+                            'guestid': guestId,
+                            'product_id': item.productId,
+                            'product_name': item.productName,
                             'store_id': AppConstants.storeId,
-                            'user_id': AppConstants.storeId,
+                            'user_id': mainId,
                           };
-
+                          await viewModel.addToCartMain(requestBody);
+                          if (viewModel.addToCartModel?.success == true) {
+                            _fetchCartList();
+                          } else {
+                            SnackbarService.showErrorSnackbar(
+                                context,
+                                viewModel.addToCartModel!.statusCode ??
+                                    'Unknown error occurred');
+                          }
                         },
-                        onMinus: (int index) {},
-                        areAllItemsSelected:
-                            areAllItemsSelected, // Pass this to the list
+                        onMinus: (int index) async {
+                          LoggerService.d('Minus clicked at index: $index');
+                          final item = items[index];
+                          String mainId = await viewModel.getMainId();
+                          String? guestId = await viewModel.getGuestId();
+                          num count = item.cartCount! - 1;
+                          final requestBody = {
+                            'cart_count': count,
+                            'guestid': guestId,
+                            'product_id': item.productId,
+                            'product_name': item.productName,
+                            'store_id': AppConstants.storeId,
+                            'user_id': mainId,
+                          };
+                          await viewModel.addToCartMain(requestBody);
+                          if (viewModel.addToCartModel?.success == true) {
+                            _fetchCartList();
+                          } else {
+                            SnackbarService.showErrorSnackbar(
+                                context,
+                                viewModel.addToCartModel!.statusCode ??
+                                    'Unknown error occurred');
+                          }
+                        },
+                        areAllItemsSelected: areAllItemsSelected,
+                        // Pass this to the list
+                        onTotalPriceChange: (double newTotalPrice) {
+                          // Update the total price when it changes
+                          LoggerService.d("total price",newTotalPrice);
+                          setState(() {
+                            totalPrice = newTotalPrice;
+                          });
+                        },
                       )
                     : Padding(
                         padding: const EdgeInsets.only(
@@ -320,6 +361,150 @@ class _CartScreenState extends State<CartScreen> {
               ],
             );
           },
+        ),
+      ),
+      bottomNavigationBar: Container(
+        color: AppColors.couponBack,
+        padding: const EdgeInsets.all(10.0),
+        child: SizedBox(
+          height: 210.0, // Constrain the height of the bottom bar
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(left: 10.0),
+                child: TextUtils.display(
+                  AppStrings.applyCouponCode,
+                  fontSize: 16.0,
+                  color: AppColors.recentTextColor,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.bold,
+                  textAlign: TextAlign.start,
+                ),
+              ),
+              Container(
+                margin:
+                    const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                height: 40.0,
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  // Equivalent to background drawable
+                  borderRadius:
+                      BorderRadius.circular(8), // Adjust as per your drawable
+                ),
+                child: Row(
+                  children: [
+                    const Expanded(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: AppStrings.enterCouponCode,
+                          // Replace with your localized string
+                          hintStyle: TextStyle(color: Colors.grey),
+                          // Customize hint color
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.only(left: 20.0),
+                        ),
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.black), // Customize text style
+                      ),
+                    ),
+                    Container(
+                      height: 38.0,
+                      // Adjust based on your drawable padding
+                      decoration: BoxDecoration(
+                        color: AppColors.black,
+                        // Replace with your drawable's background color
+                        borderRadius: BorderRadius.circular(
+                            8), // Customize as per your drawable
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Center(
+                          child: TextUtils.display(
+                            AppStrings.apply,
+                            color: AppColors.white,
+                            fontSize: 11.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(top: 10.0, left: 10.0),
+                    child: TextUtils.display(
+                      AppStrings.subtotal,
+                      fontSize: 14.0,
+                      color: AppColors.recentTextColor,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                  const Spacer(),
+                  Container(
+                    margin: const EdgeInsets.only(top: 10.0, right: 10.0),
+                    child: TextUtils.display(
+                      "${AppConstants.rupeeSign} $totalPrice",
+                      fontSize: 14.0,
+                      color: AppColors.recentTextColor,
+                      fontFamily: 'DmSerifDisplay',
+                      fontWeight: FontWeight.w500,
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(top: 10.0, left: 10.0),
+                    child: TextUtils.display(
+                      AppStrings.couponDiscount,
+                      fontSize: 14.0,
+                      color: AppColors.recentTextColor,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                  const Spacer(),
+                  Container(
+                    margin: const EdgeInsets.only(top: 10.0, right: 10.0),
+                    child: TextUtils.display(
+                      "${AppConstants.rupeeSign} 0",
+                      fontSize: 14.0,
+                      color: AppColors.recentTextColor,
+                      fontFamily: 'DmSerifDisplay',
+                      fontWeight: FontWeight.w500,
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                margin:
+                    const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                child: ContinueShoppingButton(
+                  text: AppStrings.continueShopping,
+                  height: 40.0,
+                  textSize: 15.0,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'Poppins',
+                  width: double.infinity,
+                  textColor: AppColors.black,
+                  onPressed: () {
+                    //NavigationService.goBack();
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
