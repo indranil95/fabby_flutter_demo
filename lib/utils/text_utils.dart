@@ -11,6 +11,7 @@ class TextUtils {
     int maxLines = 1,
     TextOverflow overflow = TextOverflow.ellipsis,
     String? fontFamily, // Added parameter for custom font
+    TextDecoration decoration = TextDecoration.none, // Added parameter
   }) {
     return Text(
       text,
@@ -19,6 +20,7 @@ class TextUtils {
         fontWeight: fontWeight,
         color: color,
         fontFamily: fontFamily, // Apply the custom font here
+        decoration: decoration,
       ),
       textAlign: textAlign,
       maxLines: maxLines,

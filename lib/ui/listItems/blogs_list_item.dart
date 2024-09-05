@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fabby_demo/colors/colors.dart';
+import 'package:flutter_fabby_demo/utils/text_utils.dart';
+
+import '../../utils/custom_network_image.dart';
 
 class BlogsListItems extends StatelessWidget {
   final String imageUrl;
@@ -38,9 +42,9 @@ class BlogsListItems extends StatelessWidget {
                   topLeft: Radius.circular(20.0),
                   topRight: Radius.circular(20.0),
                 ),
-                child: Image.network(
-                  imageUrl,
-                  height: 120.0, // Adjust height as per the design
+                child: CustomNetworkImage(
+                  imageUrl:imageUrl,
+                  height: 120.0,
                   width: double.infinity,
                   fit: BoxFit.cover,
                 ),
@@ -57,7 +61,7 @@ class BlogsListItems extends StatelessWidget {
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w600, // Semibold
                         fontSize: 14,
-                        color: Colors.black,
+                        color: AppColors.recentTextColor,
                       ),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
@@ -70,21 +74,20 @@ class BlogsListItems extends StatelessWidget {
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.normal, // Regular
                         fontSize: 12,
-                        color: Colors.white,
+                        color: AppColors.searchHintColor,
                       ),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                     ),
                     const SizedBox(height: 10.0),
                     // Read More
-                    const Text(
+                     TextUtils.display(
                       'Read More',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600, // Semibold
-                        fontSize: 12,
-                        color: Colors.blue,
-                      ),
+                         fontFamily: 'Poppins',
+                         fontWeight: FontWeight.w600, // Semibold
+                         fontSize: 12,
+                         color: AppColors.cardBackColor,
+                         decoration: TextDecoration.underline
                     ),
                   ],
                 ),

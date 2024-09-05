@@ -85,7 +85,7 @@ class _BlogScreenState extends State<BlogScreen> {
                   SizedBox(
                     height: 300.0, // or any height you want
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(0.0),
                       // Wrap the list with Expanded to allow it to grow and fill the available space
                       child: RecentblogList(
                         items: viewModel.blogsModelData?.data.articles ?? [],
