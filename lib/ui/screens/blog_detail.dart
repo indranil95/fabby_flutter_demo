@@ -82,7 +82,8 @@ class _BlogScreenState extends State<BlogScreen> {
                   const SizedBox(height: 24.0),
                   TextUtils.display(AppStrings.recentBlogs,fontSize: 20, fontWeight: FontWeight.bold),
                   const SizedBox(height: 16.0),
-                  Expanded(
+                  SizedBox(
+                    height: 300.0, // or any height you want
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       // Wrap the list with Expanded to allow it to grow and fill the available space
