@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fabby_demo/models/blogs_detail_model.dart';
 import 'package:flutter_fabby_demo/repository/blog_detail_repository.dart';
 
+import '../AppConstant/app_constant.dart';
+import '../models/blogs_model.dart';
+
 
 class BlogDetailViewModel extends ChangeNotifier {
   final BlogDetailRepository repository;
@@ -16,6 +19,9 @@ class BlogDetailViewModel extends ChangeNotifier {
   BlogsDetailDataModel? _blogsDetailData;
   BlogsDetailDataModel? get blogsDetailData => _blogsDetailData;
 
+  BlogsModel? _blogsModelData;
+  BlogsModel? get blogsModelData => _blogsModelData;
+
   Future<void> getBlogDetailRequest(String slug) async {
     _loading = true;
     notifyListeners();
@@ -28,6 +34,24 @@ class BlogDetailViewModel extends ChangeNotifier {
       }
 
       _blogsDetailData = response;
+      _error = '';
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> blogsList(
+      String limit,
+      ) async {
+    _loading = true;
+    notifyListeners();
+
+    try {
+      final response = await repository.blogList(AppConstants.productPaginate,limit,AppConstants.charLimit);
+      _blogsModelData = response;
       _error = '';
     } catch (e) {
       _error = e.toString();

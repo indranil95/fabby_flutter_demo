@@ -56,6 +56,7 @@ class DashboardRepository {
 
     return response.data;
   }
+
   Future<BlogsModel?> blogList(
       String paginate,
       String limit,
