@@ -107,7 +107,7 @@ class _CartScreenState extends State<CartScreen> {
       builder: (BuildContext context) {
         return CustomDialog(
           maxLines: 2,
-          message: 'Item removed from wishlist successfully.',
+          message: message,
           onButtonPressed: () {
             _fetchCartList();
           },
@@ -179,7 +179,33 @@ class _CartScreenState extends State<CartScreen> {
                         child: Row(
                           children: [
                             GestureDetector(
-                              onTap: () async {},
+                              onTap: () async {
+                                if (selectedProductIds.isEmpty) {
+                                  SnackbarService.showErrorSnackbar(context,
+                                      'Please select a product to move to wishlist');
+                                } else {
+                                  String mainId = await viewModel.getMainId();
+                                  String? guestId =
+                                      await viewModel.getGuestId();
+                                  final requestBody = {
+                                    'productid': selectedProductIds,
+                                    'userid': mainId,
+                                    'guestid': guestId,
+                                  };
+                                  await viewModel.moveToWishList(requestBody);
+                                  if (viewModel.moveToWishListModel?.success ==
+                                      true) {
+                                            removeItemDialog(context, viewModel.moveToWishListModel?.statusCode??
+                                                'Unknown error occurred');
+                                  }
+                                  else {
+                                    SnackbarService.showErrorSnackbar(
+                                        context,
+                                        viewModel.moveToWishListModel?.statusCode ??
+                                            'Unknown error occurred');
+                                  }
+                                }
+                              },
                               child: SvgImage.asset(
                                   'assets/wishlist_add_to_cart_icon.svg',
                                   width: 35.0,
@@ -266,7 +292,21 @@ class _CartScreenState extends State<CartScreen> {
                           _onItemTick(item.id, item.product!.productId);
                           _updateItemCountDisplay(itemCount);
                         },
-                        onPlus: (int index) {},
+                        onPlus: (int index) async {
+                          LoggerService.d('plus clicked at index: $index');
+                          final item = items[index];
+                          String mainId = await viewModel.getMainId();
+                          final requestBody = {
+                            'cart_count': selectedIds,
+                            'guestid': mainId,
+                            'product_id':
+                            AppConstants.cartRemoveSingleCartCount,
+                            'product_name': AppConstants.storeId,
+                            'store_id': AppConstants.storeId,
+                            'user_id': AppConstants.storeId,
+                          };
+
+                        },
                         onMinus: (int index) {},
                         areAllItemsSelected:
                             areAllItemsSelected, // Pass this to the list

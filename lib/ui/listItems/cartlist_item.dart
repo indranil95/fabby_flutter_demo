@@ -11,6 +11,7 @@ class CartListItem extends StatefulWidget {
   final String? imageSrc;
   final String? title;
   final String? price;
+  final String? cartCount;
   final VoidCallback onDelete;
   final VoidCallback onTick;
   final VoidCallback onPlus;
@@ -22,6 +23,7 @@ class CartListItem extends StatefulWidget {
     required this.imageSrc,
     required this.title,
     required this.price,
+    required this.cartCount,
     required this.onDelete,
     required this.onTick,
     required this.onPlus,
@@ -179,7 +181,7 @@ class _WishlistItemState extends State<CartListItem> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                // Handle decrement
+                                widget.onMinus;
                               },
                               child: Container(
                                 width: 40.0,
@@ -193,7 +195,7 @@ class _WishlistItemState extends State<CartListItem> {
                               ),
                             ),
                             TextUtils.display(
-                              '1', // Replace with actual count
+                              "${widget.cartCount} ", // Replace with actual count
                               fontSize: 18,
                               color: AppColors.sortTextColor,
                               // Replace with your color
@@ -201,7 +203,7 @@ class _WishlistItemState extends State<CartListItem> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                // Handle increment
+                                widget.onPlus;
                               },
                               child: Container(
                                 width: 40.0,

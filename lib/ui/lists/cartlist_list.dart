@@ -44,6 +44,7 @@ class CartListList extends StatelessWidget {
               imageSrc: dataItem.product?.productImage,
               title: dataItem.product?.productName,
               price: "${AppConstants.rupeeSign} + ${dataItem.product?.price}",
+              cartCount: dataItem.cartCount.toString(),
               onDelete: () {
                 onDelete(index);
               },
