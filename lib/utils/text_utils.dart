@@ -75,7 +75,7 @@ class TextUtils {
       style: TextStyle(
         fontSize: fontSize,
         fontWeight: fontWeight,
-        color: color, // Apply the custom text color here
+        color: Colors.black, // Apply the custom text color here
         fontFamily: fontFamily, // Apply the custom font here
       ),
       textAlign: textAlign,
@@ -93,10 +93,10 @@ class TextUtils {
         border: const OutlineInputBorder(),
         // Default border
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: color),
+          borderSide: BorderSide(color: color.withOpacity(0.8)),
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: color),
+          borderSide: BorderSide(color: color.withOpacity(0.8)),
         ),
       ),
     );

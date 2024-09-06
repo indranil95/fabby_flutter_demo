@@ -127,7 +127,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   controller: _passwordController,
                   fontSize: 16.0,
                   fontWeight: FontWeight.normal,
-                  color: AppColors.recentStroke,
+                  borderColor: AppColors.recentStroke, // Border color for the outer border
+                  textColor: AppColors.black, // Text color for typing
                   hintColor: AppColors.lightGray,
                   textAlign: TextAlign.start,
                   maxLines: 1,
@@ -159,7 +160,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   controller: _cPasswordController,
                   fontSize: 16.0,
                   fontWeight: FontWeight.normal,
-                  color: AppColors.recentStroke,
+                  borderColor: AppColors.recentStroke, // Border color for the outer border
+                  textColor: AppColors.black, // Text color for typing
                   hintColor: AppColors.lightGray,
                   textAlign: TextAlign.start,
                   maxLines: 1,

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fabby_demo/colors/colors.dart';
 
 class EditableTextWithToggle extends StatefulWidget {
   final TextEditingController controller;
   final double fontSize;
   final FontWeight fontWeight;
-  final Color color;
+  final Color borderColor; // Color for the outer border
+  final Color textColor; // Color for the text when typing
   final Color hintColor;
   final TextAlign textAlign;
   final int maxLines;
@@ -19,7 +21,8 @@ class EditableTextWithToggle extends StatefulWidget {
     required this.controller,
     this.fontSize = 14.0,
     this.fontWeight = FontWeight.normal,
-    this.color = Colors.black,
+    required this.borderColor, // Required for border color
+    required this.textColor, // Required for text color
     this.hintColor = Colors.grey,
     this.textAlign = TextAlign.start,
     this.maxLines = 1,
@@ -57,12 +60,12 @@ class _EditableTextWithToggleState extends State<EditableTextWithToggle> {
       style: TextStyle(
         fontSize: widget.fontSize,
         fontWeight: widget.fontWeight,
-        color: widget.color,
+        color: widget.textColor, // Apply black color for typing
         fontFamily: widget.fontFamily,
       ),
       textAlign: widget.textAlign,
       maxLines: widget.maxLines,
-      obscureText: _obscureText,
+      obscureText: _obscureText, // Controls whether text is obscured or not
       keyboardType: widget.keyboardType,
       decoration: InputDecoration(
         hintText: widget.hintText,
@@ -73,19 +76,19 @@ class _EditableTextWithToggleState extends State<EditableTextWithToggle> {
         contentPadding: widget.contentPadding,
         border: const OutlineInputBorder(),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: widget.color),
+          borderSide: BorderSide(color: widget.borderColor), // Outer border color when focused
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: widget.color),
+          borderSide: BorderSide(color: widget.borderColor), // Outer border color when enabled
         ),
         suffixIcon: IconButton(
           icon: Icon(
-            _obscureText ? Icons.visibility : Icons.visibility_off,
-            color: widget.color,
+            _obscureText ? Icons.visibility_off : Icons.visibility, // Reflect the current state
+            color: widget.borderColor,
           ),
           onPressed: () {
             setState(() {
-              _obscureText = !_obscureText;
+              _obscureText = !_obscureText; // Toggle password visibility
             });
           },
         ),

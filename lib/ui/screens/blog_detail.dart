@@ -13,6 +13,10 @@ import '../../network/api_service.dart';
 
 import '../../strings/strings.dart';
 import '../../utils/html_renderer.dart';
+import '../../utils/navigation_service.dart';
+import '../../viewModels/dashboard_viewmodel.dart';
+import '../lists/RecentBlog_list.dart';
+import '../lists/blogs_list_vertical.dart';
 
 class BlogScreen extends StatefulWidget {
   BlogScreen({super.key});
@@ -30,6 +34,8 @@ class _BlogScreenState extends State<BlogScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (slug.isNotEmpty && slug != AppConstants.noData) {
         viewModel.getBlogDetailRequest(slug);
+        viewModel.blogsList("10");
+        LoggerService.d("init State","I am running");
       }
     });
   }
@@ -68,7 +74,7 @@ class _BlogScreenState extends State<BlogScreen> {
                     ),
                   ),
                   const SizedBox(height: 16.0),
-                  TextUtils.display(blogData.title,fontSize: 24, fontWeight: FontWeight.bold),
+                  TextUtils.display(blogData.title,fontSize: 24, fontWeight: FontWeight.bold, maxLines: 2),
                   const SizedBox(height: 8.0),
                   HtmlRenderer(
                     htmlData: blogData.articleContents[0].description,
@@ -76,7 +82,22 @@ class _BlogScreenState extends State<BlogScreen> {
                   const SizedBox(height: 24.0),
                   TextUtils.display(AppStrings.recentBlogs,fontSize: 20, fontWeight: FontWeight.bold),
                   const SizedBox(height: 16.0),
-
+                  SizedBox(
+                    height: 300.0, // or any height you want
+                    child: Padding(
+                      padding: const EdgeInsets.all(0.0),
+                      // Wrap the list with Expanded to allow it to grow and fill the available space
+                      child: RecentblogList(
+                        items: viewModel.blogsModelData?.data.articles ?? [],
+                        onMoveToBlogDetail: (int index) {
+                          LoggerService.d('Blog Detail clicked at index: $index');
+                          final items = viewModel.blogsModelData?.data.articles ?? [];
+                          final item = items[index];
+                          NavigationService.navigateToWithData(BlogScreen(), data: {"slug": item.slug});
+                        },
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

@@ -1,16 +1,14 @@
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_fabby_demo/colors/colors.dart';
-import 'package:flutter_fabby_demo/utils/text_utils.dart';
 
-import '../../utils/custom_network_image.dart';
-
-class BlogsListItems extends StatelessWidget {
+class AllBlogListItem extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String description;
   final VoidCallback onMoveToBlogDetail;
 
-  const BlogsListItems({
+  const AllBlogListItem({
     super.key,
     required this.imageUrl,
     required this.title,
@@ -20,37 +18,31 @@ class BlogsListItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Calculate width to fit two items on the screen
-    final double itemWidth = MediaQuery.of(context).size.width / 2 - 20; // Adjust padding to fit two items
-
-    return GestureDetector(
-      onTap: onMoveToBlogDetail,
-      child: Container(
-        width: itemWidth,
-        margin: const EdgeInsets.symmetric(horizontal: 10.0),
+    return Container(
+      margin: const EdgeInsets.all(10.0),
+      child: GestureDetector(
+        onTap: onMoveToBlogDetail,
         child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0), // Adjust to match the picture
           ),
-          elevation: 2.0,
+          elevation: 4.0, // Add shadow if needed
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Image section
+              // Image section with adjusted size and border radius
               ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0),
-                ),
-                child: CustomNetworkImage(
-                  imageUrl:imageUrl,
-                  height: 120.0,
-                  width: double.infinity,
+                borderRadius: BorderRadius.circular(20.0), // Adjust to match the picture
+                child: Image.network(
+                  imageUrl,
                   fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: 200.0, // Adjust height as per the design
                 ),
               ),
+              // Text section
               Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(15.0), // Add padding around text content
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -60,8 +52,8 @@ class BlogsListItems extends StatelessWidget {
                       style: const TextStyle(
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w600, // Semibold
-                        fontSize: 14,
-                        color: AppColors.recentTextColor,
+                        fontSize: 16,
+                        color: Colors.black,
                       ),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
@@ -73,21 +65,22 @@ class BlogsListItems extends StatelessWidget {
                       style: const TextStyle(
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.normal, // Regular
-                        fontSize: 12,
-                        color: AppColors.searchHintColor,
+                        fontSize: 14,
+                        color: Colors.grey,
                       ),
                       overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
+                      maxLines: 2, // Adjust as per requirement
                     ),
                     const SizedBox(height: 10.0),
                     // Read More
-                     TextUtils.display(
+                    const Text(
                       'Read More',
-                         fontFamily: 'Poppins',
-                         fontWeight: FontWeight.w600, // Semibold
-                         fontSize: 12,
-                         color: AppColors.cardBackColor,
-                         decoration: TextDecoration.underline
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600, // Semibold
+                        fontSize: 14,
+                        color: Colors.blue,
+                      ),
                     ),
                   ],
                 ),

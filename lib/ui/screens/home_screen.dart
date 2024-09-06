@@ -3,7 +3,9 @@ import 'package:flutter_fabby_demo/colors/colors.dart';
 import 'package:flutter_fabby_demo/strings/strings.dart';
 import 'package:flutter_fabby_demo/ui/lists/all_product_list.dart';
 import 'package:flutter_fabby_demo/ui/lists/blogs_list.dart';
-import 'package:flutter_fabby_demo/ui/screens/Blogs.dart';
+import 'package:flutter_fabby_demo/ui/screens/blog_detail.dart';
+import 'package:flutter_fabby_demo/ui/screens/blog_list.dart';
+import 'package:flutter_fabby_demo/ui/screens/product_list.dart';
 import 'package:flutter_fabby_demo/ui/screens/top_bar.dart';
 import 'package:flutter_fabby_demo/utils/text_utils.dart';
 import 'package:provider/provider.dart';
@@ -167,16 +169,24 @@ class _HomeScreenState extends State<HomeScreen> {
                       Center(
                         child: Padding(
                           padding: const EdgeInsets.all(0.0),
-                          child: Card(
-                            color: AppColors.fabbyBondiBlue,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
-                              child: TextUtils.display(
-                                AppStrings.viewAll,
-                                fontSize: 15.0,
-                                color: AppColors.white,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.bold,
+                          child: GestureDetector(
+                            onTap: () {
+                              // Perform your action here, like navigating to another screen
+                              print("View All tapped");
+                              NavigationService.navigateToWithData(ProductListScreen());
+                            },
+                            child: Card(
+                              color: AppColors.fabbyBondiBlue,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
+                                child: TextUtils.display(
+                                  AppStrings.viewAll,
+                                  fontSize: 15.0,
+                                  color: AppColors.white,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
@@ -198,8 +208,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: const EdgeInsets.only(top: 16.0),
                         // Add padding between text and list
                         child: SizedBox(
-                          height: 260.0, // Adjust height as needed
+                          height: 250.0, // Adjust height as needed
                           child: BlogsList(
+
                             items: viewModel.blogsModelData?.data.articles ?? [],
                             onMoveToBlogDetail: (int index) {
                               // Handle move to cart action here
@@ -218,16 +229,24 @@ class _HomeScreenState extends State<HomeScreen> {
                       Center(
                         child: Padding(
                           padding: const EdgeInsets.all(0.0),
-                          child: Card(
-                            color: AppColors.cardBackColor,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
-                              child: TextUtils.display(
-                                AppStrings.viewAll,
-                                fontSize: 15.0,
-                                color: AppColors.white,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.bold,
+                          child: GestureDetector(
+                            onTap: () {
+                              // Perform your action here, like navigating to another screen
+                              print("View All tapped");
+                              NavigationService.navigateToWithData(BlogListScreen());
+                            },
+                            child: Card(
+                              color: AppColors.cardBackColor,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 15.0, right: 15.0, top: 10.0, bottom: 10.0),
+                                child: TextUtils.display(
+                                  AppStrings.viewAll,
+                                  fontSize: 15.0,
+                                  color: AppColors.white,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
