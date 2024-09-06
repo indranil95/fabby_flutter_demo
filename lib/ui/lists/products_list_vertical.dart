@@ -4,8 +4,9 @@ import 'package:flutter_fabby_demo/ui/listItems/all_product_items.dart';
 
 class ProductsListVertical extends StatelessWidget {
   final List<Datum> items; // Ensure this matches your data type
+  final Function(int) onMoveToProductDetail;
 
-  const ProductsListVertical({super.key, required this.items});
+  const ProductsListVertical({super.key, required this.items, required this.onMoveToProductDetail});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,9 @@ class ProductsListVertical extends StatelessWidget {
       itemCount: items.length,
       itemBuilder: (context, index) {
         final item = items[index];
-        return AllProductItems(imageUrl: item.productImage, description: item.productName, price: item.price,); // Updated to use imageUrl
+        return AllProductItems(imageUrl: item.productImage, description: item.productName, price: item.price, onMoveToProductDetail: () {
+          onMoveToProductDetail(index);
+        },); // Updated to use imageUrl
       },
     );
   }

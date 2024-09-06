@@ -68,6 +68,8 @@ abstract class BaseApiService {
       T Function(Map<String, dynamic>) fromJson);
   Future<BaseResponse<T>> getBlogDetail<T>(
       String slug, T Function(Map<String, dynamic>) fromJson);
+  Future<BaseResponse<T>> getProductDetail<T>(
+      String productId,String userId,String guestId, T Function(Map<String, dynamic>) fromJson);
   Future<BaseResponse<T>> moveToCart<T>(
       List<int> productIds,
       int userId,

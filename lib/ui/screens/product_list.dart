@@ -158,6 +158,11 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   padding: const EdgeInsets.all(16.0),
                   child: ProductsListVertical(
                     items: viewModel.allProductData?.data ?? [],
+                    onMoveToProductDetail: (int index) {
+                      /*final items = viewModel.allProductCategoryMobile?.data ?? [];
+                      final item=items[index];
+                      NavigationService.navigateToWithData( BlogScreen(),data: {"productId":item.id});*/
+                    },
                   ),
                 );
               },

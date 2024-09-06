@@ -5,6 +5,7 @@ import 'package:flutter_fabby_demo/ui/lists/all_product_list.dart';
 import 'package:flutter_fabby_demo/ui/lists/blogs_list.dart';
 import 'package:flutter_fabby_demo/ui/screens/blog_detail.dart';
 import 'package:flutter_fabby_demo/ui/screens/blog_list.dart';
+import 'package:flutter_fabby_demo/ui/screens/product_detail_screen.dart';
 import 'package:flutter_fabby_demo/ui/screens/product_list.dart';
 import 'package:flutter_fabby_demo/ui/screens/top_bar.dart';
 import 'package:flutter_fabby_demo/utils/text_utils.dart';
@@ -157,9 +158,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                 items: viewModel
                                     .allProductCategoryMobile?.data ??
                                     [],
+                                onMoveToProductDetail: (int index) {
+
+                                  final items = viewModel.allProductCategoryMobile?.data ?? [];
+                                  final item=items[index];
+                                  NavigationService.navigateToWithData( const ProductDetailScreen(),data: {"productId":item.id});
+                                },
                               )
                                   : AllProductList(
                                 items: viewModel.allProductData?.data ?? [],
+                                onMoveToProductDetail: (int index) {
+                                  final items = viewModel.allProductData?.data ?? [];
+                                  final item=items[index];
+                                  NavigationService.navigateToWithData( const ProductDetailScreen(),data: {"productId":item.id});
+                                },
                               ),
                             ),
                           );

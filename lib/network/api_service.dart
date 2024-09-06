@@ -307,6 +307,41 @@ class ApiService extends BaseApiService {
       );
     }
   }
+  @override
+  Future<BaseResponse<T>> getProductDetail<T>(
+      String productId,String userId,String guestId, T Function(Map<String, dynamic>) fromJson) async {
+    final url = "singleProductDetails/$productId/$userId";
+    final fullUrl = Uri.parse('$baseUrl$url').replace(queryParameters: {'guestId': guestId}); // Add query parameters
+    try {
+      // Log the request URL and method
+      LoggerService.i('Request URL: $fullUrl');
+
+      final response = await http.get(fullUrl);
+
+      // Log the response status code and body
+      LoggerService.i('Response Status Code: ${response.statusCode}');
+      LoggerService.i('Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        return BaseResponse<T>(
+          data: fromJson(data),
+          statusCode: response.statusCode,
+        );
+      } else {
+        return BaseResponse<T>(
+          statusCode: response.statusCode,
+          error: 'Error: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      // Log the exception
+      LoggerService.e('Exception: $e');
+      return BaseResponse<T>(
+        error: 'Exception: $e',
+      );
+    }
+  }
 
   @override
   Future<BaseResponse<T>> login<T>(Map<String, dynamic> requestBody,
