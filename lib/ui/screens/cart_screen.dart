@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_fabby_demo/models/cart_data_model.dart';
 import 'package:flutter_fabby_demo/ui/lists/cartlist_list.dart';
@@ -29,14 +30,35 @@ class _CartScreenState extends State<CartScreen> {
   String itemCountDisplayText = "0/0 items Selected";
   bool areAllItemsSelected = false; // New variable to track all selection
   late CartViewModel viewModel;
+  late final TextEditingController _couponController;
+  String? loginSuccess;
+  bool memberStat=false;
+
 
   @override
   void initState() {
     viewModel = Provider.of<CartViewModel>(context, listen: false);
+    _couponController = TextEditingController();
     _fetchCartList();
+    _checkLoginStatus();
     super.initState();
   }
-
+  @override
+  void dispose() {
+    _couponController.dispose();
+    super.dispose();
+  }
+  Future<void> _checkLoginStatus() async {
+    loginSuccess = await viewModel.getLoginSuccess();
+    setState(() {
+      memberStat=loginSuccess?.isNotEmpty ==true;
+    });
+  }
+  String _getCouponCode() {
+    String couponCode = _couponController.text;
+    LoggerService.d('Coupon Code: $couponCode');
+    return couponCode;
+  }
   Future<void> _fetchCartList() async {
     // Fetch mainId and guestId asynchronously
     String mainId = await viewModel.getMainId();
@@ -117,7 +139,22 @@ class _CartScreenState extends State<CartScreen> {
       },
     );
   }
+  void couponDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomDialog(
+          maxLines: 2,
+          message: message,
+          onButtonPressed: () {
+          },
+          buttonText: 'ok', // Customize button text if needed
+        );
+      },
+    );
+  }
   double totalPrice=0.0;
+  String discount="0";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -367,7 +404,7 @@ class _CartScreenState extends State<CartScreen> {
         color: AppColors.couponBack,
         padding: const EdgeInsets.all(10.0),
         child: SizedBox(
-          height: 210.0, // Constrain the height of the bottom bar
+          height: 260.0, // Constrain the height of the bottom bar
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -394,9 +431,10 @@ class _CartScreenState extends State<CartScreen> {
                 ),
                 child: Row(
                   children: [
-                    const Expanded(
+                     Expanded(
                       child: TextField(
-                        decoration: InputDecoration(
+                        controller: _couponController,
+                        decoration: const InputDecoration(
                           hintText: AppStrings.enterCouponCode,
                           // Replace with your localized string
                           hintStyle: TextStyle(color: Colors.grey),
@@ -404,12 +442,31 @@ class _CartScreenState extends State<CartScreen> {
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.only(left: 20.0),
                         ),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16.0,
                             color: Colors.black), // Customize text style
                       ),
                     ),
-                    Container(
+                    GestureDetector(onTap: () async{
+                      String couponCode=_getCouponCode();
+                      String mainId = await viewModel.getMainId();
+                      String? guestId = await viewModel.getGuestId();
+                      final requestBody = {
+                        'promocode': couponCode,
+                        'user_id': mainId,
+                        'guest_id': guestId,
+                      };
+                      await viewModel.promoCode(requestBody);
+                      if(viewModel.promoCodeModel?.success == true){
+                        couponDialog(context, viewModel.promoCodeModel!.error.toString());
+                        _couponController.clear();
+                        setState(() {
+                          discount=viewModel.promoCodeModel?.data?.dicount.toString() ?? "0";
+                        });
+                      }else{
+                        SnackbarService.showErrorSnackbar(context, viewModel.promoCodeModel!.error.toString());
+                      }
+                    },child: Container(
                       height: 38.0,
                       // Adjust based on your drawable padding
                       decoration: BoxDecoration(
@@ -429,7 +486,8 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                         ),
                       ),
-                    ),
+                    ),)
+                    ,
                   ],
                 ),
               ),
@@ -477,7 +535,7 @@ class _CartScreenState extends State<CartScreen> {
                   Container(
                     margin: const EdgeInsets.only(top: 10.0, right: 10.0),
                     child: TextUtils.display(
-                      "${AppConstants.rupeeSign} 0",
+                      "${AppConstants.rupeeSign} $discount ",
                       fontSize: 14.0,
                       color: AppColors.recentTextColor,
                       fontFamily: 'DmSerifDisplay',
@@ -486,6 +544,68 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                   ),
                 ],
+              ),
+              // Guest Checkout LinearLayout equivalent
+              Visibility(
+                visible: !memberStat,
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextUtils.display(
+                          AppStrings.guestCheckout,
+                          fontSize: 16.0,
+                          color: AppColors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        const SizedBox(width: 5.0),
+                        SvgImage.asset(
+                          'assets/guest_checkout.svg',
+                          height: 20.0,
+                          width: 20.0,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16.0),
+              Visibility(
+                visible: memberStat,
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                  decoration: BoxDecoration(
+                    color: AppColors.fabbyBondiBlue,
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextUtils.display(
+                          AppStrings.proceedToCheckout,
+                          fontFamily: "Poppins",
+                          fontSize: 16.0,
+                          color: AppColors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        const SizedBox(width: 5.0),
+                        PngImage.asset('assets/cart_icon_new.png',width: 20.0,
+                            height: 20.0),
+                      ],
+                    ),
+                  ),
+                ),
               ),
               Container(
                 margin:

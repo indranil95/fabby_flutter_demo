@@ -1,6 +1,7 @@
 import 'package:flutter_fabby_demo/models/add_to_cart_model.dart';
 import 'package:flutter_fabby_demo/models/cart_data_model.dart';
 import 'package:flutter_fabby_demo/models/move_to_wishlist_model.dart';
+import 'package:flutter_fabby_demo/models/promo_code_model.dart';
 import 'package:flutter_fabby_demo/models/remove_single_item_model.dart';
 
 import '../models/remove_multiple_item_model.dart';
@@ -63,6 +64,18 @@ class CartRepository {
     final response = await apiService.removeSingleItem<RemoveMultipleItemModel>(
       requestBody,
       (json) => RemoveMultipleItemModel.fromJson(json), // Adjust according to your model
+    );
+
+    if (response.error != null) {
+      throw Exception(response.error);
+    }
+
+    return response.data;
+  }
+  Future<PromoCodeModel?> promoCode(Map<String, dynamic> requestBody) async {
+    final response = await apiService.promoCode<PromoCodeModel>(
+      requestBody,
+      (json) => PromoCodeModel.fromJson(json), // Adjust according to your model
     );
 
     if (response.error != null) {

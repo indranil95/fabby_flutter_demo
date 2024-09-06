@@ -104,6 +104,8 @@ flutter:
     - assets/delete_icon_item.svg
     - assets/ic_no_data.svg
     - assets/return_icon.svg
+    - assets/cart_icon_new.png
+    - assets/guest_checkout.svg
 
   fonts:
     - family: DmSerifDisplay

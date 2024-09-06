@@ -30,17 +30,53 @@ class CartListList extends StatefulWidget {
 class _CartListListState extends State<CartListList> {
   Map<int, double> itemPrices = {};
 
-  void _handlePriceChange(int index, double price) {
-    setState(() {
-      itemPrices[index] = price;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _calculateTotalPrice();
     });
+    super.initState();
+  }
+  @override
+  void didUpdateWidget(covariant CartListList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _calculateTotalPrice(); // Recalculate total price whenever the widget updates
+    });
+  }
 
-    // Calculate the total price
-    double totalPrice =
-        itemPrices.values.fold(0.0, (sum, price) => sum + price);
+  void _calculateTotalPrice() {
+    double totalPrice = 0.0;
+    for (int i = 0; i < widget.items.length; i++) {
+      final item = widget.items[i];
+      final itemPrice = _calculateItemPrice(item);
+      itemPrices[i] = itemPrice;
+      totalPrice += itemPrice;
+    }
 
-    // Notify the parent widget of the total price change
+    // Notify the parent widget about the total price
     widget.onTotalPriceChange(totalPrice);
+  }
+  double _calculateItemPrice(Carts item) {
+    double price = double.parse(item.product!.price.toString());
+
+    // Apply discounts if available
+    if (item.product?.offers != null) {
+      final discountValue = item.product!.offers!.discountValue;
+      final discountType = item.product!.offers!.discountType;
+
+      if (discountType == 1) {
+        // Flat discount
+        price -= discountValue;
+      } else if (discountType == 2) {
+        // Percentage discount
+        price -= price * (discountValue / 100);
+      }
+    }
+
+    // Multiply by the cart count
+    return price * (item.cartCount ?? 1);
   }
 
   @override
@@ -72,22 +108,28 @@ class _CartListListState extends State<CartListList> {
               : 0,
           onDelete: () {
             widget.onDelete(index);
+            _calculateTotalPrice();
           },
           onTick: () {
             widget.onTick(
-                index); // Pass the state here// Access product description
+                index);
           },
           onPlus: () {
             widget.onPlus(
-                index); // Pass the state here// Access product description
+                index);
+            _calculateTotalPrice();
           },
           onMinus: () {
             widget.onMinus(
-                index); // Pass the state here// Access product description
+                index);
+            _calculateTotalPrice();
           },
           isInitiallyTicked: widget.areAllItemsSelected,
-          onPriceChange: (price) =>
-              _handlePriceChange(index, price), // Handle price changes
+          onPriceChange: (price) {setState(() {
+            itemPrices[index] = price;
+          });
+          _calculateTotalPrice();
+          },
         );
       },
     ));

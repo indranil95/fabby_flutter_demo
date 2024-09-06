@@ -5,6 +5,7 @@ import 'package:flutter_fabby_demo/models/guest_model.dart' as GuestData;
 import 'package:flutter_fabby_demo/models/login_model.dart'
     as LoginData; // Add prefix
 import 'package:flutter_fabby_demo/models/move_to_wishlist_model.dart';
+import 'package:flutter_fabby_demo/models/promo_code_model.dart';
 import 'package:flutter_fabby_demo/models/remove_multiple_item_model.dart';
 import 'package:flutter_fabby_demo/models/remove_single_item_model.dart';
 
@@ -39,6 +40,9 @@ class CartViewModel extends ChangeNotifier {
   AddToCartModel? _addToCartModel;
 
   AddToCartModel? get addToCartModel => _addToCartModel;
+  PromoCodeModel? _promoCodeModel;
+
+  PromoCodeModel? get promoCodeModel => _promoCodeModel;
 
   Future<void> cartDataList(Map<String, dynamic> requestBody) async {
     _loading = true;
@@ -141,6 +145,26 @@ class CartViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+  Future<void> promoCode(Map<String, dynamic> requestBody) async {
+    _loading = true;
+    notifyListeners();
+
+    try {
+      final response = await repository.promoCode(requestBody);
+
+      if (response == null) {
+        throw Exception('Failed to send contact us request');
+      }
+
+      _promoCodeModel = response;
+      _error = '';
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
+  }
 
   Future<String> getMainId() async {
     String mainId = "";
@@ -173,5 +197,9 @@ class CartViewModel extends ChangeNotifier {
   Future<String?> getGuestId() async {
     final prefs = await SharedPrefsHelper.getInstance();
     return prefs.getString('guestId');
+  }
+  Future<String?> getLoginSuccess() async {
+    final prefs = await SharedPrefsHelper.getInstance();
+    return prefs.getString('loginSuccess');
   }
 }
