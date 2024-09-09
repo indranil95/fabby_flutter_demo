@@ -109,6 +109,7 @@ flutter:
     - assets/cart_icon_new.png
     - assets/guest_checkout.svg
     - assets/testimonial_logo.png
+    - assets/share_pro_details.png
 
   fonts:
     - family: DmSerifDisplay

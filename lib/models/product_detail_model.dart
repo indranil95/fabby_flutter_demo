@@ -1,13 +1,10 @@
-/// data : {"wishlist":true,"similar_products":[{"id":107,"product_name":"Equipment Bags","slug":"equipment-bags","mete_title":"satyam tripathi testing Tuesday one meta title","meta_description":"satyam tripathi testing Tuesday one meta title","productId":"Anti- tick","quantity":72,"price":"350.00","barcode":"Anti- tick","country_of_origin":null,"vat_rate":null,"brand_name":null,"category_id":null,"sub_category_id":null,"unit":null,"manufactured_by":"Fabby Furever","description":null,"benefits":null,"active_ingredients":null,"product_image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/172302535192.jpeg","product_img_status":"","long_description":null,"how_to_use":null,"what_included":"","amazon_link":null,"height":200,"width":45,"length":45,"weight":0.22,"type":null,"status":1,"product_image_arr":[{"id":329,"product_id":107,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/172302535192.jpeg","featured_image":1}],"offers":null,"categories":null,"sub_category":null,"store":[{"id":1,"store_name":"Fabby Furever","lat":"25.11388170","lng":"55.20221690","address":"Fabby Furever Private Limited, 701, Aryston Centre, Opp. JW Marriott Hotel, Juhu, Mumbai 49","store_contact":"7777060333","store_email":"\r\ninfo@fabbyfurever.com","store_working_hours":"12:01 AM to 11:59 PM","order_slot_threshold":90,"pivot":{"product_id":107,"store_id":1,"product_quantity":71,"created_at":"2024-05-08 17:10:04","updated_at":"2024-08-16 16:50:45"}}]},{"id":128,"product_name":"Protective Gear (Gloves & Arm Guards)","slug":"protective-gear-gloves-arm-guards","mete_title":"Testing meta title","meta_description":"Testing descriptions","productId":"1232435","quantity":7,"price":"899.00","barcode":"987654","country_of_origin":null,"vat_rate":null,"brand_name":null,"category_id":null,"sub_category_id":null,"unit":null,"manufactured_by":"test manufactured","description":null,"benefits":null,"active_ingredients":null,"product_image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/172302430198.jpeg","product_img_status":"","long_description":null,"how_to_use":null,"what_included":"","amazon_link":"https://in.search.yahoo.com/search?fr=mcafee&type=E211IN826G0&p=bullets+pointer","height":7,"width":7,"length":3,"weight":0.015,"type":null,"status":1,"product_image_arr":[{"id":327,"product_id":128,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/172302430198.jpeg","featured_image":1}],"offers":null,"categories":null,"sub_category":null,"store":[{"id":1,"store_name":"Fabby Furever","lat":"25.11388170","lng":"55.20221690","address":"Fabby Furever Private Limited, 701, Aryston Centre, Opp. JW Marriott Hotel, Juhu, Mumbai 49","store_contact":"7777060333","store_email":"\r\ninfo@fabbyfurever.com","store_working_hours":"12:01 AM to 11:59 PM","order_slot_threshold":90,"pivot":{"product_id":128,"store_id":1,"product_quantity":6,"created_at":"2024-07-23 12:51:28","updated_at":"2024-08-16 16:50:45"}}]},{"id":93,"product_name":"Fabby Furever Deo Fresh Deodorant for Dog, Cats and Pups, Odour Neutralizer with Lavender Oil, Long-Lasting Fragrance Perfume, Freshening Deodorizer Spray for All Breeds, Alcohol & Paraben Free, 200ml","slug":"fabby-furever-deo-fresh-deodorant-for-dog-cats-and-pups-odour-neutralizer-with-lavender-oil-long-lasting-fragrance-perfume-freshening-deodorizer-spray-for-all-breeds-alcohol-paraben-free-200ml","mete_title":"Fabby Furever Deo Fresh Deodorant for Dog, Cats and Pups, Odour Neutralizer with Lavender Oil, Long-Lasting Fragrance Perfume, Freshening Deodorizer Spray for All Breeds, Alcohol & Paraben Free, 200ml","meta_description":"Fabby Furever Deo Fresh Deodorant for Dog, Cats and Pups, Odour Neutralizer with Lavender Oil, Long-Lasting Fragrance Perfume, Freshening Deodorizer Spray for All Breeds, Alcohol & Paraben Free, 200ml","productId":"Deo Fresh","quantity":100,"price":"450.00","barcode":"Deo Fresh","country_of_origin":null,"vat_rate":null,"brand_name":null,"category_id":38,"sub_category_id":50,"unit":null,"manufactured_by":"Fabby Furever","description":null,"benefits":null,"active_ingredients":null,"product_image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171576079587.jpeg","product_img_status":"","long_description":null,"how_to_use":null,"what_included":"","amazon_link":null,"height":20,"width":10,"length":15,"weight":0.225,"type":null,"status":1,"product_image_arr":[{"id":313,"product_id":93,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171576079587.jpeg","featured_image":1},{"id":308,"product_id":93,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/17157607942.jpeg","featured_image":0},{"id":309,"product_id":93,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171576079599.jpeg","featured_image":0},{"id":310,"product_id":93,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171576079573.jpeg","featured_image":0},{"id":311,"product_id":93,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171576079523.jpeg","featured_image":0},{"id":312,"product_id":93,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171576079568.jpeg","featured_image":0}],"offers":null,"categories":{"id":38,"categories_name":"dog"},"sub_category":{"id":50,"subcategory_name":"dog new"},"store":[{"id":1,"store_name":"Fabby Furever","lat":"25.11388170","lng":"55.20221690","address":"Fabby Furever Private Limited, 701, Aryston Centre, Opp. JW Marriott Hotel, Juhu, Mumbai 49","store_contact":"7777060333","store_email":"\r\ninfo@fabbyfurever.com","store_working_hours":"12:01 AM to 11:59 PM","order_slot_threshold":90,"pivot":{"product_id":93,"store_id":1,"product_quantity":42,"created_at":"2024-04-19 18:31:08","updated_at":"2024-07-24 14:33:01"}}]},{"id":130,"product_name":"baby cream","slug":"baby-cream","mete_title":"test meta title","meta_description":"test Meta Description","productId":"525231","quantity":10,"price":"500.00","barcode":"858585","country_of_origin":null,"vat_rate":null,"brand_name":null,"category_id":null,"sub_category_id":50,"unit":null,"manufactured_by":"test manufactured","description":null,"benefits":null,"active_ingredients":null,"product_image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/172543750380.jpeg","product_img_status":"","long_description":null,"how_to_use":null,"what_included":"","amazon_link":"http://13.200.107.164:2100/product-details/74","height":7,"width":7,"length":3,"weight":0.025,"type":null,"status":1,"product_image_arr":[{"id":331,"product_id":130,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/172543750380.jpeg","featured_image":1},{"id":332,"product_id":130,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/172543750447.jpeg","featured_image":0},{"id":333,"product_id":130,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/172543750473.jpeg","featured_image":0},{"id":334,"product_id":130,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/172543750481.jpeg","featured_image":0}],"offers":null,"categories":null,"sub_category":{"id":50,"subcategory_name":"dog new"},"store":[{"id":1,"store_name":"Fabby Furever","lat":"25.11388170","lng":"55.20221690","address":"Fabby Furever Private Limited, 701, Aryston Centre, Opp. JW Marriott Hotel, Juhu, Mumbai 49","store_contact":"7777060333","store_email":"\r\ninfo@fabbyfurever.com","store_working_hours":"12:01 AM to 11:59 PM","order_slot_threshold":90,"pivot":{"product_id":130,"store_id":1,"product_quantity":8,"created_at":"2024-09-04 13:41:44","updated_at":"2024-09-04 15:52:15"}}]}],"products":[{"id":92,"product_name":"Fabby Furever Wet Wipes: Dogs & Cats. Natural Anti-Bacterial. Puppies & All Ages. Unscented. 100 Wipes, Pack of 10","slug":"fabby-furever-wet-wipes-dogs-cats-natural-anti-bacterial-puppies-all-ages-unscented-100-wipes-pack-of-10","mete_title":"Fabby Furever Wet Wipes: Dogs & Cats. Natural Anti-Bacterial. Puppies & All Ages. Unscented. 100 Wipes, Pack of 10","meta_description":"Fabby Furever Wet Wipes: Dogs & Cats. Natural Anti-Bacterial. Puppies & All Ages. Unscented. 100 Wipes, Pack of 10","productId":"Pet Wipes","quantity":100,"price":"550.00","barcode":"Pet Wipes","country_of_origin":null,"vat_rate":null,"brand_name":null,"category_id":38,"sub_category_id":50,"unit":null,"manufactured_by":"Fabby Furever","description":null,"benefits":null,"active_ingredients":null,"product_image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171353109220.jpeg","product_img_status":"","long_description":null,"how_to_use":null,"what_included":"","amazon_link":"https://www.amazon.in/Fabby-Furever-Natural-Chemical-PawfectClean/dp/B0CYWLX78K?ref_=ast_sto_dp","height":5,"width":5,"length":5,"weight":0.01,"type":null,"status":1,"product_image_arr":[{"id":213,"product_id":92,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171353109220.jpeg","featured_image":1},{"id":214,"product_id":92,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171353109258.jpeg","featured_image":0},{"id":215,"product_id":92,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171353109291.jpeg","featured_image":0},{"id":216,"product_id":92,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171353109273.jpeg","featured_image":0},{"id":217,"product_id":92,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171353109229.jpeg","featured_image":0},{"id":218,"product_id":92,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171353109249.jpeg","featured_image":0}],"offers":null,"categories":{"id":38,"categories_name":"dog"},"sub_category":{"id":50,"subcategory_name":"dog new"},"store":[{"id":1,"store_name":"Fabby Furever","lat":"25.11388170","lng":"55.20221690","address":"Fabby Furever Private Limited, 701, Aryston Centre, Opp. JW Marriott Hotel, Juhu, Mumbai 49","store_contact":"7777060333","store_email":"\r\ninfo@fabbyfurever.com","store_working_hours":"12:01 AM to 11:59 PM","order_slot_threshold":90,"pivot":{"product_id":92,"store_id":1,"product_quantity":32,"created_at":"2024-04-19 18:21:32","updated_at":"2024-08-16 18:02:56"}}],"product_tag":[]}],"product_description":[{"id":77,"product_id":92,"title":"Quick Cleaner","description":"<p><span style=\"background-color:rgb(255,247,249);color:rgb(15,17,17);\">Convenient and easy-to-use for quick clean-ups</span></p>"},{"id":78,"product_id":92,"title":"Pampered Paws","description":"<p><span style=\"background-color:rgb(255,247,249);color:rgb(15,17,17);\">Moisturizes and conditions pet's coat</span></p>"},{"id":79,"product_id":92,"title":"Pet-Friendly","description":"<p><span style=\"background-color:rgb(255,247,249);color:rgb(15,17,17);\">Suitable for dogs, cats, and other furry companions</span></p>"},{"id":80,"product_id":92,"title":"Tender Touch","description":"<p><span style=\"background-color:rgb(255,247,249);color:rgb(15,17,17);\">Gentle cleansing wipes for pets</span></p>"}],"relatedProducts":[{"id":93,"product_name":"Fabby Furever Deo Fresh Deodorant for Dog, Cats and Pups, Odour Neutralizer with Lavender Oil, Long-Lasting Fragrance Perfume, Freshening Deodorizer Spray for All Breeds, Alcohol & Paraben Free, 200ml","price":"450.00","product_image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171576079587.jpeg","offers":null},{"id":107,"product_name":"Equipment Bags","price":"350.00","product_image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/172302535192.jpeg","offers":null},{"id":128,"product_name":"Protective Gear (Gloves & Arm Guards)","price":"899.00","product_image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/172302430198.jpeg","offers":null}]}
-/// success : true
-/// error : 200
-/// status_code : "Success"
+import 'package:flutter_fabby_demo/models/cart_data_model.dart';
 
 class ProductDetailModel {
   ProductDetailModel({
-      Data? data, 
-      bool? success, 
-      num? error, 
+      Data? data,
+      bool? success,
+      num? error,
       String? statusCode,}){
     _data = data;
     _success = success;
@@ -52,18 +49,12 @@ ProductDetailModel copyWith({  Data? data,
 
 }
 
-/// wishlist : true
-/// similar_products : [{"id":107,"product_name":"Equipment Bags","slug":"equipment-bags","mete_title":"satyam tripathi testing Tuesday one meta title","meta_description":"satyam tripathi testing Tuesday one meta title","productId":"Anti- tick","quantity":72,"price":"350.00","barcode":"Anti- tick","country_of_origin":null,"vat_rate":null,"brand_name":null,"category_id":null,"sub_category_id":null,"unit":null,"manufactured_by":"Fabby Furever","description":null,"benefits":null,"active_ingredients":null,"product_image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/172302535192.jpeg","product_img_status":"","long_description":null,"how_to_use":null,"what_included":"","amazon_link":null,"height":200,"width":45,"length":45,"weight":0.22,"type":null,"status":1,"product_image_arr":[{"id":329,"product_id":107,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/172302535192.jpeg","featured_image":1}],"offers":null,"categories":null,"sub_category":null,"store":[{"id":1,"store_name":"Fabby Furever","lat":"25.11388170","lng":"55.20221690","address":"Fabby Furever Private Limited, 701, Aryston Centre, Opp. JW Marriott Hotel, Juhu, Mumbai 49","store_contact":"7777060333","store_email":"\r\ninfo@fabbyfurever.com","store_working_hours":"12:01 AM to 11:59 PM","order_slot_threshold":90,"pivot":{"product_id":107,"store_id":1,"product_quantity":71,"created_at":"2024-05-08 17:10:04","updated_at":"2024-08-16 16:50:45"}}]},{"id":128,"product_name":"Protective Gear (Gloves & Arm Guards)","slug":"protective-gear-gloves-arm-guards","mete_title":"Testing meta title","meta_description":"Testing descriptions","productId":"1232435","quantity":7,"price":"899.00","barcode":"987654","country_of_origin":null,"vat_rate":null,"brand_name":null,"category_id":null,"sub_category_id":null,"unit":null,"manufactured_by":"test manufactured","description":null,"benefits":null,"active_ingredients":null,"product_image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/172302430198.jpeg","product_img_status":"","long_description":null,"how_to_use":null,"what_included":"","amazon_link":"https://in.search.yahoo.com/search?fr=mcafee&type=E211IN826G0&p=bullets+pointer","height":7,"width":7,"length":3,"weight":0.015,"type":null,"status":1,"product_image_arr":[{"id":327,"product_id":128,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/172302430198.jpeg","featured_image":1}],"offers":null,"categories":null,"sub_category":null,"store":[{"id":1,"store_name":"Fabby Furever","lat":"25.11388170","lng":"55.20221690","address":"Fabby Furever Private Limited, 701, Aryston Centre, Opp. JW Marriott Hotel, Juhu, Mumbai 49","store_contact":"7777060333","store_email":"\r\ninfo@fabbyfurever.com","store_working_hours":"12:01 AM to 11:59 PM","order_slot_threshold":90,"pivot":{"product_id":128,"store_id":1,"product_quantity":6,"created_at":"2024-07-23 12:51:28","updated_at":"2024-08-16 16:50:45"}}]},{"id":93,"product_name":"Fabby Furever Deo Fresh Deodorant for Dog, Cats and Pups, Odour Neutralizer with Lavender Oil, Long-Lasting Fragrance Perfume, Freshening Deodorizer Spray for All Breeds, Alcohol & Paraben Free, 200ml","slug":"fabby-furever-deo-fresh-deodorant-for-dog-cats-and-pups-odour-neutralizer-with-lavender-oil-long-lasting-fragrance-perfume-freshening-deodorizer-spray-for-all-breeds-alcohol-paraben-free-200ml","mete_title":"Fabby Furever Deo Fresh Deodorant for Dog, Cats and Pups, Odour Neutralizer with Lavender Oil, Long-Lasting Fragrance Perfume, Freshening Deodorizer Spray for All Breeds, Alcohol & Paraben Free, 200ml","meta_description":"Fabby Furever Deo Fresh Deodorant for Dog, Cats and Pups, Odour Neutralizer with Lavender Oil, Long-Lasting Fragrance Perfume, Freshening Deodorizer Spray for All Breeds, Alcohol & Paraben Free, 200ml","productId":"Deo Fresh","quantity":100,"price":"450.00","barcode":"Deo Fresh","country_of_origin":null,"vat_rate":null,"brand_name":null,"category_id":38,"sub_category_id":50,"unit":null,"manufactured_by":"Fabby Furever","description":null,"benefits":null,"active_ingredients":null,"product_image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171576079587.jpeg","product_img_status":"","long_description":null,"how_to_use":null,"what_included":"","amazon_link":null,"height":20,"width":10,"length":15,"weight":0.225,"type":null,"status":1,"product_image_arr":[{"id":313,"product_id":93,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171576079587.jpeg","featured_image":1},{"id":308,"product_id":93,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/17157607942.jpeg","featured_image":0},{"id":309,"product_id":93,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171576079599.jpeg","featured_image":0},{"id":310,"product_id":93,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171576079573.jpeg","featured_image":0},{"id":311,"product_id":93,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171576079523.jpeg","featured_image":0},{"id":312,"product_id":93,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171576079568.jpeg","featured_image":0}],"offers":null,"categories":{"id":38,"categories_name":"dog"},"sub_category":{"id":50,"subcategory_name":"dog new"},"store":[{"id":1,"store_name":"Fabby Furever","lat":"25.11388170","lng":"55.20221690","address":"Fabby Furever Private Limited, 701, Aryston Centre, Opp. JW Marriott Hotel, Juhu, Mumbai 49","store_contact":"7777060333","store_email":"\r\ninfo@fabbyfurever.com","store_working_hours":"12:01 AM to 11:59 PM","order_slot_threshold":90,"pivot":{"product_id":93,"store_id":1,"product_quantity":42,"created_at":"2024-04-19 18:31:08","updated_at":"2024-07-24 14:33:01"}}]},{"id":130,"product_name":"baby cream","slug":"baby-cream","mete_title":"test meta title","meta_description":"test Meta Description","productId":"525231","quantity":10,"price":"500.00","barcode":"858585","country_of_origin":null,"vat_rate":null,"brand_name":null,"category_id":null,"sub_category_id":50,"unit":null,"manufactured_by":"test manufactured","description":null,"benefits":null,"active_ingredients":null,"product_image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/172543750380.jpeg","product_img_status":"","long_description":null,"how_to_use":null,"what_included":"","amazon_link":"http://13.200.107.164:2100/product-details/74","height":7,"width":7,"length":3,"weight":0.025,"type":null,"status":1,"product_image_arr":[{"id":331,"product_id":130,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/172543750380.jpeg","featured_image":1},{"id":332,"product_id":130,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/172543750447.jpeg","featured_image":0},{"id":333,"product_id":130,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/172543750473.jpeg","featured_image":0},{"id":334,"product_id":130,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/172543750481.jpeg","featured_image":0}],"offers":null,"categories":null,"sub_category":{"id":50,"subcategory_name":"dog new"},"store":[{"id":1,"store_name":"Fabby Furever","lat":"25.11388170","lng":"55.20221690","address":"Fabby Furever Private Limited, 701, Aryston Centre, Opp. JW Marriott Hotel, Juhu, Mumbai 49","store_contact":"7777060333","store_email":"\r\ninfo@fabbyfurever.com","store_working_hours":"12:01 AM to 11:59 PM","order_slot_threshold":90,"pivot":{"product_id":130,"store_id":1,"product_quantity":8,"created_at":"2024-09-04 13:41:44","updated_at":"2024-09-04 15:52:15"}}]}]
-/// products : [{"id":92,"product_name":"Fabby Furever Wet Wipes: Dogs & Cats. Natural Anti-Bacterial. Puppies & All Ages. Unscented. 100 Wipes, Pack of 10","slug":"fabby-furever-wet-wipes-dogs-cats-natural-anti-bacterial-puppies-all-ages-unscented-100-wipes-pack-of-10","mete_title":"Fabby Furever Wet Wipes: Dogs & Cats. Natural Anti-Bacterial. Puppies & All Ages. Unscented. 100 Wipes, Pack of 10","meta_description":"Fabby Furever Wet Wipes: Dogs & Cats. Natural Anti-Bacterial. Puppies & All Ages. Unscented. 100 Wipes, Pack of 10","productId":"Pet Wipes","quantity":100,"price":"550.00","barcode":"Pet Wipes","country_of_origin":null,"vat_rate":null,"brand_name":null,"category_id":38,"sub_category_id":50,"unit":null,"manufactured_by":"Fabby Furever","description":null,"benefits":null,"active_ingredients":null,"product_image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171353109220.jpeg","product_img_status":"","long_description":null,"how_to_use":null,"what_included":"","amazon_link":"https://www.amazon.in/Fabby-Furever-Natural-Chemical-PawfectClean/dp/B0CYWLX78K?ref_=ast_sto_dp","height":5,"width":5,"length":5,"weight":0.01,"type":null,"status":1,"product_image_arr":[{"id":213,"product_id":92,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171353109220.jpeg","featured_image":1},{"id":214,"product_id":92,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171353109258.jpeg","featured_image":0},{"id":215,"product_id":92,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171353109291.jpeg","featured_image":0},{"id":216,"product_id":92,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171353109273.jpeg","featured_image":0},{"id":217,"product_id":92,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171353109229.jpeg","featured_image":0},{"id":218,"product_id":92,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171353109249.jpeg","featured_image":0}],"offers":null,"categories":{"id":38,"categories_name":"dog"},"sub_category":{"id":50,"subcategory_name":"dog new"},"store":[{"id":1,"store_name":"Fabby Furever","lat":"25.11388170","lng":"55.20221690","address":"Fabby Furever Private Limited, 701, Aryston Centre, Opp. JW Marriott Hotel, Juhu, Mumbai 49","store_contact":"7777060333","store_email":"\r\ninfo@fabbyfurever.com","store_working_hours":"12:01 AM to 11:59 PM","order_slot_threshold":90,"pivot":{"product_id":92,"store_id":1,"product_quantity":32,"created_at":"2024-04-19 18:21:32","updated_at":"2024-08-16 18:02:56"}}],"product_tag":[]}]
-/// product_description : [{"id":77,"product_id":92,"title":"Quick Cleaner","description":"<p><span style=\"background-color:rgb(255,247,249);color:rgb(15,17,17);\">Convenient and easy-to-use for quick clean-ups</span></p>"},{"id":78,"product_id":92,"title":"Pampered Paws","description":"<p><span style=\"background-color:rgb(255,247,249);color:rgb(15,17,17);\">Moisturizes and conditions pet's coat</span></p>"},{"id":79,"product_id":92,"title":"Pet-Friendly","description":"<p><span style=\"background-color:rgb(255,247,249);color:rgb(15,17,17);\">Suitable for dogs, cats, and other furry companions</span></p>"},{"id":80,"product_id":92,"title":"Tender Touch","description":"<p><span style=\"background-color:rgb(255,247,249);color:rgb(15,17,17);\">Gentle cleansing wipes for pets</span></p>"}]
-/// relatedProducts : [{"id":93,"product_name":"Fabby Furever Deo Fresh Deodorant for Dog, Cats and Pups, Odour Neutralizer with Lavender Oil, Long-Lasting Fragrance Perfume, Freshening Deodorizer Spray for All Breeds, Alcohol & Paraben Free, 200ml","price":"450.00","product_image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171576079587.jpeg","offers":null},{"id":107,"product_name":"Equipment Bags","price":"350.00","product_image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/172302535192.jpeg","offers":null},{"id":128,"product_name":"Protective Gear (Gloves & Arm Guards)","price":"899.00","product_image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/172302430198.jpeg","offers":null}]
-
 class Data {
   Data({
-      bool? wishlist, 
-      List<SimilarProducts>? similarProducts, 
-      List<Products>? products, 
-      List<ProductDescription>? productDescription, 
+      bool? wishlist,
+      List<SimilarProducts>? similarProducts,
+      List<Products>? products,
+      List<ProductDescription>? productDescription,
       List<RelatedProducts>? relatedProducts,}){
     _wishlist = wishlist;
     _similarProducts = similarProducts;
@@ -141,18 +132,13 @@ Data copyWith({  bool? wishlist,
 
 }
 
-/// id : 93
-/// product_name : "Fabby Furever Deo Fresh Deodorant for Dog, Cats and Pups, Odour Neutralizer with Lavender Oil, Long-Lasting Fragrance Perfume, Freshening Deodorizer Spray for All Breeds, Alcohol & Paraben Free, 200ml"
-/// price : "450.00"
-/// product_image : "https://fabby.s3.ap-south-1.amazonaws.com/images/products/171576079587.jpeg"
-/// offers : null
 
 class RelatedProducts {
   RelatedProducts({
-      num? id, 
-      String? productName, 
-      String? price, 
-      String? productImage, 
+      num? id,
+      String? productName,
+      String? price,
+      String? productImage,
       dynamic offers,}){
     _id = id;
     _productName = productName;
@@ -202,16 +188,11 @@ RelatedProducts copyWith({  num? id,
 
 }
 
-/// id : 77
-/// product_id : 92
-/// title : "Quick Cleaner"
-/// description : "<p><span style=\"background-color:rgb(255,247,249);color:rgb(15,17,17);\">Convenient and easy-to-use for quick clean-ups</span></p>"
-
 class ProductDescription {
   ProductDescription({
-      num? id, 
-      num? productId, 
-      String? title, 
+      num? id,
+      num? productId,
+      String? title,
       String? description,}){
     _id = id;
     _productId = productId;
@@ -254,83 +235,46 @@ ProductDescription copyWith({  num? id,
 
 }
 
-/// id : 92
-/// product_name : "Fabby Furever Wet Wipes: Dogs & Cats. Natural Anti-Bacterial. Puppies & All Ages. Unscented. 100 Wipes, Pack of 10"
-/// slug : "fabby-furever-wet-wipes-dogs-cats-natural-anti-bacterial-puppies-all-ages-unscented-100-wipes-pack-of-10"
-/// mete_title : "Fabby Furever Wet Wipes: Dogs & Cats. Natural Anti-Bacterial. Puppies & All Ages. Unscented. 100 Wipes, Pack of 10"
-/// meta_description : "Fabby Furever Wet Wipes: Dogs & Cats. Natural Anti-Bacterial. Puppies & All Ages. Unscented. 100 Wipes, Pack of 10"
-/// productId : "Pet Wipes"
-/// quantity : 100
-/// price : "550.00"
-/// barcode : "Pet Wipes"
-/// country_of_origin : null
-/// vat_rate : null
-/// brand_name : null
-/// category_id : 38
-/// sub_category_id : 50
-/// unit : null
-/// manufactured_by : "Fabby Furever"
-/// description : null
-/// benefits : null
-/// active_ingredients : null
-/// product_image : "https://fabby.s3.ap-south-1.amazonaws.com/images/products/171353109220.jpeg"
-/// product_img_status : ""
-/// long_description : null
-/// how_to_use : null
-/// what_included : ""
-/// amazon_link : "https://www.amazon.in/Fabby-Furever-Natural-Chemical-PawfectClean/dp/B0CYWLX78K?ref_=ast_sto_dp"
-/// height : 5
-/// width : 5
-/// length : 5
-/// weight : 0.01
-/// type : null
-/// status : 1
-/// product_image_arr : [{"id":213,"product_id":92,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171353109220.jpeg","featured_image":1},{"id":214,"product_id":92,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171353109258.jpeg","featured_image":0},{"id":215,"product_id":92,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171353109291.jpeg","featured_image":0},{"id":216,"product_id":92,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171353109273.jpeg","featured_image":0},{"id":217,"product_id":92,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171353109229.jpeg","featured_image":0},{"id":218,"product_id":92,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/171353109249.jpeg","featured_image":0}]
-/// offers : null
-/// categories : {"id":38,"categories_name":"dog"}
-/// sub_category : {"id":50,"subcategory_name":"dog new"}
-/// store : [{"id":1,"store_name":"Fabby Furever","lat":"25.11388170","lng":"55.20221690","address":"Fabby Furever Private Limited, 701, Aryston Centre, Opp. JW Marriott Hotel, Juhu, Mumbai 49","store_contact":"7777060333","store_email":"\r\ninfo@fabbyfurever.com","store_working_hours":"12:01 AM to 11:59 PM","order_slot_threshold":90,"pivot":{"product_id":92,"store_id":1,"product_quantity":32,"created_at":"2024-04-19 18:21:32","updated_at":"2024-08-16 18:02:56"}}]
-/// product_tag : []
 
 class Products {
   Products({
-      num? id, 
-      String? productName, 
-      String? slug, 
-      String? meteTitle, 
-      String? metaDescription, 
-      String? productId, 
-      num? quantity, 
-      String? price, 
-      String? barcode, 
-      dynamic countryOfOrigin, 
-      dynamic vatRate, 
-      dynamic brandName, 
-      num? categoryId, 
-      num? subCategoryId, 
-      dynamic unit, 
-      String? manufacturedBy, 
-      dynamic description, 
-      dynamic benefits, 
-      dynamic activeIngredients, 
-      String? productImage, 
-      String? productImgStatus, 
-      dynamic longDescription, 
-      dynamic howToUse, 
-      String? whatIncluded, 
-      String? amazonLink, 
-      num? height, 
-      num? width, 
-      num? length, 
-      num? weight, 
-      dynamic type, 
-      num? status, 
-      List<ProductImageArr>? productImageArr, 
-      dynamic offers, 
-      Categories? categories, 
-      SubCategory? subCategory, 
-      List<Store>? store, 
-      List<dynamic>? productTag,}){
+      num? id,
+      String? productName,
+      String? slug,
+      String? meteTitle,
+      String? metaDescription,
+      String? productId,
+      num? quantity,
+      String? price,
+      String? barcode,
+      dynamic countryOfOrigin,
+      dynamic vatRate,
+      dynamic brandName,
+      num? categoryId,
+      num? subCategoryId,
+      dynamic unit,
+      String? manufacturedBy,
+      dynamic description,
+      dynamic benefits,
+      dynamic activeIngredients,
+      String? productImage,
+      String? productImgStatus,
+      dynamic longDescription,
+      dynamic howToUse,
+      String? whatIncluded,
+      String? amazonLink,
+      num? height,
+      num? width,
+      num? length,
+      num? weight,
+      dynamic type,
+      num? status,
+      List<ProductImageArr>? productImageArr,
+      dynamic offers,
+      Categories? categories,
+      SubCategory? subCategory,
+      List<Store>? store,
+      List<ProductTag>? productTag,}){
     _id = id;
     _productName = productName;
     _slug = slug;
@@ -408,6 +352,11 @@ class Products {
         _productImageArr?.add(ProductImageArr.fromJson(v));
       });
     }
+    if (json['product_tag'] != null) {
+      _productTag = (json['product_tag'] as List)
+          .map((tagJson) => ProductTag.fromJson(tagJson as Map<String, dynamic>))
+          .toList();
+    }
     _offers = json['offers'];
     _categories = json['categories'] != null ? Categories.fromJson(json['categories']) : null;
     _subCategory = json['sub_category'] != null ? SubCategory.fromJson(json['sub_category']) : null;
@@ -420,7 +369,7 @@ class Products {
     if (json['product_tag'] != null) {
       _productTag = [];
       json['product_tag'].forEach((v) {
-        _productTag?.add(Dynamic.fromJson(v));
+        _productTag?.add(ProductTag.fromJson(v));
       });
     }
   }
@@ -460,7 +409,7 @@ class Products {
   Categories? _categories;
   SubCategory? _subCategory;
   List<Store>? _store;
-  List<dynamic>? _productTag;
+  List<ProductTag>? _productTag;
 Products copyWith({  num? id,
   String? productName,
   String? slug,
@@ -497,7 +446,7 @@ Products copyWith({  num? id,
   Categories? categories,
   SubCategory? subCategory,
   List<Store>? store,
-  List<dynamic>? productTag,
+  List<ProductTag>? productTag,
 }) => Products(  id: id ?? _id,
   productName: productName ?? _productName,
   slug: slug ?? _slug,
@@ -627,29 +576,67 @@ Products copyWith({  num? id,
   }
 
 }
+class ProductTag {
+  int? id;
+  String? tagName;
+  PivotM? pivot;  // Change Pivot to PivotM
 
-/// id : 1
-/// store_name : "Fabby Furever"
-/// lat : "25.11388170"
-/// lng : "55.20221690"
-/// address : "Fabby Furever Private Limited, 701, Aryston Centre, Opp. JW Marriott Hotel, Juhu, Mumbai 49"
-/// store_contact : "7777060333"
-/// store_email : "\r\ninfo@fabbyfurever.com"
-/// store_working_hours : "12:01 AM to 11:59 PM"
-/// order_slot_threshold : 90
-/// pivot : {"product_id":92,"store_id":1,"product_quantity":32,"created_at":"2024-04-19 18:21:32","updated_at":"2024-08-16 18:02:56"}
+  ProductTag({this.id, this.tagName, this.pivot});
+
+  factory ProductTag.fromJson(Map<String, dynamic> json) {
+    return ProductTag(
+      id: json['id'],
+      tagName: json['tag_name'],
+      pivot: json['pivot'] != null ? PivotM.fromJson(json['pivot']) : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['tag_name'] = tagName;
+    if (pivot != null) {
+      data['pivot'] = pivot?.toJson();
+    }
+    return data;
+  }
+}
+
+
+class PivotM {
+  int? productId;
+  int? productTagId;
+
+  PivotM({this.productId, this.productTagId});
+
+  // Factory constructor for creating a new `Pivot` instance from JSON
+  factory PivotM.fromJson(Map<String, dynamic> json) {
+    return PivotM(
+      productId: json['product_id'],
+      productTagId: json['product_tag_id'],
+    );
+  }
+
+  // Method for converting a `Pivot` instance to a JSON map
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['product_id'] = productId;
+    data['product_tag_id'] = productTagId;
+    return data;
+  }
+}
 
 class Store {
   Store({
-      num? id, 
-      String? storeName, 
-      String? lat, 
-      String? lng, 
-      String? address, 
-      String? storeContact, 
-      String? storeEmail, 
-      String? storeWorkingHours, 
-      num? orderSlotThreshold, 
+      num? id,
+      String? storeName,
+      String? lat,
+      String? lng,
+      String? address,
+      String? storeContact,
+      String? storeEmail,
+      String? storeWorkingHours,
+      num? orderSlotThreshold,
       Pivot? pivot,}){
     _id = id;
     _storeName = storeName;
@@ -736,18 +723,12 @@ Store copyWith({  num? id,
 
 }
 
-/// product_id : 92
-/// store_id : 1
-/// product_quantity : 32
-/// created_at : "2024-04-19 18:21:32"
-/// updated_at : "2024-08-16 18:02:56"
-
 class Pivot {
   Pivot({
-      num? productId, 
-      num? storeId, 
-      num? productQuantity, 
-      String? createdAt, 
+      num? productId,
+      num? storeId,
+      num? productQuantity,
+      String? createdAt,
       String? updatedAt,}){
     _productId = productId;
     _storeId = storeId;
@@ -797,12 +778,9 @@ Pivot copyWith({  num? productId,
 
 }
 
-/// id : 50
-/// subcategory_name : "dog new"
-
 class SubCategory {
   SubCategory({
-      num? id, 
+      num? id,
       String? subcategoryName,}){
     _id = id;
     _subcategoryName = subcategoryName;
@@ -831,12 +809,10 @@ SubCategory copyWith({  num? id,
 
 }
 
-/// id : 38
-/// categories_name : "dog"
 
 class Categories {
   Categories({
-      num? id, 
+      num? id,
       String? categoriesName,}){
     _id = id;
     _categoriesName = categoriesName;
@@ -865,16 +841,11 @@ Categories copyWith({  num? id,
 
 }
 
-/// id : 213
-/// product_id : 92
-/// image : "https://fabby.s3.ap-south-1.amazonaws.com/images/products/171353109220.jpeg"
-/// featured_image : 1
-
 class ProductImageArr {
   ProductImageArr({
-      num? id, 
-      num? productId, 
-      String? image, 
+      num? id,
+      num? productId,
+      String? image,
       num? featuredImage,}){
     _id = id;
     _productId = productId;
@@ -917,80 +888,43 @@ ProductImageArr copyWith({  num? id,
 
 }
 
-/// id : 107
-/// product_name : "Equipment Bags"
-/// slug : "equipment-bags"
-/// mete_title : "satyam tripathi testing Tuesday one meta title"
-/// meta_description : "satyam tripathi testing Tuesday one meta title"
-/// productId : "Anti- tick"
-/// quantity : 72
-/// price : "350.00"
-/// barcode : "Anti- tick"
-/// country_of_origin : null
-/// vat_rate : null
-/// brand_name : null
-/// category_id : null
-/// sub_category_id : null
-/// unit : null
-/// manufactured_by : "Fabby Furever"
-/// description : null
-/// benefits : null
-/// active_ingredients : null
-/// product_image : "https://fabby.s3.ap-south-1.amazonaws.com/images/products/172302535192.jpeg"
-/// product_img_status : ""
-/// long_description : null
-/// how_to_use : null
-/// what_included : ""
-/// amazon_link : null
-/// height : 200
-/// width : 45
-/// length : 45
-/// weight : 0.22
-/// type : null
-/// status : 1
-/// product_image_arr : [{"id":329,"product_id":107,"image":"https://fabby.s3.ap-south-1.amazonaws.com/images/products/172302535192.jpeg","featured_image":1}]
-/// offers : null
-/// categories : null
-/// sub_category : null
-/// store : [{"id":1,"store_name":"Fabby Furever","lat":"25.11388170","lng":"55.20221690","address":"Fabby Furever Private Limited, 701, Aryston Centre, Opp. JW Marriott Hotel, Juhu, Mumbai 49","store_contact":"7777060333","store_email":"\r\ninfo@fabbyfurever.com","store_working_hours":"12:01 AM to 11:59 PM","order_slot_threshold":90,"pivot":{"product_id":107,"store_id":1,"product_quantity":71,"created_at":"2024-05-08 17:10:04","updated_at":"2024-08-16 16:50:45"}}]
-
 class SimilarProducts {
   SimilarProducts({
-      num? id, 
-      String? productName, 
-      String? slug, 
-      String? meteTitle, 
-      String? metaDescription, 
-      String? productId, 
-      num? quantity, 
-      String? price, 
-      String? barcode, 
-      dynamic countryOfOrigin, 
-      dynamic vatRate, 
-      dynamic brandName, 
-      dynamic categoryId, 
-      dynamic subCategoryId, 
-      dynamic unit, 
-      String? manufacturedBy, 
-      dynamic description, 
-      dynamic benefits, 
-      dynamic activeIngredients, 
-      String? productImage, 
-      String? productImgStatus, 
-      dynamic longDescription, 
-      dynamic howToUse, 
-      String? whatIncluded, 
-      dynamic amazonLink, 
-      num? height, 
-      num? width, 
-      num? length, 
-      num? weight, 
-      dynamic type, 
-      num? status, 
-      List<ProductImageArr>? productImageArr, 
-      dynamic offers, 
-      dynamic categories, 
-      dynamic subCategory, 
+      num? id,
+      String? productName,
+      String? slug,
+      String? meteTitle,
+      String? metaDescription,
+      String? productId,
+      num? quantity,
+      String? price,
+      String? barcode,
+      dynamic countryOfOrigin,
+      dynamic vatRate,
+      dynamic brandName,
+      dynamic categoryId,
+      dynamic subCategoryId,
+      dynamic unit,
+      String? manufacturedBy,
+      dynamic description,
+      dynamic benefits,
+      dynamic activeIngredients,
+      String? productImage,
+      String? productImgStatus,
+      dynamic longDescription,
+      dynamic howToUse,
+      String? whatIncluded,
+      dynamic amazonLink,
+      num? height,
+      num? width,
+      num? length,
+      num? weight,
+      dynamic type,
+      num? status,
+      List<ProductImageArr>? productImageArr,
+      dynamic offers,
+      dynamic categories,
+      dynamic subCategory,
       List<Store>? store,}){
     _id = id;
     _productName = productName;
@@ -1271,28 +1205,17 @@ SimilarProducts copyWith({  num? id,
 
 }
 
-/// id : 1
-/// store_name : "Fabby Furever"
-/// lat : "25.11388170"
-/// lng : "55.20221690"
-/// address : "Fabby Furever Private Limited, 701, Aryston Centre, Opp. JW Marriott Hotel, Juhu, Mumbai 49"
-/// store_contact : "7777060333"
-/// store_email : "\r\ninfo@fabbyfurever.com"
-/// store_working_hours : "12:01 AM to 11:59 PM"
-/// order_slot_threshold : 90
-/// pivot : {"product_id":107,"store_id":1,"product_quantity":71,"created_at":"2024-05-08 17:10:04","updated_at":"2024-08-16 16:50:45"}
-
-class Store {
-  Store({
-      num? id, 
-      String? storeName, 
-      String? lat, 
-      String? lng, 
-      String? address, 
-      String? storeContact, 
-      String? storeEmail, 
-      String? storeWorkingHours, 
-      num? orderSlotThreshold, 
+class StoreNew {
+  StoreNew({
+      num? id,
+      String? storeName,
+      String? lat,
+      String? lng,
+      String? address,
+      String? storeContact,
+      String? storeEmail,
+      String? storeWorkingHours,
+      num? orderSlotThreshold,
       Pivot? pivot,}){
     _id = id;
     _storeName = storeName;
@@ -1306,7 +1229,7 @@ class Store {
     _pivot = pivot;
 }
 
-  Store.fromJson(dynamic json) {
+  StoreNew.fromJson(dynamic json) {
     _id = json['id'];
     _storeName = json['store_name'];
     _lat = json['lat'];
@@ -1379,18 +1302,13 @@ Store copyWith({  num? id,
 
 }
 
-/// product_id : 107
-/// store_id : 1
-/// product_quantity : 71
-/// created_at : "2024-05-08 17:10:04"
-/// updated_at : "2024-08-16 16:50:45"
 
-class Pivot {
-  Pivot({
-      num? productId, 
-      num? storeId, 
-      num? productQuantity, 
-      String? createdAt, 
+class PivotNew {
+  PivotNew({
+      num? productId,
+      num? storeId,
+      num? productQuantity,
+      String? createdAt,
       String? updatedAt,}){
     _productId = productId;
     _storeId = storeId;
@@ -1399,7 +1317,7 @@ class Pivot {
     _updatedAt = updatedAt;
 }
 
-  Pivot.fromJson(dynamic json) {
+  PivotNew.fromJson(dynamic json) {
     _productId = json['product_id'];
     _storeId = json['store_id'];
     _productQuantity = json['product_quantity'];
@@ -1440,16 +1358,11 @@ Pivot copyWith({  num? productId,
 
 }
 
-/// id : 329
-/// product_id : 107
-/// image : "https://fabby.s3.ap-south-1.amazonaws.com/images/products/172302535192.jpeg"
-/// featured_image : 1
-
-class ProductImageArr {
-  ProductImageArr({
-      num? id, 
-      num? productId, 
-      String? image, 
+class ProductImageArrNew {
+  ProductImageArrNew({
+      num? id,
+      num? productId,
+      String? image,
       num? featuredImage,}){
     _id = id;
     _productId = productId;
@@ -1457,7 +1370,7 @@ class ProductImageArr {
     _featuredImage = featuredImage;
 }
 
-  ProductImageArr.fromJson(dynamic json) {
+  ProductImageArrNew.fromJson(dynamic json) {
     _id = json['id'];
     _productId = json['product_id'];
     _image = json['image'];
