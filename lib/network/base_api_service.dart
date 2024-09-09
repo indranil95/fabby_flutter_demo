@@ -16,6 +16,13 @@ abstract class BaseApiService {
       String charLimit,
       T Function(Map<String, dynamic>) fromJson);
 
+  Future<BaseResponse<T>> getProducts<T>(
+      String searchOrSort,
+      String paginate,
+      String limit,
+      String charLimit,
+      T Function(Map<String, dynamic>) fromJson);
+
   Future<BaseResponse<T>> blogList<T>(String paginate, String limit,
       String charLimit, T Function(Map<String, dynamic>) fromJson);
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fabby_demo/ui/screens/rightSideMenu.dart';
 import 'package:flutter_fabby_demo/ui/screens/side_menu.dart';
 import 'package:flutter_fabby_demo/ui/screens/wishlist_screen.dart';
 import 'package:flutter_fabby_demo/utils/logger_service.dart';
@@ -92,18 +93,25 @@ class TopBarIcons extends StatelessWidget {
                   const SizedBox(width: 10.0),
 
                   // Profile image with border
-                  Container(
-                    width: 30.0,
-                    height: 30.0,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.pinkAccent, // Border color
-                    ),
-                    child: const Center(
-                      child: CircleAvatar(
-                        radius: 13.0,
-                        backgroundImage: AssetImage(
-                            'assets/profile_img_login.png'), // Profile image
+                  GestureDetector(
+                    onTap: () {
+                      // Handle the click event
+                      print("Profile image clicked!");
+                      NavigationService.navigateTo(const RightsideMenuScreen());
+                      // You can also navigate to another page or show a dialog here
+                    },
+                    child: Container(
+                      width: 30.0,
+                      height: 30.0,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.pinkAccent, // Border color
+                      ),
+                      child: const Center(
+                        child: CircleAvatar(
+                          radius: 13.0,
+                          backgroundImage: AssetImage('assets/profile_img_login.png'), // Profile image
+                        ),
                       ),
                     ),
                   ),
