@@ -18,12 +18,12 @@ class BlogsModel {
   }
 
   Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['data'] = data.toJson();
-    data['success'] = success;
-    data['error'] = error;
-    data['status_code'] = statusCode;
-    return data;
+    final _data = <String, dynamic>{};
+    _data['data'] = data.toJson();
+    _data['success'] = success;
+    _data['error'] = error;
+    _data['status_code'] = statusCode;
+    return _data;
   }
 }
 
@@ -41,10 +41,10 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['slug'] = slug;
-    data['articles'] = articles.map((e)=>e.toJson()).toList();
-    return data;
+    final _data = <String, dynamic>{};
+    _data['slug'] = slug;
+    _data['articles'] = articles.map((e)=>e.toJson()).toList();
+    return _data;
   }
 }
 
@@ -80,15 +80,15 @@ class Articles {
   }
 
   Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['id'] = id;
-    data['title'] = title;
-    data['slug'] = slug;
-    data['author'] = author;
-    data['description'] = description;
-    data['attachments'] = attachments;
-    data['image'] = image;
-    data['published_on'] = publishedOn;
-    return data;
+    final _data = <String, dynamic>{};
+    _data['id'] = id;
+    _data['title'] = title;
+    _data['slug'] = slug;
+    _data['author'] = author;
+    _data['description'] = description;
+    _data['attachments'] = attachments;
+    _data['image'] = image;
+    _data['published_on'] = publishedOn;
+    return _data;
   }
 }

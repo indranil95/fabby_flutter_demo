@@ -110,6 +110,9 @@ flutter:
     - assets/guest_checkout.svg
     - assets/testimonial_logo.png
     - assets/share_pro_details.png
+    - assets/wishlist_grey.png
+    - assets/wishlist1.png
+    - assets/payment_icons.png
 
   fonts:
     - family: DmSerifDisplay

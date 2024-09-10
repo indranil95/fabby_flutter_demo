@@ -11,25 +11,26 @@ class ProductTagList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     LoggerService.d("listSize ${items.length}");
-    return Expanded(
-        child: GridView.builder(
-          padding: const EdgeInsets.all(0), // Optional padding
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 5, // Number of columns in the grid
-            mainAxisSpacing: 2, // Space between rows
-            crossAxisSpacing: 2, // Space between columns
-            childAspectRatio: 0.9, // Aspect ratio to control item height/width
-          ),
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            final dataItem = items[index];
+    return GridView.builder(
+      padding: const EdgeInsets.all(0), // Optional padding
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 5, // Number of columns in the grid
+        mainAxisSpacing: 2, // Space between rows
+        crossAxisSpacing: 2, // Space between columns
+        childAspectRatio: 0.9, // Aspect ratio to control item height/width
+      ),
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        final dataItem = items[index];
 
-            // Ensure your BlogsListItems widget matches the structure of Data class
-            return ProductTagListItems(
-              tagName:dataItem.tagName ?? "",
-            );
-          },
-        )); // Updated to use imageUrl
+        // Ensure your BlogsListItems widget matches the structure of Data class
+        return ProductTagListItems(
+          tagName:dataItem.tagName ?? "",
+        );
+      },
+      shrinkWrap: true, // To ensure the GridView does not take up more space than needed
+      physics: const NeverScrollableScrollPhysics(), // Disable scrolling inside GridView
+    ); // Updated to use imageUrl
 
   }
 }
