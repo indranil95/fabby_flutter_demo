@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_fabby_demo/colors/colors.dart';
 
 class EditableTextWithToggle extends StatefulWidget {
   final TextEditingController controller;
@@ -17,7 +16,7 @@ class EditableTextWithToggle extends StatefulWidget {
   final EdgeInsetsGeometry? contentPadding;
   final void Function(String)? onChanged;
 
-  const EditableTextWithToggle({
+  const EditableTextWithToggle({super.key, 
     required this.controller,
     this.fontSize = 14.0,
     this.fontWeight = FontWeight.normal,

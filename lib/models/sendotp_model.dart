@@ -23,9 +23,9 @@ class SendOtpModel {
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['error'] = this.error;
-    data['status_code'] = this.statusCode;
-    data['success'] = this.success;
+    data['error'] = error;
+    data['status_code'] = statusCode;
+    data['success'] = success;
     return data;
   }
 }
@@ -45,7 +45,7 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['example_field'] = this.exampleField;
+    data['example_field'] = exampleField;
     return data;
   }
 }

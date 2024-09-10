@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_fabby_demo/models/all_product_model.dart';
 import 'package:flutter_fabby_demo/models/product_detail_model.dart';
-import 'package:flutter_fabby_demo/ui/listItems/all_product_items.dart';
 import 'package:flutter_fabby_demo/ui/listItems/product_tag_list_items.dart';
 import 'package:flutter_fabby_demo/utils/logger_service.dart';
 

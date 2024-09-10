@@ -1,5 +1,4 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fabby_demo/ui/lists/products_list_vertical.dart';
 import 'package:flutter_fabby_demo/ui/screens/top_bar_detail.dart';
@@ -10,17 +9,16 @@ import '../../AppConstant/app_constant.dart';
 import '../../colors/colors.dart';
 import '../../strings/strings.dart';
 import '../../viewModels/dashboard_viewmodel.dart';
-import '../lists/products_list_vertical.dart';
 
 class ProductListScreen extends StatefulWidget {
-  ProductListScreen({super.key});
+  const ProductListScreen({super.key});
   @override
   _ProductListScreenState createState() => _ProductListScreenState();
 }
 
 class _ProductListScreenState extends State<ProductListScreen> {
   late DashboardViewModel viewModel;
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -63,7 +61,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.3),
                     blurRadius: 10.0,
-                    offset: Offset(0, 5),
+                    offset: const Offset(0, 5),
                   ),
                 ],
               ),
@@ -82,8 +80,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
                       // Perform search when search icon is tapped
                       // Update your viewModel or function to handle search
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 16.0), // Add padding to move icon away from the edge
+                    child: const Padding(
+                      padding: EdgeInsets.only(right: 16.0), // Add padding to move icon away from the edge
                       child: Icon(Icons.search, color: AppColors.fabbyBondiBlue),
                     ),
                   ),

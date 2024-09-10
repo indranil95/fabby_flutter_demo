@@ -19,12 +19,12 @@ class ContactUsModel {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['data'] = data.toJson();
-    _data['success'] = success;
-    _data['error'] = error;
-    _data['status_code'] = statusCode;
-    return _data;
+    final data = <String, dynamic>{};
+    data['data'] = data.toJson();
+    data['success'] = success;
+    data['error'] = error;
+    data['status_code'] = statusCode;
+    return data;
   }
 }
 
@@ -52,12 +52,12 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['email'] = email;
-    _data['id'] = id;
-    _data['message'] = message;
-    _data['mobile'] = mobile;
-    _data['name'] = name;
-    return _data;
+    final data = <String, dynamic>{};
+    data['email'] = email;
+    data['id'] = id;
+    data['message'] = message;
+    data['mobile'] = mobile;
+    data['name'] = name;
+    return data;
   }
 }

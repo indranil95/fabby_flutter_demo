@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_fabby_demo/models/blogs_detail_model.dart';
 import 'package:flutter_fabby_demo/ui/screens/top_bar_detail.dart';
 import 'package:flutter_fabby_demo/utils/custom_network_image.dart';
 import 'package:flutter_fabby_demo/utils/logger_service.dart';
@@ -9,17 +8,14 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import '../../AppConstant/app_constant.dart';
 import '../../colors/colors.dart';
-import '../../network/api_service.dart';
 
 import '../../strings/strings.dart';
 import '../../utils/html_renderer.dart';
 import '../../utils/navigation_service.dart';
-import '../../viewModels/dashboard_viewmodel.dart';
 import '../lists/RecentBlog_list.dart';
-import '../lists/blogs_list_vertical.dart';
 
 class BlogScreen extends StatefulWidget {
-  BlogScreen({super.key});
+  const BlogScreen({super.key});
   @override
   _BlogScreenState createState() => _BlogScreenState();
 }
@@ -93,7 +89,7 @@ class _BlogScreenState extends State<BlogScreen> {
                           LoggerService.d('Blog Detail clicked at index: $index');
                           final items = viewModel.blogsModelData?.data.articles ?? [];
                           final item = items[index];
-                          NavigationService.navigateToWithData(BlogScreen(), data: {"slug": item.slug});
+                          NavigationService.navigateToWithData(const BlogScreen(), data: {"slug": item.slug});
                         },
                       ),
                     ),

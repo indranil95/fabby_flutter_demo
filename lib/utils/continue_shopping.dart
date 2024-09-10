@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 
@@ -14,7 +13,7 @@ class ContinueShoppingButton extends StatelessWidget {
   final String? fontFamily;// Add textSize parameter
 
 
-  ContinueShoppingButton({required this.text,required this.height,required this.width, this.onPressed,this.color,required this.textColor,required this.textSize,required this.fontWeight,required this.fontFamily,});
+  const ContinueShoppingButton({super.key, required this.text,required this.height,required this.width, this.onPressed,this.color,required this.textColor,required this.textSize,required this.fontWeight,required this.fontFamily,});
 
   @override
   Widget build(BuildContext context) {

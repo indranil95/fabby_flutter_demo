@@ -1,5 +1,4 @@
 import '../models/sendotp_model.dart';
-import '../models/signup_model.dart';
 import '../network/api_service.dart';
 
 class ForgotPasswordRepository{

@@ -2,6 +2,7 @@
 /// success : true
 /// error : 200
 /// status_code : "Success Removed From Cart"
+library;
 
 class RemoveMultipleItemModel {
   RemoveMultipleItemModel({

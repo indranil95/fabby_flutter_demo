@@ -1,4 +1,3 @@
-import 'package:flutter_fabby_demo/models/cart_data_model.dart';
 
 class ProductDetailModel {
   ProductDetailModel({

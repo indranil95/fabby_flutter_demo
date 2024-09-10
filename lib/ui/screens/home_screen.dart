@@ -17,7 +17,6 @@ import '../../utils/navigation_service.dart';
 import '../../viewModels/dashboard_viewmodel.dart';
 import '../lists/banner_list.dart';
 import '../lists/category_list.dart';
-import 'package:flutter_fabby_demo/ui/listItems/Testimonial_items.dart';
 import 'package:flutter_fabby_demo/ui/lists/testimonial_list.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -185,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             onTap: () {
                               // Perform your action here, like navigating to another screen
                               print("View All tapped");
-                              NavigationService.navigateToWithData(ProductListScreen());
+                              NavigationService.navigateToWithData(const ProductListScreen());
                             },
                             child: Card(
                               color: AppColors.fabbyBondiBlue,
@@ -232,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               /*NavigationService.navigateToWithData(
                               const BlogScreen(), data: {"email": _emailController.text});
                               });*/
-                              NavigationService.navigateToWithData( BlogScreen(),data: {"slug":item.slug});
+                              NavigationService.navigateToWithData( const BlogScreen(),data: {"slug":item.slug});
                             },
                            ),
                         ),
@@ -245,7 +244,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             onTap: () {
                               // Perform your action here, like navigating to another screen
                               print("View All tapped");
-                              NavigationService.navigateToWithData(BlogListScreen());
+                              NavigationService.navigateToWithData(const BlogListScreen());
                             },
                             child: Card(
                               color: AppColors.cardBackColor,

@@ -18,12 +18,12 @@ class GuestModel {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['data'] = data.toJson();
-    _data['success'] = success;
-    _data['status_code'] = statusCode;
-    _data['token'] = token;
-    return _data;
+    final data = <String, dynamic>{};
+    data['data'] = data.toJson();
+    data['success'] = success;
+    data['status_code'] = statusCode;
+    data['token'] = token;
+    return data;
   }
 }
 
@@ -41,10 +41,10 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['user'] = user.toJson();
-    _data['guestId'] = guestId;
-    return _data;
+    final data = <String, dynamic>{};
+    data['user'] = user.toJson();
+    data['guestId'] = guestId;
+    return data;
   }
 }
 
@@ -167,44 +167,44 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['fullname'] = fullname;
-    _data['lastname'] = lastname;
-    _data['avatar'] = avatar;
-    _data['country_code'] = countryCode;
-    _data['mobile'] = mobile;
-    _data['device_token'] = deviceToken;
-    _data['email'] = email;
-    _data['dob'] = dob;
-    _data['empId'] = empId;
-    _data['gender'] = gender;
-    _data['nationality'] = nationality;
-    _data['emirates_id'] = emiratesId;
-    _data['health_card'] = healthCard;
-    _data['citizenship_card'] = citizenshipCard;
-    _data['driver_license_num'] = driverLicenseNum;
-    _data['email_verified_at'] = emailVerifiedAt;
-    _data['password'] = password;
-    _data['otp'] = otp;
-    _data['otp_expire_time'] = otpExpireTime;
-    _data['address'] = address;
-    _data['city'] = city;
-    _data['state'] = state;
-    _data['postal_code'] = postalCode;
-    _data['lat'] = lat;
-    _data['lng'] = lng;
-    _data['fid'] = fid;
-    _data['gid'] = gid;
-    _data['isStoppedRequest'] = isStoppedRequest;
-    _data['is_fb_signup'] = isFbSignup;
-    _data['is_gmail_signup'] = isGmailSignup;
-    _data['is_manual_signup'] = isManualSignup;
-    _data['store_id'] = storeId;
-    _data['employee_status_id'] = employeeStatusId;
-    _data['signup_platform'] = signupPlatform;
-    _data['unique_no'] = uniqueNo;
-    _data['device_type'] = deviceType;
-    return _data;
+    final data = <String, dynamic>{};
+    data['id'] = id;
+    data['fullname'] = fullname;
+    data['lastname'] = lastname;
+    data['avatar'] = avatar;
+    data['country_code'] = countryCode;
+    data['mobile'] = mobile;
+    data['device_token'] = deviceToken;
+    data['email'] = email;
+    data['dob'] = dob;
+    data['empId'] = empId;
+    data['gender'] = gender;
+    data['nationality'] = nationality;
+    data['emirates_id'] = emiratesId;
+    data['health_card'] = healthCard;
+    data['citizenship_card'] = citizenshipCard;
+    data['driver_license_num'] = driverLicenseNum;
+    data['email_verified_at'] = emailVerifiedAt;
+    data['password'] = password;
+    data['otp'] = otp;
+    data['otp_expire_time'] = otpExpireTime;
+    data['address'] = address;
+    data['city'] = city;
+    data['state'] = state;
+    data['postal_code'] = postalCode;
+    data['lat'] = lat;
+    data['lng'] = lng;
+    data['fid'] = fid;
+    data['gid'] = gid;
+    data['isStoppedRequest'] = isStoppedRequest;
+    data['is_fb_signup'] = isFbSignup;
+    data['is_gmail_signup'] = isGmailSignup;
+    data['is_manual_signup'] = isManualSignup;
+    data['store_id'] = storeId;
+    data['employee_status_id'] = employeeStatusId;
+    data['signup_platform'] = signupPlatform;
+    data['unique_no'] = uniqueNo;
+    data['device_type'] = deviceType;
+    return data;
   }
 }

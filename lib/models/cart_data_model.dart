@@ -2,6 +2,7 @@
 /// success : true
 /// error : 200
 /// status_code : "Successfully Fetched Cart Data"
+library;
 
 class CartDataModel {
   CartDataModel({

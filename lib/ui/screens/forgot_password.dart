@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fabby_demo/ui/screens/resetpassword_otp.dart';
 import 'package:flutter_fabby_demo/viewModels/forgotpassword_viewmodel.dart';

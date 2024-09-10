@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fabby_demo/colors/colors.dart';
 import 'package:flutter_fabby_demo/utils/text_utils.dart';
 
-import '../../utils/tag_button.dart';
 
 class ProductTagListItems extends StatelessWidget {
   final String tagName;

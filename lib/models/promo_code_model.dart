@@ -2,6 +2,7 @@
 /// success : true
 /// error : "Coupon Applied"
 /// status_code : 200
+library;
 
 class PromoCodeModel {
   PromoCodeModel({

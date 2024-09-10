@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fabby_demo/models/blogs_model.dart';
 import 'package:flutter_fabby_demo/ui/listItems/recentblog_list_items.dart';
 
-import '../listItems/all_blogs_list_item.dart';
 
 class RecentblogList extends StatelessWidget {
   final List<Articles> items; // Ensure this matches your data type

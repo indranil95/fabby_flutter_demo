@@ -28,9 +28,9 @@ class TestimonialsList extends StatelessWidget {
   final List<Map<String, String>> testimonials;
 
   const TestimonialsList({
-    Key? key,
+    super.key,
     required this.testimonials,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

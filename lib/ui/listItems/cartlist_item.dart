@@ -127,7 +127,7 @@ class _WishlistItemState extends State<CartListItem> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: Container(
+                child: SizedBox(
                   width: 115,
                   height: 115,
                   child: Stack(

@@ -2,6 +2,7 @@
 /// success : true
 /// error : 200
 /// status_code : "Product already in cart"
+library;
 
 class AddToCartModel {
   AddToCartModel({

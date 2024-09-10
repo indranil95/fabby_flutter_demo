@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_fabby_demo/AppConstant/app_constant.dart';
 import 'package:flutter_fabby_demo/utils/image_utils.dart';
 
 import '../../colors/colors.dart';

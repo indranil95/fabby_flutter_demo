@@ -18,12 +18,12 @@ class BannerModel {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['data'] = data.toJson();
-    _data['success'] = success;
-    _data['error'] = error;
-    _data['status_code'] = statusCode;
-    return _data;
+    final data = <String, dynamic>{};
+    data['data'] = data.toJson();
+    data['success'] = success;
+    data['error'] = error;
+    data['status_code'] = statusCode;
+    return data;
   }
 }
 
@@ -38,9 +38,9 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['web_banners'] = webBanners.map((e)=>e.toJson()).toList();
-    return _data;
+    final data = <String, dynamic>{};
+    data['web_banners'] = webBanners.map((e)=>e.toJson()).toList();
+    return data;
   }
 }
 
@@ -85,18 +85,18 @@ class WebBanners {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['banner'] = banner;
-    _data['mobile_banner'] = mobileBanner;
-    _data['title'] = title;
-    _data['subtitle'] = subtitle;
-    _data['cat_id'] = catId;
-    _data['sub_cat_id'] = subCatId;
-    _data['status'] = status;
-    _data['created_at'] = createdAt;
-    _data['updated_at'] = updatedAt;
-    _data['deleted_at'] = deletedAt;
-    return _data;
+    final data = <String, dynamic>{};
+    data['id'] = id;
+    data['banner'] = banner;
+    data['mobile_banner'] = mobileBanner;
+    data['title'] = title;
+    data['subtitle'] = subtitle;
+    data['cat_id'] = catId;
+    data['sub_cat_id'] = subCatId;
+    data['status'] = status;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    return data;
   }
 }

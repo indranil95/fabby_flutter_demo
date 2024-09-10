@@ -18,9 +18,9 @@ class SignUpModel {
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['status_code'] = this.statusCode;
-    data['success'] = this.success;
-    data['token'] = this.token;
+    data['status_code'] = statusCode;
+    data['success'] = success;
+    data['token'] = token;
     return data;
   }
 }

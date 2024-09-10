@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_fabby_demo/models/all_product_model.dart';
 import 'package:flutter_fabby_demo/models/blogs_model.dart';
 import 'package:flutter_fabby_demo/ui/listItems/blogs_list_item.dart';
 

@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 
@@ -8,7 +7,7 @@ class CancelButton extends StatelessWidget {
   final double height;
   final double width;
 
-  CancelButton({required this.text,required this.height,required this.width, this.onPressed});
+  const CancelButton({super.key, required this.text,required this.height,required this.width, this.onPressed});
 
   @override
   Widget build(BuildContext context) {

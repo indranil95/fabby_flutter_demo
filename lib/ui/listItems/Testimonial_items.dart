@@ -7,12 +7,12 @@ class TestimonialCard extends StatelessWidget {
   final double width;
 
   const TestimonialCard({
-    Key? key,
+    super.key,
     required this.name,
     required this.title,
     required this.testimonial,
     this.width = 250.0,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

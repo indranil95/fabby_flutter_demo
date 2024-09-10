@@ -68,7 +68,7 @@ class _CartScreenState extends State<CartScreen> {
       'buy_now': AppConstants.blankLimit,
       'store_id': AppConstants.storeId,
       'user_id': int.parse(mainId),
-      'guestid': guestId ?? null, // Handle the case where guestId is null
+      'guestid': guestId, // Handle the case where guestId is null
     };
 
     viewModel.cartDataList(requestBody);

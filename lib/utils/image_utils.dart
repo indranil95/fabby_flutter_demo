@@ -1,7 +1,6 @@
 // image_utils.dart
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 
@@ -39,7 +38,7 @@ class SvgImage {
 class SvgFromApiWidget extends StatefulWidget {
   final String url;
 
-  SvgFromApiWidget({required this.url});
+  const SvgFromApiWidget({super.key, required this.url});
 
   @override
   _SvgFromApiWidgetState createState() => _SvgFromApiWidgetState();
@@ -81,9 +80,9 @@ class _SvgFromApiWidgetState extends State<SvgFromApiWidget> {
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return CircularProgressIndicator();
+      return const CircularProgressIndicator();
     } else if (hasError || svgData == null) {
-      return Text('Error loading SVG');
+      return const Text('Error loading SVG');
     } else {
       return SvgPicture.string(
         svgData!,

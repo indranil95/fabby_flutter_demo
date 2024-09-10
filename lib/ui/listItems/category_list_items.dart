@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fabby_demo/utils/text_utils.dart';
-import '../../colors/colors.dart';
 
 class CategoryListItem extends StatelessWidget {
   final String label; // Label for the category item

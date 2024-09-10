@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_fabby_demo/models/sendotp_model.dart';
 import 'package:flutter_fabby_demo/repository/forgotpassword_repository.dart';
 
-import '../models/signup_model.dart';
-import '../repository/signup_repository.dart';
 
 
 class ForgotPasswordViewModel extends ChangeNotifier {
