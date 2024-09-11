@@ -36,6 +36,9 @@ class ProductDetailViewModel extends ChangeNotifier {
   AddToCartModel? _addToCartModel;
 
   AddToCartModel? get addToCartModel => _addToCartModel;
+  AddToCartModel? _addToCartModelBuyNow;
+
+  AddToCartModel? get addToCartModelBuyNow => _addToCartModelBuyNow;
 
   Future<void> getProductDetail(
       String productId, String userId, String guestId) async {
@@ -125,6 +128,26 @@ class ProductDetailViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+  Future<void> addToCartBuyNow(Map<String, dynamic> requestBody) async {
+    _loading = true;
+    notifyListeners();
+
+    try {
+      final response = await repository.addToCartBuyNow(requestBody);
+
+      if (response == null) {
+        throw Exception('Failed to send contact us request');
+      }
+
+      _addToCartModelBuyNow = response;
+      _error = '';
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
+  }
 
   Future<String> getMainId() async {
     String mainId = "";
@@ -157,5 +180,9 @@ class ProductDetailViewModel extends ChangeNotifier {
   Future<String?> getGuestId() async {
     final prefs = await SharedPrefsHelper.getInstance();
     return prefs.getString('guestId');
+  }
+  Future<String?> getLoginSuccess() async {
+    final prefs = await SharedPrefsHelper.getInstance();
+    return prefs.getString('loginSuccess');
   }
 }

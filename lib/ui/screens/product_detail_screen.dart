@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fabby_demo/models/product_detail_model.dart';
+import 'package:flutter_fabby_demo/ui/lists/frequestly_bought_together_list.dart';
+import 'package:flutter_fabby_demo/ui/lists/product_description_list.dart';
 import 'package:flutter_fabby_demo/ui/screens/top_bar_detail.dart';
 import 'package:flutter_fabby_demo/utils/logger_service.dart';
 import 'package:flutter_fabby_demo/utils/snackbar_utils.dart';
@@ -12,10 +14,10 @@ import '../../AppConstant/app_constant.dart';
 import '../../colors/colors.dart';
 import '../../strings/strings.dart';
 import '../../utils/image_utils.dart';
-import '../../utils/navigation_service.dart';
 import '../../utils/text_utils.dart';
 import '../dialog/custom_add_to_cart_dialog.dart';
 import '../dialog/custom_dialog.dart';
+import '../lists/frequently_bought_choose_item_list.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({super.key});
@@ -36,11 +38,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   bool _callCheck = false;
   bool _wishlist = false;
 
-  int productCount=1;
+  int productCount = 1;
   late ProductDetailViewModel viewModel;
   final PageController _pageController = PageController();
   List<String> _imageUrls = [];
   List<ProductTag> _tag = [];
+  List<ProductDescription>? productDescription = [];
+  List<RelatedProducts>? relatedProducts = [];
   String productIdString = AppConstants.noData;
   String productName = "";
   String slug = "";
@@ -56,6 +60,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     // Implement the function to remove decimal points from the string
     return value.split('.')[0]; // This is a simple example
   }
+
   bool isValidPinCode(String pincode) {
     // Check if the pincode is not empty
     if (pincode.isEmpty) {
@@ -68,6 +73,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     // Test the pincode against the regular expression
     return pinCodeRegExp.hasMatch(pincode);
   }
+
   void addToCartDialog(BuildContext context, String title, String productName) {
     showDialog(
       context: context,
@@ -84,6 +90,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       },
     );
   }
+
   @override
   void initState() {
     super.initState();
@@ -113,7 +120,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       });
     });
 
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (productIdString.isNotEmpty &&
           productIdString != AppConstants.noData) {
@@ -127,7 +133,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     String? guestId = await viewModel.getGuestId();
     viewModel.getProductDetail(productId, mainId, guestId ?? "");
   }
-  void showSimpleDialog(BuildContext context,String message) {
+
+  void showSimpleDialog(BuildContext context, String message) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -142,6 +149,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     final data =
@@ -162,8 +170,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           }
 
           final products = viewModel.productDetailMode?.data?.products;
-          slug=viewModel.productDetailMode?.data?.products?[0].slug ?? "";
-           _wishlist=viewModel.productDetailMode?.data?.wishlist ?? false;
+          slug = viewModel.productDetailMode?.data?.products?[0].slug ?? "";
+          _wishlist = viewModel.productDetailMode?.data?.wishlist ?? false;
+          productDescription =
+              viewModel.productDetailMode?.data?.productDescription;
+          relatedProducts = viewModel.productDetailMode?.data?.relatedProducts;
           LoggerService.d("products: ", products?.length);
 
           if (products != null && products.isNotEmpty) {
@@ -491,9 +502,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       children: [
                                         GestureDetector(
                                           onTap: () {
-                                            if(productCount>1){
+                                            if (productCount > 1) {
                                               setState(() {
-                                                productCount=productCount-1;
+                                                productCount = productCount - 1;
                                               });
                                             }
                                           },
@@ -509,7 +520,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                           ),
                                         ),
                                         TextUtils.display(
-                                          productCount.toString(), // Replace with actual count
+                                          productCount.toString(),
+                                          // Replace with actual count
                                           fontSize: 18,
                                           color: AppColors.sortTextColor,
                                           // Replace with your color
@@ -518,7 +530,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                         GestureDetector(
                                           onTap: () {
                                             setState(() {
-                                              productCount=productCount+1;
+                                              productCount = productCount + 1;
                                             });
                                           },
                                           child: Container(
@@ -608,7 +620,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 ),
                               ),
                             ),
-
                             Container(
                               width: 100.0,
                               height: 40.0,
@@ -622,19 +633,28 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   ),
                                 ),
                                 onPressed: () async {
-                                  LoggerService.d("pinCodeText: ",_callCheck);
-                                  if(_callCheck){
-                                    await viewModel.checkEstimateDelivery(_pinCodeController.text);
-                                    if (viewModel.checkEstimateDeliveryModel?.success == true){
-                                      final estimateDelivery = viewModel.checkEstimateDeliveryModel?.data;
+                                  LoggerService.d("pinCodeText: ", _callCheck);
+                                  if (_callCheck) {
+                                    await viewModel.checkEstimateDelivery(
+                                        _pinCodeController.text);
+                                    if (viewModel.checkEstimateDeliveryModel
+                                            ?.success ==
+                                        true) {
+                                      final estimateDelivery = viewModel
+                                          .checkEstimateDeliveryModel?.data;
                                       setState(() {
-                                        _showDate=true;
-                                        estimateDeliveryDate="Delivery in ${estimateDelivery?.days} Days, ${estimateDelivery?.date}";
+                                        _showDate = true;
+                                        estimateDeliveryDate =
+                                            "Delivery in ${estimateDelivery?.days} Days, ${estimateDelivery?.date}";
                                       });
-                                    }else{
-                                      SnackbarService.showErrorSnackbar(context, viewModel.checkEstimateDeliveryModel?.statusCode ?? "Something went wrong");
+                                    } else {
+                                      SnackbarService.showErrorSnackbar(
+                                          context,
+                                          viewModel.checkEstimateDeliveryModel
+                                                  ?.statusCode ??
+                                              "Something went wrong");
                                     }
-                                  }else{
+                                  } else {
                                     _pinError = AppStrings.thisFieldIsRequired;
                                     _showPinError = true;
                                   }
@@ -652,8 +672,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                       if (_showPinError)
                         Container(
-                          padding: const EdgeInsets.only(
-                              left: 5.0),
+                          padding: const EdgeInsets.only(left: 5.0),
                           alignment: Alignment.topLeft,
                           child: TextUtils.errorText(
                             _pinError,
@@ -665,10 +684,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             fontFamily: 'Poppins',
                           ),
                         ),
-                      if(_showDate)
+                      if (_showDate)
                         Container(
-                          padding: const EdgeInsets.only(
-                              left: 5.0),
+                          padding: const EdgeInsets.only(left: 5.0),
                           alignment: Alignment.topLeft,
                           child: TextUtils.errorText(
                             estimateDeliveryDate,
@@ -686,116 +704,158 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             // Image
-                            GestureDetector(onTap: () async{
-                              String mainId = await viewModel.getMainId();
-                              String? guestId =
-                                  await viewModel.getGuestId();
-                              final requestBody = {
-                                'slug': slug,
-                                'product_id': productId,
-                                'userid': mainId,
-                                'guestid': guestId,
-                              };
-                              await viewModel.favourite(requestBody);
-                              if(viewModel.favouriteModel?.success == true){
-                                showSimpleDialog(context,viewModel.favouriteModel?.statusCode ??"Something went wrong");
-                              }else{
-                                SnackbarService.showErrorSnackbar(context, viewModel.favouriteModel?.statusCode ??"Something went wrong");
-                              }
-                            },child: PngImage.asset(_wishlist ?'assets/wishlist1.png'
-                              :'assets/wishlist_grey.png',width: 55.0,
-                              height: 55.0,),)
-                             , // Replace with your image asset
+                            GestureDetector(
+                              onTap: () async {
+                                String mainId = await viewModel.getMainId();
+                                String? guestId = await viewModel.getGuestId();
+                                final requestBody = {
+                                  'slug': slug,
+                                  'product_id': productId,
+                                  'userid': mainId,
+                                  'guestid': guestId,
+                                };
+                                await viewModel.favourite(requestBody);
+                                if (viewModel.favouriteModel?.success == true) {
+                                  showSimpleDialog(
+                                      context,
+                                      viewModel.favouriteModel?.statusCode ??
+                                          "Something went wrong");
+                                } else {
+                                  SnackbarService.showErrorSnackbar(
+                                      context,
+                                      viewModel.favouriteModel?.statusCode ??
+                                          "Something went wrong");
+                                }
+                              },
+                              child: PngImage.asset(
+                                _wishlist
+                                    ? 'assets/wishlist1.png'
+                                    : 'assets/wishlist_grey.png',
+                                width: 55.0,
+                                height: 55.0,
+                              ),
+                            ), // Replace with your image asset
 
                             const SizedBox(width: 10.0),
                             // Text with drawable end
-                            GestureDetector(onTap: () async{
-                              String mainId = await viewModel.getMainId();
-                              String? guestId =
-                              await viewModel.getGuestId();
-                              final requestBody = {
-                                'cart_count': productCount,
-                                'guestid': guestId,
-                                'product_id': productId,
-                                "product_name": productName,
-                                "store_id": AppConstants.storeId,
-                                'userid': mainId,
-
-                              };
-                              await viewModel.addToCart(requestBody);
-                              if(viewModel.addToCartModel?.success == true){
-                                if (viewModel.addToCartModel?.statusCode ==
-                                    "Success") {
-                                  addToCartDialog(context, AppStrings.addedToCart,
-                                      productName);
+                            GestureDetector(
+                              onTap: () async {
+                                String mainId = await viewModel.getMainId();
+                                String? guestId = await viewModel.getGuestId();
+                                final requestBody = {
+                                  'cart_count': productCount,
+                                  'guestid': guestId,
+                                  'product_id': productId,
+                                  "product_name": productName,
+                                  "store_id": AppConstants.storeId,
+                                  'userid': mainId,
+                                };
+                                await viewModel.addToCart(requestBody);
+                                if (viewModel.addToCartModel?.success == true) {
+                                  if (viewModel.addToCartModel?.statusCode ==
+                                      "Success") {
+                                    addToCartDialog(context,
+                                        AppStrings.addedToCart, productName);
+                                  } else {
+                                    addToCartDialog(
+                                        context,
+                                        AppStrings.productAlreadyInCart,
+                                        productName);
+                                  }
                                 } else {
-                                  addToCartDialog(
+                                  SnackbarService.showErrorSnackbar(
                                       context,
-                                      AppStrings.productAlreadyInCart,
-                                      productName);
+                                      viewModel.addToCartModel?.statusCode ??
+                                          "Something went wrong");
                                 }
-                              }else{
-                                SnackbarService.showErrorSnackbar(context, viewModel.addToCartModel?.statusCode ?? "Something went wrong");
-                              }
-
-                            },child: Container(
-                              width: 150.0,
-                              height: 50.0,
-                              padding:
-                              const EdgeInsets.symmetric(horizontal: 10.0),
-                              decoration: BoxDecoration(
-                                color: AppColors.transparentColor,
-                                // Replace with your drawable background
-                                borderRadius: BorderRadius.circular(
-                                    20.0),
-                                border: Border.all(
-                                  color: Colors.black, // Black border color
-                                  width: 1.0, // Border width
-                                ),// Rounded corners
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Expanded(
-                                    child: Center(
-                                      child: TextUtils.display(
-                                        AppStrings.addedToCart,
-                                        fontFamily: 'Poppins',
-                                        fontSize: 13.0,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors
-                                            .black,
+                              },
+                              child: Container(
+                                width: 150.0,
+                                height: 50.0,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0),
+                                decoration: BoxDecoration(
+                                  color: AppColors.transparentColor,
+                                  // Replace with your drawable background
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  border: Border.all(
+                                    color: Colors.black, // Black border color
+                                    width: 1.0, // Border width
+                                  ), // Rounded corners
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Expanded(
+                                      child: Center(
+                                        child: TextUtils.display(
+                                          AppStrings.addedToCart,
+                                          fontFamily: 'Poppins',
+                                          fontSize: 13.0,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 10.0),
-                                  PngImage.asset('assets/cart_icon_new.png',width: 20.0,
-                                      height: 20.0),
-                                  // Replace with your drawable end icon
-                                ],
+                                    const SizedBox(width: 10.0),
+                                    PngImage.asset('assets/cart_icon_new.png',
+                                        width: 20.0, height: 20.0),
+                                    // Replace with your drawable end icon
+                                  ],
+                                ),
                               ),
-                            ),)
-                            ,
+                            ),
                             const SizedBox(width: 10.0),
                             // Card with Text
-                            Card(
-                              margin: const EdgeInsets.only(left: 10.0),
-                              color: AppColors.fabbyBondiBlue,
-                              // Replace with your card background color
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                              child: SizedBox(
-                                width: 120.0,
-                                height: 50.0,
-                                child: Center(
-                                  child: TextUtils.display(
-                                    AppStrings.buyNow,
-                                    fontFamily: 'Poppins',
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors
-                                        .white,
+                            GestureDetector(
+                              onTap: () async {
+                                String mainId = await viewModel.getMainId();
+                                String? guestId = await viewModel.getGuestId();
+                                String? loginSuccess =
+                                    await viewModel.getLoginSuccess();
+                                final requestBody = {
+                                  'buy_now': AppConstants.buyNow,
+                                  'cart_count': AppConstants.wishListCartCount,
+                                  'guestid': guestId,
+                                  'product_id': productId,
+                                  "product_name": productName,
+                                  "store_id": AppConstants.storeId,
+                                  'user_id': mainId,
+                                };
+                                await viewModel.addToCartBuyNow(requestBody);
+                                if (viewModel.addToCartModelBuyNow?.success ==
+                                    true) {
+                                  if (loginSuccess?.isNotEmpty == true) {
+                                    LoggerService.d("stat: ", "member");
+                                  } else {
+                                    LoggerService.d("stat: ", "guest");
+                                  }
+                                } else {
+                                  SnackbarService.showErrorSnackbar(
+                                      context,
+                                      viewModel.addToCartModelBuyNow
+                                              ?.statusCode ??
+                                          "Something went wrong");
+                                }
+                              },
+                              child: Card(
+                                margin: const EdgeInsets.only(left: 10.0),
+                                color: AppColors.fabbyBondiBlue,
+                                // Replace with your card background color
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
+                                child: SizedBox(
+                                  width: 120.0,
+                                  height: 50.0,
+                                  child: Center(
+                                    child: TextUtils.display(
+                                      AppStrings.buyNow,
+                                      fontFamily: 'Poppins',
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -804,8 +864,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         ),
                       ),
                       Container(
-                        margin:
-                        const EdgeInsets.only(left: 10.0, right: 10.0,top: 10.0),
+                        margin: const EdgeInsets.only(
+                            left: 10.0, right: 10.0, top: 10.0),
                         height: 50.0,
                         child: TextUtils.display(
                           AppStrings.morePaymentOptions,
@@ -815,8 +875,74 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           fontFamily: 'Poppins',
                         ),
                       ),
-                      Container(margin:const EdgeInsets.only(left: 10.0,right: 10.0),width: double.infinity,child: PngImage.asset('assets/payment_icons.png',width:double.infinity,height:40.0),),
+                      Container(
+                        margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+                        width: double.infinity,
+                        child: PngImage.asset('assets/payment_icons.png',
+                            width: double.infinity, height: 40.0),
+                      ),
                     ])),
+                Visibility(
+                  visible: productDescription!.isNotEmpty,
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+                    height: 250.0,
+                    child: ProductDescriptionList(
+                      items: productDescription,
+                      onToggle: (int index) {},
+                    ),
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    // Equivalent to @color/transparent
+                    borderRadius: BorderRadius.circular(5.0),
+                    // Equivalent to android:radius="5dp"
+                    border: Border.all(
+                      color: AppColors.lightBlueFabby,
+                      // Replace with actual color value for @color/light_blue_fabby
+                      width:
+                          1.0, // Replace with actual dimension value for @dimen/_1sdp
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(
+                              top: 10.0,
+                            ),
+                            child: TextUtils.display(
+                                AppStrings.frequentlyBoughtTogether,
+                                fontSize: 17.0,
+                                fontWeight: FontWeight.normal,
+                                color: AppColors.productDetailText,
+                                fontFamily: 'Poppins'),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(10.0),
+                        height: 150.0,
+                        child: FrequentlyBoughtTogetherList(items: relatedProducts,),
+                      ),
+                      Row(children: [
+                        Container(margin:const EdgeInsets.all(10.0),child: TextUtils.display(
+                            AppStrings.frequentlyBoughtTogether,
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.normal,
+                            color: AppColors.sortTextColor,
+                            fontFamily: 'Poppins'),)
+                      ],),
+                      Container(margin: const EdgeInsets.all(10.0),
+                      height: 400.0,
+                      child: Frequentlyboughtchooseitemlist(items:relatedProducts),)
+                    ],
+                  ),
+                )
               ],
             ),
           );

@@ -36,6 +36,18 @@ class ProductDetailRepository{
 
     return response.data;
   }
+  Future<AddToCartModel?> addToCartBuyNow(Map<String, dynamic> requestBody) async {
+    final response = await apiService.addToCartBuyNow<AddToCartModel>(
+      requestBody,
+          (json) => AddToCartModel.fromJson(json), // Adjust according to your model
+    );
+
+    if (response.error != null) {
+      throw Exception(response.error);
+    }
+
+    return response.data;
+  }
   Future<FavouriteModel?> favourite(Map<String, dynamic> requestBody) async {
     final response = await apiService.favourite<FavouriteModel>(
       requestBody,

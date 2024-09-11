@@ -1,15 +1,15 @@
-
 class ProductDetailModel {
   ProductDetailModel({
-      Data? data,
-      bool? success,
-      num? error,
-      String? statusCode,}){
+    Data? data,
+    bool? success,
+    num? error,
+    String? statusCode,
+  }) {
     _data = data;
     _success = success;
     _error = error;
     _statusCode = statusCode;
-}
+  }
 
   ProductDetailModel.fromJson(dynamic json) {
     _data = json['data'] != null ? Data.fromJson(json['data']) : null;
@@ -17,22 +17,31 @@ class ProductDetailModel {
     _error = json['error'];
     _statusCode = json['status_code'];
   }
+
   Data? _data;
   bool? _success;
   num? _error;
   String? _statusCode;
-ProductDetailModel copyWith({  Data? data,
-  bool? success,
-  num? error,
-  String? statusCode,
-}) => ProductDetailModel(  data: data ?? _data,
-  success: success ?? _success,
-  error: error ?? _error,
-  statusCode: statusCode ?? _statusCode,
-);
+
+  ProductDetailModel copyWith({
+    Data? data,
+    bool? success,
+    num? error,
+    String? statusCode,
+  }) =>
+      ProductDetailModel(
+        data: data ?? _data,
+        success: success ?? _success,
+        error: error ?? _error,
+        statusCode: statusCode ?? _statusCode,
+      );
+
   Data? get data => _data;
+
   bool? get success => _success;
+
   num? get error => _error;
+
   String? get statusCode => _statusCode;
 
   Map<String, dynamic> toJson() {
@@ -45,22 +54,22 @@ ProductDetailModel copyWith({  Data? data,
     map['status_code'] = _statusCode;
     return map;
   }
-
 }
 
 class Data {
   Data({
-      bool? wishlist,
-      List<SimilarProducts>? similarProducts,
-      List<Products>? products,
-      List<ProductDescription>? productDescription,
-      List<RelatedProducts>? relatedProducts,}){
+    bool? wishlist,
+    List<SimilarProducts>? similarProducts,
+    List<Products>? products,
+    List<ProductDescription>? productDescription,
+    List<RelatedProducts>? relatedProducts,
+  }) {
     _wishlist = wishlist;
     _similarProducts = similarProducts;
     _products = products;
     _productDescription = productDescription;
     _relatedProducts = relatedProducts;
-}
+  }
 
   Data.fromJson(dynamic json) {
     _wishlist = json['wishlist'];
@@ -89,91 +98,94 @@ class Data {
       });
     }
   }
+
   bool? _wishlist;
   List<SimilarProducts>? _similarProducts;
   List<Products>? _products;
   List<ProductDescription>? _productDescription;
   List<RelatedProducts>? _relatedProducts;
-Data copyWith({  bool? wishlist,
-  List<SimilarProducts>? similarProducts,
-  List<Products>? products,
-  List<ProductDescription>? productDescription,
-  List<RelatedProducts>? relatedProducts,
-}) => Data(  wishlist: wishlist ?? _wishlist,
-  similarProducts: similarProducts ?? _similarProducts,
-  products: products ?? _products,
-  productDescription: productDescription ?? _productDescription,
-  relatedProducts: relatedProducts ?? _relatedProducts,
-);
+
+  Data copyWith({
+    bool? wishlist,
+    List<SimilarProducts>? similarProducts,
+    List<Products>? products,
+    List<ProductDescription>? productDescription,
+    List<RelatedProducts>? relatedProducts,
+  }) =>
+      Data(
+        wishlist: wishlist ?? _wishlist,
+        similarProducts: similarProducts ?? _similarProducts,
+        products: products ?? _products,
+        productDescription: productDescription ?? _productDescription,
+        relatedProducts: relatedProducts ?? _relatedProducts,
+      );
+
   bool? get wishlist => _wishlist;
+
   List<SimilarProducts>? get similarProducts => _similarProducts;
+
   List<Products>? get products => _products;
+
   List<ProductDescription>? get productDescription => _productDescription;
+
   List<RelatedProducts>? get relatedProducts => _relatedProducts;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['wishlist'] = _wishlist;
     if (_similarProducts != null) {
-      map['similar_products'] = _similarProducts?.map((v) => v.toJson()).toList();
+      map['similar_products'] =
+          _similarProducts?.map((v) => v.toJson()).toList();
     }
     if (_products != null) {
       map['products'] = _products?.map((v) => v.toJson()).toList();
     }
     if (_productDescription != null) {
-      map['product_description'] = _productDescription?.map((v) => v.toJson()).toList();
+      map['product_description'] =
+          _productDescription?.map((v) => v.toJson()).toList();
     }
     if (_relatedProducts != null) {
-      map['relatedProducts'] = _relatedProducts?.map((v) => v.toJson()).toList();
+      map['relatedProducts'] =
+          _relatedProducts?.map((v) => v.toJson()).toList();
     }
     return map;
   }
-
 }
-
 
 class RelatedProducts {
   RelatedProducts({
-      num? id,
-      String? productName,
-      String? price,
-      String? productImage,
-      dynamic offers,}){
+    num? id,
+    String? productName,
+    String? price,
+    String? productImage,
+    Offers? offers,
+  }) {
     _id = id;
     _productName = productName;
     _price = price;
     _productImage = productImage;
     _offers = offers;
-}
+  }
 
   RelatedProducts.fromJson(dynamic json) {
     _id = json['id'];
     _productName = json['product_name'];
     _price = json['price'];
     _productImage = json['product_image'];
-    _offers = json['offers'];
+    _offers = json['offers'] != null ? Offers.fromJson(json['offers']) : null;
   }
+
   num? _id;
   String? _productName;
   String? _price;
   String? _productImage;
-  dynamic _offers;
-RelatedProducts copyWith({  num? id,
-  String? productName,
-  String? price,
-  String? productImage,
-  dynamic offers,
-}) => RelatedProducts(  id: id ?? _id,
-  productName: productName ?? _productName,
-  price: price ?? _price,
-  productImage: productImage ?? _productImage,
-  offers: offers ?? _offers,
-);
+  Offers? _offers;
+
   num? get id => _id;
   String? get productName => _productName;
   String? get price => _price;
   String? get productImage => _productImage;
-  dynamic get offers => _offers;
+  Offers? get offers => _offers;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -181,23 +193,98 @@ RelatedProducts copyWith({  num? id,
     map['product_name'] = _productName;
     map['price'] = _price;
     map['product_image'] = _productImage;
-    map['offers'] = _offers;
+    if (_offers != null) {
+      map['offers'] = _offers?.toJson();
+    }
     return map;
   }
 
+  RelatedProducts copyWith({
+    num? id,
+    String? productName,
+    String? price,
+    String? productImage,
+    Offers? offers,
+  }) =>
+      RelatedProducts(
+        id: id ?? _id,
+        productName: productName ?? _productName,
+        price: price ?? _price,
+        productImage: productImage ?? _productImage,
+        offers: offers ?? _offers,
+      );
+}
+
+
+class Offers {
+  Offers({
+    dynamic deletedAt,
+    int? discountType,
+    String? discountValue,
+    int? id,
+    String? offerQuantity,
+    int? productId,
+  }) {
+    _deletedAt = deletedAt;
+    _discountType = discountType;
+    _discountValue = discountValue;
+    _id = id;
+    _offerQuantity = offerQuantity;
+    _productId = productId;
+  }
+
+  Offers.fromJson(dynamic json) {
+    _deletedAt = json['deleted_at'];
+    _discountType = json['discount_type'];
+    _discountValue = json['discount_value'];
+    _id = json['id'];
+    _offerQuantity = json['offer_quantity'];
+    _productId = json['product_id'];
+  }
+
+  dynamic _deletedAt;
+  int? _discountType;
+  String? _discountValue;
+  int? _id;
+  String? _offerQuantity;
+  int? _productId;
+
+  dynamic get deletedAt => _deletedAt;
+
+  int? get discountType => _discountType;
+
+  String? get discountValue => _discountValue;
+
+  int? get id => _id;
+
+  String? get offerQuantity => _offerQuantity;
+
+  int? get productId => _productId;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['deleted_at'] = _deletedAt;
+    map['discount_type'] = _discountType;
+    map['discount_value'] = _discountValue;
+    map['id'] = _id;
+    map['offer_quantity'] = _offerQuantity;
+    map['product_id'] = _productId;
+    return map;
+  }
 }
 
 class ProductDescription {
   ProductDescription({
-      num? id,
-      num? productId,
-      String? title,
-      String? description,}){
+    num? id,
+    num? productId,
+    String? title,
+    String? description,
+  }) {
     _id = id;
     _productId = productId;
     _title = title;
     _description = description;
-}
+  }
 
   ProductDescription.fromJson(dynamic json) {
     _id = json['id'];
@@ -205,22 +292,31 @@ class ProductDescription {
     _title = json['title'];
     _description = json['description'];
   }
+
   num? _id;
   num? _productId;
   String? _title;
   String? _description;
-ProductDescription copyWith({  num? id,
-  num? productId,
-  String? title,
-  String? description,
-}) => ProductDescription(  id: id ?? _id,
-  productId: productId ?? _productId,
-  title: title ?? _title,
-  description: description ?? _description,
-);
+
+  ProductDescription copyWith({
+    num? id,
+    num? productId,
+    String? title,
+    String? description,
+  }) =>
+      ProductDescription(
+        id: id ?? _id,
+        productId: productId ?? _productId,
+        title: title ?? _title,
+        description: description ?? _description,
+      );
+
   num? get id => _id;
+
   num? get productId => _productId;
+
   String? get title => _title;
+
   String? get description => _description;
 
   Map<String, dynamic> toJson() {
@@ -231,49 +327,48 @@ ProductDescription copyWith({  num? id,
     map['description'] = _description;
     return map;
   }
-
 }
-
 
 class Products {
   Products({
-      num? id,
-      String? productName,
-      String? slug,
-      String? meteTitle,
-      String? metaDescription,
-      String? productId,
-      num? quantity,
-      String? price,
-      String? barcode,
-      dynamic countryOfOrigin,
-      dynamic vatRate,
-      dynamic brandName,
-      num? categoryId,
-      num? subCategoryId,
-      dynamic unit,
-      String? manufacturedBy,
-      dynamic description,
-      dynamic benefits,
-      dynamic activeIngredients,
-      String? productImage,
-      String? productImgStatus,
-      dynamic longDescription,
-      dynamic howToUse,
-      String? whatIncluded,
-      String? amazonLink,
-      num? height,
-      num? width,
-      num? length,
-      num? weight,
-      dynamic type,
-      num? status,
-      List<ProductImageArr>? productImageArr,
-      dynamic offers,
-      Categories? categories,
-      SubCategory? subCategory,
-      List<Store>? store,
-      List<ProductTag>? productTag,}){
+    num? id,
+    String? productName,
+    String? slug,
+    String? meteTitle,
+    String? metaDescription,
+    String? productId,
+    num? quantity,
+    String? price,
+    String? barcode,
+    dynamic countryOfOrigin,
+    dynamic vatRate,
+    dynamic brandName,
+    num? categoryId,
+    num? subCategoryId,
+    dynamic unit,
+    String? manufacturedBy,
+    dynamic description,
+    dynamic benefits,
+    dynamic activeIngredients,
+    String? productImage,
+    String? productImgStatus,
+    dynamic longDescription,
+    dynamic howToUse,
+    String? whatIncluded,
+    String? amazonLink,
+    num? height,
+    num? width,
+    num? length,
+    num? weight,
+    dynamic type,
+    num? status,
+    List<ProductImageArr>? productImageArr,
+    dynamic offers,
+    Categories? categories,
+    SubCategory? subCategory,
+    List<Store>? store,
+    List<ProductTag>? productTag,
+  }) {
     _id = id;
     _productName = productName;
     _slug = slug;
@@ -311,7 +406,7 @@ class Products {
     _subCategory = subCategory;
     _store = store;
     _productTag = productTag;
-}
+  }
 
   Products.fromJson(dynamic json) {
     _id = json['id'];
@@ -353,12 +448,17 @@ class Products {
     }
     if (json['product_tag'] != null) {
       _productTag = (json['product_tag'] as List)
-          .map((tagJson) => ProductTag.fromJson(tagJson as Map<String, dynamic>))
+          .map(
+              (tagJson) => ProductTag.fromJson(tagJson as Map<String, dynamic>))
           .toList();
     }
     _offers = json['offers'];
-    _categories = json['categories'] != null ? Categories.fromJson(json['categories']) : null;
-    _subCategory = json['sub_category'] != null ? SubCategory.fromJson(json['sub_category']) : null;
+    _categories = json['categories'] != null
+        ? Categories.fromJson(json['categories'])
+        : null;
+    _subCategory = json['sub_category'] != null
+        ? SubCategory.fromJson(json['sub_category'])
+        : null;
     if (json['store'] != null) {
       _store = [];
       json['store'].forEach((v) {
@@ -372,6 +472,7 @@ class Products {
       });
     }
   }
+
   num? _id;
   String? _productName;
   String? _slug;
@@ -409,117 +510,158 @@ class Products {
   SubCategory? _subCategory;
   List<Store>? _store;
   List<ProductTag>? _productTag;
-Products copyWith({  num? id,
-  String? productName,
-  String? slug,
-  String? meteTitle,
-  String? metaDescription,
-  String? productId,
-  num? quantity,
-  String? price,
-  String? barcode,
-  dynamic countryOfOrigin,
-  dynamic vatRate,
-  dynamic brandName,
-  num? categoryId,
-  num? subCategoryId,
-  dynamic unit,
-  String? manufacturedBy,
-  dynamic description,
-  dynamic benefits,
-  dynamic activeIngredients,
-  String? productImage,
-  String? productImgStatus,
-  dynamic longDescription,
-  dynamic howToUse,
-  String? whatIncluded,
-  String? amazonLink,
-  num? height,
-  num? width,
-  num? length,
-  num? weight,
-  dynamic type,
-  num? status,
-  List<ProductImageArr>? productImageArr,
-  dynamic offers,
-  Categories? categories,
-  SubCategory? subCategory,
-  List<Store>? store,
-  List<ProductTag>? productTag,
-}) => Products(  id: id ?? _id,
-  productName: productName ?? _productName,
-  slug: slug ?? _slug,
-  meteTitle: meteTitle ?? _meteTitle,
-  metaDescription: metaDescription ?? _metaDescription,
-  productId: productId ?? _productId,
-  quantity: quantity ?? _quantity,
-  price: price ?? _price,
-  barcode: barcode ?? _barcode,
-  countryOfOrigin: countryOfOrigin ?? _countryOfOrigin,
-  vatRate: vatRate ?? _vatRate,
-  brandName: brandName ?? _brandName,
-  categoryId: categoryId ?? _categoryId,
-  subCategoryId: subCategoryId ?? _subCategoryId,
-  unit: unit ?? _unit,
-  manufacturedBy: manufacturedBy ?? _manufacturedBy,
-  description: description ?? _description,
-  benefits: benefits ?? _benefits,
-  activeIngredients: activeIngredients ?? _activeIngredients,
-  productImage: productImage ?? _productImage,
-  productImgStatus: productImgStatus ?? _productImgStatus,
-  longDescription: longDescription ?? _longDescription,
-  howToUse: howToUse ?? _howToUse,
-  whatIncluded: whatIncluded ?? _whatIncluded,
-  amazonLink: amazonLink ?? _amazonLink,
-  height: height ?? _height,
-  width: width ?? _width,
-  length: length ?? _length,
-  weight: weight ?? _weight,
-  type: type ?? _type,
-  status: status ?? _status,
-  productImageArr: productImageArr ?? _productImageArr,
-  offers: offers ?? _offers,
-  categories: categories ?? _categories,
-  subCategory: subCategory ?? _subCategory,
-  store: store ?? _store,
-  productTag: productTag ?? _productTag,
-);
+
+  Products copyWith({
+    num? id,
+    String? productName,
+    String? slug,
+    String? meteTitle,
+    String? metaDescription,
+    String? productId,
+    num? quantity,
+    String? price,
+    String? barcode,
+    dynamic countryOfOrigin,
+    dynamic vatRate,
+    dynamic brandName,
+    num? categoryId,
+    num? subCategoryId,
+    dynamic unit,
+    String? manufacturedBy,
+    dynamic description,
+    dynamic benefits,
+    dynamic activeIngredients,
+    String? productImage,
+    String? productImgStatus,
+    dynamic longDescription,
+    dynamic howToUse,
+    String? whatIncluded,
+    String? amazonLink,
+    num? height,
+    num? width,
+    num? length,
+    num? weight,
+    dynamic type,
+    num? status,
+    List<ProductImageArr>? productImageArr,
+    dynamic offers,
+    Categories? categories,
+    SubCategory? subCategory,
+    List<Store>? store,
+    List<ProductTag>? productTag,
+  }) =>
+      Products(
+        id: id ?? _id,
+        productName: productName ?? _productName,
+        slug: slug ?? _slug,
+        meteTitle: meteTitle ?? _meteTitle,
+        metaDescription: metaDescription ?? _metaDescription,
+        productId: productId ?? _productId,
+        quantity: quantity ?? _quantity,
+        price: price ?? _price,
+        barcode: barcode ?? _barcode,
+        countryOfOrigin: countryOfOrigin ?? _countryOfOrigin,
+        vatRate: vatRate ?? _vatRate,
+        brandName: brandName ?? _brandName,
+        categoryId: categoryId ?? _categoryId,
+        subCategoryId: subCategoryId ?? _subCategoryId,
+        unit: unit ?? _unit,
+        manufacturedBy: manufacturedBy ?? _manufacturedBy,
+        description: description ?? _description,
+        benefits: benefits ?? _benefits,
+        activeIngredients: activeIngredients ?? _activeIngredients,
+        productImage: productImage ?? _productImage,
+        productImgStatus: productImgStatus ?? _productImgStatus,
+        longDescription: longDescription ?? _longDescription,
+        howToUse: howToUse ?? _howToUse,
+        whatIncluded: whatIncluded ?? _whatIncluded,
+        amazonLink: amazonLink ?? _amazonLink,
+        height: height ?? _height,
+        width: width ?? _width,
+        length: length ?? _length,
+        weight: weight ?? _weight,
+        type: type ?? _type,
+        status: status ?? _status,
+        productImageArr: productImageArr ?? _productImageArr,
+        offers: offers ?? _offers,
+        categories: categories ?? _categories,
+        subCategory: subCategory ?? _subCategory,
+        store: store ?? _store,
+        productTag: productTag ?? _productTag,
+      );
+
   num? get id => _id;
+
   String? get productName => _productName;
+
   String? get slug => _slug;
+
   String? get meteTitle => _meteTitle;
+
   String? get metaDescription => _metaDescription;
+
   String? get productId => _productId;
+
   num? get quantity => _quantity;
+
   String? get price => _price;
+
   String? get barcode => _barcode;
+
   dynamic get countryOfOrigin => _countryOfOrigin;
+
   dynamic get vatRate => _vatRate;
+
   dynamic get brandName => _brandName;
+
   num? get categoryId => _categoryId;
+
   num? get subCategoryId => _subCategoryId;
+
   dynamic get unit => _unit;
+
   String? get manufacturedBy => _manufacturedBy;
+
   dynamic get description => _description;
+
   dynamic get benefits => _benefits;
+
   dynamic get activeIngredients => _activeIngredients;
+
   String? get productImage => _productImage;
+
   String? get productImgStatus => _productImgStatus;
+
   dynamic get longDescription => _longDescription;
+
   dynamic get howToUse => _howToUse;
+
   String? get whatIncluded => _whatIncluded;
+
   String? get amazonLink => _amazonLink;
+
   num? get height => _height;
+
   num? get width => _width;
+
   num? get length => _length;
+
   num? get weight => _weight;
+
   dynamic get type => _type;
+
   num? get status => _status;
+
   List<ProductImageArr>? get productImageArr => _productImageArr;
+
   dynamic get offers => _offers;
+
   Categories? get categories => _categories;
+
   SubCategory? get subCategory => _subCategory;
+
   List<Store>? get store => _store;
+
   List<dynamic>? get productTag => _productTag;
 
   Map<String, dynamic> toJson() {
@@ -556,7 +698,8 @@ Products copyWith({  num? id,
     map['type'] = _type;
     map['status'] = _status;
     if (_productImageArr != null) {
-      map['product_image_arr'] = _productImageArr?.map((v) => v.toJson()).toList();
+      map['product_image_arr'] =
+          _productImageArr?.map((v) => v.toJson()).toList();
     }
     map['offers'] = _offers;
     if (_categories != null) {
@@ -573,12 +716,12 @@ Products copyWith({  num? id,
     }
     return map;
   }
-
 }
+
 class ProductTag {
   int? id;
   String? tagName;
-  PivotM? pivot;  // Change Pivot to PivotM
+  PivotM? pivot; // Change Pivot to PivotM
 
   ProductTag({this.id, this.tagName, this.pivot});
 
@@ -600,7 +743,6 @@ class ProductTag {
     return data;
   }
 }
-
 
 class PivotM {
   int? productId;
@@ -627,16 +769,17 @@ class PivotM {
 
 class Store {
   Store({
-      num? id,
-      String? storeName,
-      String? lat,
-      String? lng,
-      String? address,
-      String? storeContact,
-      String? storeEmail,
-      String? storeWorkingHours,
-      num? orderSlotThreshold,
-      Pivot? pivot,}){
+    num? id,
+    String? storeName,
+    String? lat,
+    String? lng,
+    String? address,
+    String? storeContact,
+    String? storeEmail,
+    String? storeWorkingHours,
+    num? orderSlotThreshold,
+    Pivot? pivot,
+  }) {
     _id = id;
     _storeName = storeName;
     _lat = lat;
@@ -647,7 +790,7 @@ class Store {
     _storeWorkingHours = storeWorkingHours;
     _orderSlotThreshold = orderSlotThreshold;
     _pivot = pivot;
-}
+  }
 
   Store.fromJson(dynamic json) {
     _id = json['id'];
@@ -661,6 +804,7 @@ class Store {
     _orderSlotThreshold = json['order_slot_threshold'];
     _pivot = json['pivot'] != null ? Pivot.fromJson(json['pivot']) : null;
   }
+
   num? _id;
   String? _storeName;
   String? _lat;
@@ -671,36 +815,50 @@ class Store {
   String? _storeWorkingHours;
   num? _orderSlotThreshold;
   Pivot? _pivot;
-Store copyWith({  num? id,
-  String? storeName,
-  String? lat,
-  String? lng,
-  String? address,
-  String? storeContact,
-  String? storeEmail,
-  String? storeWorkingHours,
-  num? orderSlotThreshold,
-  Pivot? pivot,
-}) => Store(  id: id ?? _id,
-  storeName: storeName ?? _storeName,
-  lat: lat ?? _lat,
-  lng: lng ?? _lng,
-  address: address ?? _address,
-  storeContact: storeContact ?? _storeContact,
-  storeEmail: storeEmail ?? _storeEmail,
-  storeWorkingHours: storeWorkingHours ?? _storeWorkingHours,
-  orderSlotThreshold: orderSlotThreshold ?? _orderSlotThreshold,
-  pivot: pivot ?? _pivot,
-);
+
+  Store copyWith({
+    num? id,
+    String? storeName,
+    String? lat,
+    String? lng,
+    String? address,
+    String? storeContact,
+    String? storeEmail,
+    String? storeWorkingHours,
+    num? orderSlotThreshold,
+    Pivot? pivot,
+  }) =>
+      Store(
+        id: id ?? _id,
+        storeName: storeName ?? _storeName,
+        lat: lat ?? _lat,
+        lng: lng ?? _lng,
+        address: address ?? _address,
+        storeContact: storeContact ?? _storeContact,
+        storeEmail: storeEmail ?? _storeEmail,
+        storeWorkingHours: storeWorkingHours ?? _storeWorkingHours,
+        orderSlotThreshold: orderSlotThreshold ?? _orderSlotThreshold,
+        pivot: pivot ?? _pivot,
+      );
+
   num? get id => _id;
+
   String? get storeName => _storeName;
+
   String? get lat => _lat;
+
   String? get lng => _lng;
+
   String? get address => _address;
+
   String? get storeContact => _storeContact;
+
   String? get storeEmail => _storeEmail;
+
   String? get storeWorkingHours => _storeWorkingHours;
+
   num? get orderSlotThreshold => _orderSlotThreshold;
+
   Pivot? get pivot => _pivot;
 
   Map<String, dynamic> toJson() {
@@ -719,22 +877,22 @@ Store copyWith({  num? id,
     }
     return map;
   }
-
 }
 
 class Pivot {
   Pivot({
-      num? productId,
-      num? storeId,
-      num? productQuantity,
-      String? createdAt,
-      String? updatedAt,}){
+    num? productId,
+    num? storeId,
+    num? productQuantity,
+    String? createdAt,
+    String? updatedAt,
+  }) {
     _productId = productId;
     _storeId = storeId;
     _productQuantity = productQuantity;
     _createdAt = createdAt;
     _updatedAt = updatedAt;
-}
+  }
 
   Pivot.fromJson(dynamic json) {
     _productId = json['product_id'];
@@ -743,26 +901,36 @@ class Pivot {
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
   }
+
   num? _productId;
   num? _storeId;
   num? _productQuantity;
   String? _createdAt;
   String? _updatedAt;
-Pivot copyWith({  num? productId,
-  num? storeId,
-  num? productQuantity,
-  String? createdAt,
-  String? updatedAt,
-}) => Pivot(  productId: productId ?? _productId,
-  storeId: storeId ?? _storeId,
-  productQuantity: productQuantity ?? _productQuantity,
-  createdAt: createdAt ?? _createdAt,
-  updatedAt: updatedAt ?? _updatedAt,
-);
+
+  Pivot copyWith({
+    num? productId,
+    num? storeId,
+    num? productQuantity,
+    String? createdAt,
+    String? updatedAt,
+  }) =>
+      Pivot(
+        productId: productId ?? _productId,
+        storeId: storeId ?? _storeId,
+        productQuantity: productQuantity ?? _productQuantity,
+        createdAt: createdAt ?? _createdAt,
+        updatedAt: updatedAt ?? _updatedAt,
+      );
+
   num? get productId => _productId;
+
   num? get storeId => _storeId;
+
   num? get productQuantity => _productQuantity;
+
   String? get createdAt => _createdAt;
+
   String? get updatedAt => _updatedAt;
 
   Map<String, dynamic> toJson() {
@@ -774,29 +942,36 @@ Pivot copyWith({  num? productId,
     map['updated_at'] = _updatedAt;
     return map;
   }
-
 }
 
 class SubCategory {
   SubCategory({
-      num? id,
-      String? subcategoryName,}){
+    num? id,
+    String? subcategoryName,
+  }) {
     _id = id;
     _subcategoryName = subcategoryName;
-}
+  }
 
   SubCategory.fromJson(dynamic json) {
     _id = json['id'];
     _subcategoryName = json['subcategory_name'];
   }
+
   num? _id;
   String? _subcategoryName;
-SubCategory copyWith({  num? id,
-  String? subcategoryName,
-}) => SubCategory(  id: id ?? _id,
-  subcategoryName: subcategoryName ?? _subcategoryName,
-);
+
+  SubCategory copyWith({
+    num? id,
+    String? subcategoryName,
+  }) =>
+      SubCategory(
+        id: id ?? _id,
+        subcategoryName: subcategoryName ?? _subcategoryName,
+      );
+
   num? get id => _id;
+
   String? get subcategoryName => _subcategoryName;
 
   Map<String, dynamic> toJson() {
@@ -805,30 +980,36 @@ SubCategory copyWith({  num? id,
     map['subcategory_name'] = _subcategoryName;
     return map;
   }
-
 }
-
 
 class Categories {
   Categories({
-      num? id,
-      String? categoriesName,}){
+    num? id,
+    String? categoriesName,
+  }) {
     _id = id;
     _categoriesName = categoriesName;
-}
+  }
 
   Categories.fromJson(dynamic json) {
     _id = json['id'];
     _categoriesName = json['categories_name'];
   }
+
   num? _id;
   String? _categoriesName;
-Categories copyWith({  num? id,
-  String? categoriesName,
-}) => Categories(  id: id ?? _id,
-  categoriesName: categoriesName ?? _categoriesName,
-);
+
+  Categories copyWith({
+    num? id,
+    String? categoriesName,
+  }) =>
+      Categories(
+        id: id ?? _id,
+        categoriesName: categoriesName ?? _categoriesName,
+      );
+
   num? get id => _id;
+
   String? get categoriesName => _categoriesName;
 
   Map<String, dynamic> toJson() {
@@ -837,20 +1018,20 @@ Categories copyWith({  num? id,
     map['categories_name'] = _categoriesName;
     return map;
   }
-
 }
 
 class ProductImageArr {
   ProductImageArr({
-      num? id,
-      num? productId,
-      String? image,
-      num? featuredImage,}){
+    num? id,
+    num? productId,
+    String? image,
+    num? featuredImage,
+  }) {
     _id = id;
     _productId = productId;
     _image = image;
     _featuredImage = featuredImage;
-}
+  }
 
   ProductImageArr.fromJson(dynamic json) {
     _id = json['id'];
@@ -858,22 +1039,31 @@ class ProductImageArr {
     _image = json['image'];
     _featuredImage = json['featured_image'];
   }
+
   num? _id;
   num? _productId;
   String? _image;
   num? _featuredImage;
-ProductImageArr copyWith({  num? id,
-  num? productId,
-  String? image,
-  num? featuredImage,
-}) => ProductImageArr(  id: id ?? _id,
-  productId: productId ?? _productId,
-  image: image ?? _image,
-  featuredImage: featuredImage ?? _featuredImage,
-);
+
+  ProductImageArr copyWith({
+    num? id,
+    num? productId,
+    String? image,
+    num? featuredImage,
+  }) =>
+      ProductImageArr(
+        id: id ?? _id,
+        productId: productId ?? _productId,
+        image: image ?? _image,
+        featuredImage: featuredImage ?? _featuredImage,
+      );
+
   num? get id => _id;
+
   num? get productId => _productId;
+
   String? get image => _image;
+
   num? get featuredImage => _featuredImage;
 
   Map<String, dynamic> toJson() {
@@ -884,47 +1074,47 @@ ProductImageArr copyWith({  num? id,
     map['featured_image'] = _featuredImage;
     return map;
   }
-
 }
 
 class SimilarProducts {
   SimilarProducts({
-      num? id,
-      String? productName,
-      String? slug,
-      String? meteTitle,
-      String? metaDescription,
-      String? productId,
-      num? quantity,
-      String? price,
-      String? barcode,
-      dynamic countryOfOrigin,
-      dynamic vatRate,
-      dynamic brandName,
-      dynamic categoryId,
-      dynamic subCategoryId,
-      dynamic unit,
-      String? manufacturedBy,
-      dynamic description,
-      dynamic benefits,
-      dynamic activeIngredients,
-      String? productImage,
-      String? productImgStatus,
-      dynamic longDescription,
-      dynamic howToUse,
-      String? whatIncluded,
-      dynamic amazonLink,
-      num? height,
-      num? width,
-      num? length,
-      num? weight,
-      dynamic type,
-      num? status,
-      List<ProductImageArr>? productImageArr,
-      dynamic offers,
-      dynamic categories,
-      dynamic subCategory,
-      List<Store>? store,}){
+    num? id,
+    String? productName,
+    String? slug,
+    String? meteTitle,
+    String? metaDescription,
+    String? productId,
+    num? quantity,
+    String? price,
+    String? barcode,
+    dynamic countryOfOrigin,
+    dynamic vatRate,
+    dynamic brandName,
+    dynamic categoryId,
+    dynamic subCategoryId,
+    dynamic unit,
+    String? manufacturedBy,
+    dynamic description,
+    dynamic benefits,
+    dynamic activeIngredients,
+    String? productImage,
+    String? productImgStatus,
+    dynamic longDescription,
+    dynamic howToUse,
+    String? whatIncluded,
+    dynamic amazonLink,
+    num? height,
+    num? width,
+    num? length,
+    num? weight,
+    dynamic type,
+    num? status,
+    List<ProductImageArr>? productImageArr,
+    dynamic offers,
+    dynamic categories,
+    dynamic subCategory,
+    List<Store>? store,
+  }) {
     _id = id;
     _productName = productName;
     _slug = slug;
@@ -961,7 +1151,7 @@ class SimilarProducts {
     _categories = categories;
     _subCategory = subCategory;
     _store = store;
-}
+  }
 
   SimilarProducts.fromJson(dynamic json) {
     _id = json['id'];
@@ -1011,6 +1201,7 @@ class SimilarProducts {
       });
     }
   }
+
   num? _id;
   String? _productName;
   String? _slug;
@@ -1047,114 +1238,154 @@ class SimilarProducts {
   dynamic _categories;
   dynamic _subCategory;
   List<Store>? _store;
-SimilarProducts copyWith({  num? id,
-  String? productName,
-  String? slug,
-  String? meteTitle,
-  String? metaDescription,
-  String? productId,
-  num? quantity,
-  String? price,
-  String? barcode,
-  dynamic countryOfOrigin,
-  dynamic vatRate,
-  dynamic brandName,
-  dynamic categoryId,
-  dynamic subCategoryId,
-  dynamic unit,
-  String? manufacturedBy,
-  dynamic description,
-  dynamic benefits,
-  dynamic activeIngredients,
-  String? productImage,
-  String? productImgStatus,
-  dynamic longDescription,
-  dynamic howToUse,
-  String? whatIncluded,
-  dynamic amazonLink,
-  num? height,
-  num? width,
-  num? length,
-  num? weight,
-  dynamic type,
-  num? status,
-  List<ProductImageArr>? productImageArr,
-  dynamic offers,
-  dynamic categories,
-  dynamic subCategory,
-  List<Store>? store,
-}) => SimilarProducts(  id: id ?? _id,
-  productName: productName ?? _productName,
-  slug: slug ?? _slug,
-  meteTitle: meteTitle ?? _meteTitle,
-  metaDescription: metaDescription ?? _metaDescription,
-  productId: productId ?? _productId,
-  quantity: quantity ?? _quantity,
-  price: price ?? _price,
-  barcode: barcode ?? _barcode,
-  countryOfOrigin: countryOfOrigin ?? _countryOfOrigin,
-  vatRate: vatRate ?? _vatRate,
-  brandName: brandName ?? _brandName,
-  categoryId: categoryId ?? _categoryId,
-  subCategoryId: subCategoryId ?? _subCategoryId,
-  unit: unit ?? _unit,
-  manufacturedBy: manufacturedBy ?? _manufacturedBy,
-  description: description ?? _description,
-  benefits: benefits ?? _benefits,
-  activeIngredients: activeIngredients ?? _activeIngredients,
-  productImage: productImage ?? _productImage,
-  productImgStatus: productImgStatus ?? _productImgStatus,
-  longDescription: longDescription ?? _longDescription,
-  howToUse: howToUse ?? _howToUse,
-  whatIncluded: whatIncluded ?? _whatIncluded,
-  amazonLink: amazonLink ?? _amazonLink,
-  height: height ?? _height,
-  width: width ?? _width,
-  length: length ?? _length,
-  weight: weight ?? _weight,
-  type: type ?? _type,
-  status: status ?? _status,
-  productImageArr: productImageArr ?? _productImageArr,
-  offers: offers ?? _offers,
-  categories: categories ?? _categories,
-  subCategory: subCategory ?? _subCategory,
-  store: store ?? _store,
-);
+
+  SimilarProducts copyWith({
+    num? id,
+    String? productName,
+    String? slug,
+    String? meteTitle,
+    String? metaDescription,
+    String? productId,
+    num? quantity,
+    String? price,
+    String? barcode,
+    dynamic countryOfOrigin,
+    dynamic vatRate,
+    dynamic brandName,
+    dynamic categoryId,
+    dynamic subCategoryId,
+    dynamic unit,
+    String? manufacturedBy,
+    dynamic description,
+    dynamic benefits,
+    dynamic activeIngredients,
+    String? productImage,
+    String? productImgStatus,
+    dynamic longDescription,
+    dynamic howToUse,
+    String? whatIncluded,
+    dynamic amazonLink,
+    num? height,
+    num? width,
+    num? length,
+    num? weight,
+    dynamic type,
+    num? status,
+    List<ProductImageArr>? productImageArr,
+    dynamic offers,
+    dynamic categories,
+    dynamic subCategory,
+    List<Store>? store,
+  }) =>
+      SimilarProducts(
+        id: id ?? _id,
+        productName: productName ?? _productName,
+        slug: slug ?? _slug,
+        meteTitle: meteTitle ?? _meteTitle,
+        metaDescription: metaDescription ?? _metaDescription,
+        productId: productId ?? _productId,
+        quantity: quantity ?? _quantity,
+        price: price ?? _price,
+        barcode: barcode ?? _barcode,
+        countryOfOrigin: countryOfOrigin ?? _countryOfOrigin,
+        vatRate: vatRate ?? _vatRate,
+        brandName: brandName ?? _brandName,
+        categoryId: categoryId ?? _categoryId,
+        subCategoryId: subCategoryId ?? _subCategoryId,
+        unit: unit ?? _unit,
+        manufacturedBy: manufacturedBy ?? _manufacturedBy,
+        description: description ?? _description,
+        benefits: benefits ?? _benefits,
+        activeIngredients: activeIngredients ?? _activeIngredients,
+        productImage: productImage ?? _productImage,
+        productImgStatus: productImgStatus ?? _productImgStatus,
+        longDescription: longDescription ?? _longDescription,
+        howToUse: howToUse ?? _howToUse,
+        whatIncluded: whatIncluded ?? _whatIncluded,
+        amazonLink: amazonLink ?? _amazonLink,
+        height: height ?? _height,
+        width: width ?? _width,
+        length: length ?? _length,
+        weight: weight ?? _weight,
+        type: type ?? _type,
+        status: status ?? _status,
+        productImageArr: productImageArr ?? _productImageArr,
+        offers: offers ?? _offers,
+        categories: categories ?? _categories,
+        subCategory: subCategory ?? _subCategory,
+        store: store ?? _store,
+      );
+
   num? get id => _id;
+
   String? get productName => _productName;
+
   String? get slug => _slug;
+
   String? get meteTitle => _meteTitle;
+
   String? get metaDescription => _metaDescription;
+
   String? get productId => _productId;
+
   num? get quantity => _quantity;
+
   String? get price => _price;
+
   String? get barcode => _barcode;
+
   dynamic get countryOfOrigin => _countryOfOrigin;
+
   dynamic get vatRate => _vatRate;
+
   dynamic get brandName => _brandName;
+
   dynamic get categoryId => _categoryId;
+
   dynamic get subCategoryId => _subCategoryId;
+
   dynamic get unit => _unit;
+
   String? get manufacturedBy => _manufacturedBy;
+
   dynamic get description => _description;
+
   dynamic get benefits => _benefits;
+
   dynamic get activeIngredients => _activeIngredients;
+
   String? get productImage => _productImage;
+
   String? get productImgStatus => _productImgStatus;
+
   dynamic get longDescription => _longDescription;
+
   dynamic get howToUse => _howToUse;
+
   String? get whatIncluded => _whatIncluded;
+
   dynamic get amazonLink => _amazonLink;
+
   num? get height => _height;
+
   num? get width => _width;
+
   num? get length => _length;
+
   num? get weight => _weight;
+
   dynamic get type => _type;
+
   num? get status => _status;
+
   List<ProductImageArr>? get productImageArr => _productImageArr;
+
   dynamic get offers => _offers;
+
   dynamic get categories => _categories;
+
   dynamic get subCategory => _subCategory;
+
   List<Store>? get store => _store;
 
   Map<String, dynamic> toJson() {
@@ -1191,7 +1422,8 @@ SimilarProducts copyWith({  num? id,
     map['type'] = _type;
     map['status'] = _status;
     if (_productImageArr != null) {
-      map['product_image_arr'] = _productImageArr?.map((v) => v.toJson()).toList();
+      map['product_image_arr'] =
+          _productImageArr?.map((v) => v.toJson()).toList();
     }
     map['offers'] = _offers;
     map['categories'] = _categories;
@@ -1201,21 +1433,21 @@ SimilarProducts copyWith({  num? id,
     }
     return map;
   }
-
 }
 
 class StoreNew {
   StoreNew({
-      num? id,
-      String? storeName,
-      String? lat,
-      String? lng,
-      String? address,
-      String? storeContact,
-      String? storeEmail,
-      String? storeWorkingHours,
-      num? orderSlotThreshold,
-      Pivot? pivot,}){
+    num? id,
+    String? storeName,
+    String? lat,
+    String? lng,
+    String? address,
+    String? storeContact,
+    String? storeEmail,
+    String? storeWorkingHours,
+    num? orderSlotThreshold,
+    Pivot? pivot,
+  }) {
     _id = id;
     _storeName = storeName;
     _lat = lat;
@@ -1226,7 +1458,7 @@ class StoreNew {
     _storeWorkingHours = storeWorkingHours;
     _orderSlotThreshold = orderSlotThreshold;
     _pivot = pivot;
-}
+  }
 
   StoreNew.fromJson(dynamic json) {
     _id = json['id'];
@@ -1240,6 +1472,7 @@ class StoreNew {
     _orderSlotThreshold = json['order_slot_threshold'];
     _pivot = json['pivot'] != null ? Pivot.fromJson(json['pivot']) : null;
   }
+
   num? _id;
   String? _storeName;
   String? _lat;
@@ -1250,36 +1483,50 @@ class StoreNew {
   String? _storeWorkingHours;
   num? _orderSlotThreshold;
   Pivot? _pivot;
-Store copyWith({  num? id,
-  String? storeName,
-  String? lat,
-  String? lng,
-  String? address,
-  String? storeContact,
-  String? storeEmail,
-  String? storeWorkingHours,
-  num? orderSlotThreshold,
-  Pivot? pivot,
-}) => Store(  id: id ?? _id,
-  storeName: storeName ?? _storeName,
-  lat: lat ?? _lat,
-  lng: lng ?? _lng,
-  address: address ?? _address,
-  storeContact: storeContact ?? _storeContact,
-  storeEmail: storeEmail ?? _storeEmail,
-  storeWorkingHours: storeWorkingHours ?? _storeWorkingHours,
-  orderSlotThreshold: orderSlotThreshold ?? _orderSlotThreshold,
-  pivot: pivot ?? _pivot,
-);
+
+  Store copyWith({
+    num? id,
+    String? storeName,
+    String? lat,
+    String? lng,
+    String? address,
+    String? storeContact,
+    String? storeEmail,
+    String? storeWorkingHours,
+    num? orderSlotThreshold,
+    Pivot? pivot,
+  }) =>
+      Store(
+        id: id ?? _id,
+        storeName: storeName ?? _storeName,
+        lat: lat ?? _lat,
+        lng: lng ?? _lng,
+        address: address ?? _address,
+        storeContact: storeContact ?? _storeContact,
+        storeEmail: storeEmail ?? _storeEmail,
+        storeWorkingHours: storeWorkingHours ?? _storeWorkingHours,
+        orderSlotThreshold: orderSlotThreshold ?? _orderSlotThreshold,
+        pivot: pivot ?? _pivot,
+      );
+
   num? get id => _id;
+
   String? get storeName => _storeName;
+
   String? get lat => _lat;
+
   String? get lng => _lng;
+
   String? get address => _address;
+
   String? get storeContact => _storeContact;
+
   String? get storeEmail => _storeEmail;
+
   String? get storeWorkingHours => _storeWorkingHours;
+
   num? get orderSlotThreshold => _orderSlotThreshold;
+
   Pivot? get pivot => _pivot;
 
   Map<String, dynamic> toJson() {
@@ -1298,23 +1545,22 @@ Store copyWith({  num? id,
     }
     return map;
   }
-
 }
-
 
 class PivotNew {
   PivotNew({
-      num? productId,
-      num? storeId,
-      num? productQuantity,
-      String? createdAt,
-      String? updatedAt,}){
+    num? productId,
+    num? storeId,
+    num? productQuantity,
+    String? createdAt,
+    String? updatedAt,
+  }) {
     _productId = productId;
     _storeId = storeId;
     _productQuantity = productQuantity;
     _createdAt = createdAt;
     _updatedAt = updatedAt;
-}
+  }
 
   PivotNew.fromJson(dynamic json) {
     _productId = json['product_id'];
@@ -1323,26 +1569,36 @@ class PivotNew {
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
   }
+
   num? _productId;
   num? _storeId;
   num? _productQuantity;
   String? _createdAt;
   String? _updatedAt;
-Pivot copyWith({  num? productId,
-  num? storeId,
-  num? productQuantity,
-  String? createdAt,
-  String? updatedAt,
-}) => Pivot(  productId: productId ?? _productId,
-  storeId: storeId ?? _storeId,
-  productQuantity: productQuantity ?? _productQuantity,
-  createdAt: createdAt ?? _createdAt,
-  updatedAt: updatedAt ?? _updatedAt,
-);
+
+  Pivot copyWith({
+    num? productId,
+    num? storeId,
+    num? productQuantity,
+    String? createdAt,
+    String? updatedAt,
+  }) =>
+      Pivot(
+        productId: productId ?? _productId,
+        storeId: storeId ?? _storeId,
+        productQuantity: productQuantity ?? _productQuantity,
+        createdAt: createdAt ?? _createdAt,
+        updatedAt: updatedAt ?? _updatedAt,
+      );
+
   num? get productId => _productId;
+
   num? get storeId => _storeId;
+
   num? get productQuantity => _productQuantity;
+
   String? get createdAt => _createdAt;
+
   String? get updatedAt => _updatedAt;
 
   Map<String, dynamic> toJson() {
@@ -1354,20 +1610,20 @@ Pivot copyWith({  num? productId,
     map['updated_at'] = _updatedAt;
     return map;
   }
-
 }
 
 class ProductImageArrNew {
   ProductImageArrNew({
-      num? id,
-      num? productId,
-      String? image,
-      num? featuredImage,}){
+    num? id,
+    num? productId,
+    String? image,
+    num? featuredImage,
+  }) {
     _id = id;
     _productId = productId;
     _image = image;
     _featuredImage = featuredImage;
-}
+  }
 
   ProductImageArrNew.fromJson(dynamic json) {
     _id = json['id'];
@@ -1375,22 +1631,31 @@ class ProductImageArrNew {
     _image = json['image'];
     _featuredImage = json['featured_image'];
   }
+
   num? _id;
   num? _productId;
   String? _image;
   num? _featuredImage;
-ProductImageArr copyWith({  num? id,
-  num? productId,
-  String? image,
-  num? featuredImage,
-}) => ProductImageArr(  id: id ?? _id,
-  productId: productId ?? _productId,
-  image: image ?? _image,
-  featuredImage: featuredImage ?? _featuredImage,
-);
+
+  ProductImageArr copyWith({
+    num? id,
+    num? productId,
+    String? image,
+    num? featuredImage,
+  }) =>
+      ProductImageArr(
+        id: id ?? _id,
+        productId: productId ?? _productId,
+        image: image ?? _image,
+        featuredImage: featuredImage ?? _featuredImage,
+      );
+
   num? get id => _id;
+
   num? get productId => _productId;
+
   String? get image => _image;
+
   num? get featuredImage => _featuredImage;
 
   Map<String, dynamic> toJson() {
@@ -1401,5 +1666,4 @@ ProductImageArr copyWith({  num? id,
     map['featured_image'] = _featuredImage;
     return map;
   }
-
 }
