@@ -1,5 +1,6 @@
 import 'package:flutter_fabby_demo/models/check_estimate_delivery_model.dart';
 import 'package:flutter_fabby_demo/models/favourite_model.dart';
+import 'package:flutter_fabby_demo/models/frequently_move_to_cart_model.dart';
 
 import '../models/add_to_cart_model.dart';
 import '../models/product_detail_model.dart';
@@ -67,6 +68,24 @@ class ProductDetailRepository{
       deliveryPostCode,
 
           (json) => CheckEstimateDeliveryModel.fromJson(json),
+    );
+
+    if (response.error != null) {
+      throw Exception(response.error);
+    }
+
+    return response.data;
+  }
+  Future<FrequentlyMoveToCartModel?> moveToCartFrequently(
+      List<int> productIds,
+      int userId,
+      String guestId
+      ) async {
+    final response = await apiService.moveToCartFrequently<FrequentlyMoveToCartModel>(
+      productIds,
+      userId,
+      guestId,
+          (json) => FrequentlyMoveToCartModel.fromJson(json),
     );
 
     if (response.error != null) {

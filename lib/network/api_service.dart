@@ -1023,6 +1023,59 @@ class ApiService extends BaseApiService {
     }
   }
   @override
+  Future<BaseResponse<T>> moveToCartFrequently<T>(
+      List<int> productIds,
+      int userId,
+      String guestId,
+      T Function(Map<String, dynamic>) fromJson
+      ) async {
+    const String endpoint = "moveToCartFrequently";
+    final fullUrl = Uri.parse('$baseUrl$endpoint');
+
+    try {
+      // Log the request URL and parameters
+      LoggerService.i('Request URL: $fullUrl');
+      LoggerService.i('Request Body: product_ids: $productIds, userid: $userId, guestid: $guestId');
+
+      // Convert productIds to the correct format for the API request
+      final body = <String, String>{};
+      for (int i = 0; i < productIds.length; i++) {
+        body['product_ids[$i]'] = productIds[i].toString(); // Use indexed keys for array values
+      }
+      body['userid'] = userId.toString();
+      body['guestid'] = guestId;
+
+      final response = await http.post(
+        fullUrl,
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: body,
+      );
+
+      // Log the response status code and body
+      LoggerService.i('Response Status Code: ${response.statusCode}');
+      LoggerService.i('Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+        return BaseResponse<T>(
+          data: fromJson(data),
+          statusCode: response.statusCode,
+        );
+      } else {
+        return BaseResponse<T>(
+          statusCode: response.statusCode,
+          error: 'Error: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      // Log the exception
+      LoggerService.e('Exception: $e');
+      return BaseResponse<T>(
+        error: 'Exception: $e',
+      );
+    }
+  }
+  @override
   Future<BaseResponse<T>> checkEstimateDelivery<T>(
       String deliveryPostCode,
       T Function(Map<String, dynamic>) fromJson

@@ -9,6 +9,7 @@ import 'package:flutter_fabby_demo/repository/product_detail_repository.dart';
 import 'package:flutter_fabby_demo/utils/logger_service.dart';
 
 import '../models/add_to_cart_model.dart';
+import '../models/frequently_move_to_cart_model.dart';
 import '../utils/shared_prefs.dart';
 
 class ProductDetailViewModel extends ChangeNotifier {
@@ -39,6 +40,9 @@ class ProductDetailViewModel extends ChangeNotifier {
   AddToCartModel? _addToCartModelBuyNow;
 
   AddToCartModel? get addToCartModelBuyNow => _addToCartModelBuyNow;
+  FrequentlyMoveToCartModel? _frequentlyMoveToCartModel;
+
+  FrequentlyMoveToCartModel? get frequentlyMoveToCartModel => _frequentlyMoveToCartModel;
 
   Future<void> getProductDetail(
       String productId, String userId, String guestId) async {
@@ -140,6 +144,28 @@ class ProductDetailViewModel extends ChangeNotifier {
       }
 
       _addToCartModelBuyNow = response;
+      _error = '';
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
+  }
+  Future<void> moveToCartFrequently(List<int> productIds,
+      int userId,
+      String guestId) async {
+    _loading = true;
+    notifyListeners();
+
+    try {
+      final response = await repository.moveToCartFrequently(productIds,userId,guestId);
+
+      if (response == null) {
+        throw Exception('Failed to send contact us request');
+      }
+
+      _frequentlyMoveToCartModel = response;
       _error = '';
     } catch (e) {
       _error = e.toString();

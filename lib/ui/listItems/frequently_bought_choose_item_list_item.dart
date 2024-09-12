@@ -6,6 +6,8 @@ class FrequentlyBoughtChooseItemListItem extends StatefulWidget {
   final String price;
   final int discountType;
   final String discountValue;
+  final Function(bool) onItemSelected; // Callback to notify the parent
+
 
   const FrequentlyBoughtChooseItemListItem({
     super.key,
@@ -13,6 +15,8 @@ class FrequentlyBoughtChooseItemListItem extends StatefulWidget {
     required this.price,
     required this.discountType,
     required this.discountValue,
+    required this.onItemSelected, // Add callback for item selection
+
   });
 
   @override
@@ -22,12 +26,16 @@ class FrequentlyBoughtChooseItemListItem extends StatefulWidget {
 
 class _ProductDescriptionListItemsState
     extends State<FrequentlyBoughtChooseItemListItem> {
+  bool isSelected = true; // Track the selection state
   double totalAmount = 0.0;
 
   @override
   void initState() {
     super.initState();
-    calculateTotalAmount(); // Initialize discount calculation
+    calculateTotalAmount();// Initialize discount calculation
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      widget.onItemSelected(true);
+    });
   }
 
   void calculateTotalAmount() {
@@ -45,6 +53,12 @@ class _ProductDescriptionListItemsState
       totalAmount = price;
     }
   }
+  void toggleSelection() {
+    setState(() {
+      isSelected = !isSelected;
+    });
+    widget.onItemSelected(isSelected); // Notify parent about selection change
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,16 +71,17 @@ class _ProductDescriptionListItemsState
         // Aligns children vertically at the center
         children: [
           // Image equivalent to ImageView in XML
-          Container(
+          GestureDetector(onTap: toggleSelection,child: Container(
             width: 16.0,
             height: 16.0,
             margin: const EdgeInsets.only(right: 5.0), // MarginEnd equivalent
             child: SvgImage.asset(
-              'assets/tick.svg',
-              width: 16.0,
-              height: 16.0// Replace with your image asset path
+                isSelected ? 'assets/tick.svg': 'assets/light_pink_border.svg',
+                width: 16.0,
+                height: 16.0// Replace with your image asset path
             ),
-          ),
+          ),)
+          ,
           // Text equivalent to AppCompatTextView in XML
           Expanded(
               child: Container(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fabby_demo/models/product_detail_model.dart';
 import 'package:flutter_fabby_demo/ui/lists/frequestly_bought_together_list.dart';
 import 'package:flutter_fabby_demo/ui/lists/product_description_list.dart';
+import 'package:flutter_fabby_demo/ui/lists/similar_product_list.dart';
 import 'package:flutter_fabby_demo/ui/screens/top_bar_detail.dart';
 import 'package:flutter_fabby_demo/utils/logger_service.dart';
 import 'package:flutter_fabby_demo/utils/snackbar_utils.dart';
@@ -18,6 +19,7 @@ import '../../utils/text_utils.dart';
 import '../dialog/custom_add_to_cart_dialog.dart';
 import '../dialog/custom_dialog.dart';
 import '../lists/frequently_bought_choose_item_list.dart';
+import '../lists/product_tag_list.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({super.key});
@@ -29,6 +31,7 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   late String estimateDeliveryDate;
   late TextEditingController _pinCodeController;
+  List<int> selectedProductIds = [];
 
   // Error messages and visibility flags for each text field
   String _pinError = "";
@@ -45,6 +48,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   List<ProductTag> _tag = [];
   List<ProductDescription>? productDescription = [];
   List<RelatedProducts>? relatedProducts = [];
+  List<SimilarProducts>? similarProducts = [];
   String productIdString = AppConstants.noData;
   String productName = "";
   String slug = "";
@@ -150,6 +154,27 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
   }
 
+  double totalPrice = 0.0;
+
+  void updateTotalPrice(double newTotalPrice) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        // Check if the widget is still mounted
+        setState(() {
+          totalPrice = newTotalPrice;
+        });
+      }
+    });
+  }
+
+  List<RelatedProducts> selectedProducts = [];
+
+  void updateSelectedProducts(List<RelatedProducts> selectedItems) {
+    setState(() {
+      selectedProducts = selectedItems;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final data =
@@ -175,6 +200,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           productDescription =
               viewModel.productDetailMode?.data?.productDescription;
           relatedProducts = viewModel.productDetailMode?.data?.relatedProducts;
+          similarProducts = viewModel.productDetailMode?.data?.similarProducts;
           LoggerService.d("products: ", products?.length);
 
           if (products != null && products.isNotEmpty) {
@@ -281,9 +307,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         child: SvgImage.asset('assets/ic_no_data.svg',
                             width: double.infinity, height: 250.0),
                       ),
-                Container(
+                Row(children: [Expanded(child: Container(
                     width: double.infinity,
-                    height: 700.0,
                     margin: const EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
                       color: AppColors.productDetailBack,
@@ -315,19 +340,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ),
                         ],
                       ),
-                      /*Container(
-                      margin: const EdgeInsets.all(10.0),
-                      height: 200.0,
-                      child: Flexible(child: ProductTagList(items: _tag) ,),
-                    ),
-*/
+                      Visibility(visible:_tag.isNotEmpty,child: Container(
+                        margin: const EdgeInsets.all(10.0),
+                        height: 200.0,
+                        child: Flexible(child: ProductTagList(items: _tag) ,),
+                      ),),
+
                       Container(
                         width: double.infinity,
                         // Equivalent to match_parent
                         height: 1.0,
                         // Equivalent to 1dp height
                         margin:
-                            const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                        const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                         // Equivalent to layout_marginStart, layout_marginTop, layout_marginEnd
                         color: Colors
                             .white, // Equivalent to android:background="@color/white"
@@ -386,7 +411,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         height: 1.0,
                         // Equivalent to 1dp height
                         margin:
-                            const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                        const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                         // Equivalent to layout_marginStart, layout_marginTop, layout_marginEnd
                         color: Colors
                             .white, // Equivalent to android:background="@color/white"
@@ -395,7 +420,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         children: [
                           Container(
                             margin:
-                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                            const EdgeInsets.only(left: 10.0, right: 10.0),
                             height: 50.0,
                             child: TextUtils.display(
                               AppStrings.premiumQuality,
@@ -411,7 +436,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         children: [
                           Container(
                             margin:
-                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                            const EdgeInsets.only(left: 10.0, right: 10.0),
                             height: 50.0,
                             child: TextUtils.display(
                               AppStrings.thirtyDayMoneyBackGuarantee,
@@ -427,7 +452,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         children: [
                           Container(
                             margin:
-                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                            const EdgeInsets.only(left: 10.0, right: 10.0),
                             height: 50.0,
                             child: TextUtils.display(
                               AppStrings.fastAndFreeShipping,
@@ -443,23 +468,23 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         children: [
                           Flexible(
                               child: Container(
-                            width: double.infinity,
-                            // Equivalent to match_parent
-                            height: 1.0,
-                            // Equivalent to 1dp height
-                            margin:
+                                width: double.infinity,
+                                // Equivalent to match_parent
+                                height: 1.0,
+                                // Equivalent to 1dp height
+                                margin:
                                 const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                            // Equivalent to layout_marginStart, layout_marginTop, layout_marginEnd
-                            color: Colors
-                                .white, // Equivalent to android:background="@color/white"
-                          )),
+                                // Equivalent to layout_marginStart, layout_marginTop, layout_marginEnd
+                                color: Colors
+                                    .white, // Equivalent to android:background="@color/white"
+                              )),
                         ],
                       ),
                       Row(
                         children: [
                           Container(
                             margin:
-                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                            const EdgeInsets.only(left: 10.0, right: 10.0),
                             height: 50.0,
                             child: TextUtils.display(
                               AppStrings.quantity,
@@ -491,14 +516,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                         color: AppColors.fabbyBondiBlue,
                                         // Equivalent to `stroke android:color="@color/light_blue_fabby"`
                                         width:
-                                            1.0, // Equivalent to `stroke android:width="@dimen/_1sdp"`
+                                        1.0, // Equivalent to `stroke android:width="@dimen/_1sdp"`
                                       ),
                                       borderRadius: BorderRadius.circular(
                                           5.0), // Equivalent to `corners android:radius="5dp"`
                                     ),
                                     child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                       children: [
                                         GestureDetector(
                                           onTap: () {
@@ -557,23 +582,23 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         children: [
                           Flexible(
                               child: Container(
-                            width: double.infinity,
-                            // Equivalent to match_parent
-                            height: 1.0,
-                            // Equivalent to 1dp height
-                            margin:
+                                width: double.infinity,
+                                // Equivalent to match_parent
+                                height: 1.0,
+                                // Equivalent to 1dp height
+                                margin:
                                 const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                            // Equivalent to layout_marginStart, layout_marginTop, layout_marginEnd
-                            color: Colors
-                                .white, // Equivalent to android:background="@color/white"
-                          )),
+                                // Equivalent to layout_marginStart, layout_marginTop, layout_marginEnd
+                                color: Colors
+                                    .white, // Equivalent to android:background="@color/white"
+                              )),
                         ],
                       ),
                       Row(
                         children: [
                           Container(
                             margin:
-                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                            const EdgeInsets.only(left: 10.0, right: 10.0),
                             height: 50.0,
                             child: TextUtils.display(
                               AppStrings.estimateDelivery,
@@ -638,20 +663,20 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     await viewModel.checkEstimateDelivery(
                                         _pinCodeController.text);
                                     if (viewModel.checkEstimateDeliveryModel
-                                            ?.success ==
+                                        ?.success ==
                                         true) {
                                       final estimateDelivery = viewModel
                                           .checkEstimateDeliveryModel?.data;
                                       setState(() {
                                         _showDate = true;
                                         estimateDeliveryDate =
-                                            "Delivery in ${estimateDelivery?.days} Days, ${estimateDelivery?.date}";
+                                        "Delivery in ${estimateDelivery?.days} Days, ${estimateDelivery?.date}";
                                       });
                                     } else {
                                       SnackbarService.showErrorSnackbar(
                                           context,
                                           viewModel.checkEstimateDeliveryModel
-                                                  ?.statusCode ??
+                                              ?.statusCode ??
                                               "Something went wrong");
                                     }
                                   } else {
@@ -812,7 +837,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 String mainId = await viewModel.getMainId();
                                 String? guestId = await viewModel.getGuestId();
                                 String? loginSuccess =
-                                    await viewModel.getLoginSuccess();
+                                await viewModel.getLoginSuccess();
                                 final requestBody = {
                                   'buy_now': AppConstants.buyNow,
                                   'cart_count': AppConstants.wishListCartCount,
@@ -834,7 +859,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   SnackbarService.showErrorSnackbar(
                                       context,
                                       viewModel.addToCartModelBuyNow
-                                              ?.statusCode ??
+                                          ?.statusCode ??
                                           "Something went wrong");
                                 }
                               },
@@ -876,12 +901,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+                        margin: const EdgeInsets.only(left: 10.0, right: 10.0,bottom: 10.0),
                         width: double.infinity,
                         child: PngImage.asset('assets/payment_icons.png',
                             width: double.infinity, height: 40.0),
                       ),
-                    ])),
+                    ])),)],),
+
                 Visibility(
                   visible: productDescription!.isNotEmpty,
                   child: Container(
@@ -893,56 +919,150 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                   ),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    // Equivalent to @color/transparent
-                    borderRadius: BorderRadius.circular(5.0),
-                    // Equivalent to android:radius="5dp"
-                    border: Border.all(
-                      color: AppColors.lightBlueFabby,
-                      // Replace with actual color value for @color/light_blue_fabby
-                      width:
-                          1.0, // Replace with actual dimension value for @dimen/_1sdp
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                Visibility(
+                    visible: relatedProducts!.isNotEmpty,
+                    child: Container(
+                      margin: const EdgeInsets.only(
+                          left: 20.0, right: 20.0, bottom: 20.0),
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        // Equivalent to @color/transparent
+                        borderRadius: BorderRadius.circular(5.0),
+                        // Equivalent to android:radius="5dp"
+                        border: Border.all(
+                          color: AppColors.lightBlueFabby,
+                          // Replace with actual color value for @color/light_blue_fabby
+                          width:
+                              1.0, // Replace with actual dimension value for @dimen/_1sdp
+                        ),
+                      ),
+                      child: Column(
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(
+                                  top: 10.0,
+                                ),
+                                child: TextUtils.display(
+                                    AppStrings.frequentlyBoughtTogether,
+                                    fontSize: 17.0,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.productDetailText,
+                                    fontFamily: 'Poppins'),
+                              ),
+                            ],
+                          ),
                           Container(
-                            margin: const EdgeInsets.only(
-                              top: 10.0,
+                            margin: const EdgeInsets.all(10.0),
+                            height: 150.0,
+                            child: FrequentlyBoughtTogetherList(
+                              items: relatedProducts,
                             ),
-                            child: TextUtils.display(
-                                AppStrings.frequentlyBoughtTogether,
-                                fontSize: 17.0,
-                                fontWeight: FontWeight.normal,
-                                color: AppColors.productDetailText,
-                                fontFamily: 'Poppins'),
+                          ),
+                          Row(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.all(20.0),
+                                child: TextUtils.display(
+                                    "Total Price: ₹$totalPrice",
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.normal,
+                                    color: AppColors.sortTextColor,
+                                    fontFamily: 'Poppins'),
+                              )
+                            ],
+                          ),
+                          Visibility(
+                            visible: relatedProducts!.isNotEmpty,
+                            child: Container(
+                              margin: const EdgeInsets.all(10.0),
+                              height: 300.0,
+                              child: Frequentlyboughtchooseitemlist(
+                                items: relatedProducts,
+                                onTotalPriceUpdated: updateTotalPrice,
+                                onItemsSelected: updateSelectedProducts,
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () async {
+                              LoggerService.d("check: ", "click");
+                              String mainId = await viewModel.getMainId();
+                              String? guestId = await viewModel.getGuestId();
+                              for (int i = 0;
+                                  i < relatedProducts!.length;
+                                  i++) {
+                                selectedProductIds.add(relatedProducts![i]
+                                    .id!
+                                    .toInt()); // Convert num to int
+                              }
+                              await viewModel.moveToCartFrequently(
+                                  selectedProductIds,
+                                  int.parse(mainId),
+                                  guestId ?? "");
+                              if (viewModel
+                                      .frequentlyMoveToCartModel?.success ==
+                                  true) {
+                                showSimpleDialog(context,
+                                    "items added to cart successfully");
+                              } else {
+                                SnackbarService.showErrorSnackbar(
+                                    context,
+                                    viewModel.frequentlyMoveToCartModel
+                                            ?.statusCode ??
+                                        "Something went wrong");
+                              }
+                            },
+                            child: Card(
+                              margin: const EdgeInsets.only(
+                                  left: 20.0, right: 20.0, bottom: 20.0),
+                              color: AppColors.fabbyBondiBlue,
+                              // Replace with your card background color
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              child: SizedBox(
+                                height: 35.0,
+                                child: Center(
+                                  child: TextUtils.display(
+                                    AppStrings.addToCart,
+                                    fontFamily: 'Poppins',
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),
-                      Container(
-                        margin: const EdgeInsets.all(10.0),
-                        height: 150.0,
-                        child: FrequentlyBoughtTogetherList(items: relatedProducts,),
-                      ),
-                      Row(children: [
-                        Container(margin:const EdgeInsets.all(10.0),child: TextUtils.display(
-                            AppStrings.frequentlyBoughtTogether,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.normal,
-                            color: AppColors.sortTextColor,
-                            fontFamily: 'Poppins'),)
-                      ],),
-                      Container(margin: const EdgeInsets.all(10.0),
-                      height: 400.0,
-                      child: Frequentlyboughtchooseitemlist(items:relatedProducts),)
-                    ],
+                    )),
+                Container(
+                  margin: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  child: TextUtils.display(AppStrings.otherProductsYouMayLike,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.productDetailText,
+                      fontFamily: 'Poppins'),
+                ),
+                Visibility(
+                  visible: similarProducts!.isNotEmpty,
+                  child: Container(
+                    margin: const EdgeInsets.all(10.0),
+                    height: 300.0,
+                    child: SimilarProductList(
+                      items: similarProducts,
+                      onMoveToProductDetail: (i) {
+                        LoggerService.d("ok: ",i);
+                        final productId=similarProducts?[i].id ?? 0;
+                        _callProductList(productId.toString());
+                      },
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           );

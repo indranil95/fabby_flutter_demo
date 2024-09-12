@@ -79,6 +79,12 @@ abstract class BaseApiService {
       String guestId,
       T Function(Map<String, dynamic>) fromJson,
       );
+  Future<BaseResponse<T>> moveToCartFrequently<T>(
+      List<int> productIds,
+      int userId,
+      String guestId,
+      T Function(Map<String, dynamic>) fromJson,
+      );
   Future<BaseResponse<T>> checkEstimateDelivery<T>(
       String deliveryPostCode,
       T Function(Map<String, dynamic>) fromJson,
