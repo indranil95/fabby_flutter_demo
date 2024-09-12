@@ -16,17 +16,17 @@ class _MemberCheckoutScreenState extends State<MemberCheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      appBar: TopBarDetail(title: AppStrings.checkoutFirstCaps),
+      appBar: const TopBarDetail(title: AppStrings.checkoutFirstCaps),
       backgroundColor: AppColors.fabbyBack,
       body: Padding(
-          padding: EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(10.0),
           child: SingleChildScrollView(
             child: Column(
               children: [
                 Row(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: 10.0, right: 10.0),
+                      margin: const EdgeInsets.only(left: 10.0, right: 10.0),
                       child: TextUtils.display(
                         'Read More',
                           fontFamily: 'Poppins',
