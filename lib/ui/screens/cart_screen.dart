@@ -1,8 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_fabby_demo/models/cart_data_model.dart';
 import 'package:flutter_fabby_demo/ui/lists/cartlist_list.dart';
+import 'package:flutter_fabby_demo/ui/screens/member_checkout_screen.dart';
 import 'package:flutter_fabby_demo/ui/screens/top_bar_detail.dart';
+import 'package:flutter_fabby_demo/utils/navigation_service.dart';
 import 'package:flutter_fabby_demo/utils/snackbar_utils.dart';
 import 'package:flutter_fabby_demo/viewModels/cart_viewModel.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -32,8 +33,7 @@ class _CartScreenState extends State<CartScreen> {
   late CartViewModel viewModel;
   late final TextEditingController _couponController;
   String? loginSuccess;
-  bool memberStat=false;
-
+  bool memberStat = false;
 
   @override
   void initState() {
@@ -43,22 +43,26 @@ class _CartScreenState extends State<CartScreen> {
     _checkLoginStatus();
     super.initState();
   }
+
   @override
   void dispose() {
     _couponController.dispose();
     super.dispose();
   }
+
   Future<void> _checkLoginStatus() async {
     loginSuccess = await viewModel.getLoginSuccess();
     setState(() {
-      memberStat=loginSuccess?.isNotEmpty ==true;
+      memberStat = loginSuccess?.isNotEmpty == true;
     });
   }
+
   String _getCouponCode() {
     String couponCode = _couponController.text;
     LoggerService.d('Coupon Code: $couponCode');
     return couponCode;
   }
+
   Future<void> _fetchCartList() async {
     // Fetch mainId and guestId asynchronously
     String mainId = await viewModel.getMainId();
@@ -139,6 +143,7 @@ class _CartScreenState extends State<CartScreen> {
       },
     );
   }
+
   void couponDialog(BuildContext context, String message) {
     showDialog(
       context: context,
@@ -146,15 +151,16 @@ class _CartScreenState extends State<CartScreen> {
         return CustomDialog(
           maxLines: 2,
           message: message,
-          onButtonPressed: () {
-          },
+          onButtonPressed: () {},
           buttonText: 'ok', // Customize button text if needed
         );
       },
     );
   }
-  double totalPrice=0.0;
-  String discount="0";
+
+  double totalPrice = 0.0;
+  String discount = "0";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -383,7 +389,7 @@ class _CartScreenState extends State<CartScreen> {
                         // Pass this to the list
                         onTotalPriceChange: (double newTotalPrice) {
                           // Update the total price when it changes
-                          LoggerService.d("total price",newTotalPrice);
+                          LoggerService.d("total price", newTotalPrice);
                           setState(() {
                             totalPrice = newTotalPrice;
                           });
@@ -431,7 +437,7 @@ class _CartScreenState extends State<CartScreen> {
                 ),
                 child: Row(
                   children: [
-                     Expanded(
+                    Expanded(
                       child: TextField(
                         controller: _couponController,
                         decoration: const InputDecoration(
@@ -447,47 +453,53 @@ class _CartScreenState extends State<CartScreen> {
                             color: Colors.black), // Customize text style
                       ),
                     ),
-                    GestureDetector(onTap: () async{
-                      String couponCode=_getCouponCode();
-                      String mainId = await viewModel.getMainId();
-                      String? guestId = await viewModel.getGuestId();
-                      final requestBody = {
-                        'promocode': couponCode,
-                        'user_id': mainId,
-                        'guest_id': guestId,
-                      };
-                      await viewModel.promoCode(requestBody);
-                      if(viewModel.promoCodeModel?.success == true){
-                        couponDialog(context, viewModel.promoCodeModel!.error.toString());
-                        _couponController.clear();
-                        setState(() {
-                          discount=viewModel.promoCodeModel?.data?.dicount.toString() ?? "0";
-                        });
-                      }else{
-                        SnackbarService.showErrorSnackbar(context, viewModel.promoCodeModel!.error.toString());
-                      }
-                    },child: Container(
-                      height: 38.0,
-                      // Adjust based on your drawable padding
-                      decoration: BoxDecoration(
-                        color: AppColors.black,
-                        // Replace with your drawable's background color
-                        borderRadius: BorderRadius.circular(
-                            8), // Customize as per your drawable
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Center(
-                          child: TextUtils.display(
-                            AppStrings.apply,
-                            color: AppColors.white,
-                            fontSize: 11.0,
-                            fontWeight: FontWeight.bold,
+                    GestureDetector(
+                      onTap: () async {
+                        String couponCode = _getCouponCode();
+                        String mainId = await viewModel.getMainId();
+                        String? guestId = await viewModel.getGuestId();
+                        final requestBody = {
+                          'promocode': couponCode,
+                          'user_id': mainId,
+                          'guest_id': guestId,
+                        };
+                        await viewModel.promoCode(requestBody);
+                        if (viewModel.promoCodeModel?.success == true) {
+                          couponDialog(context,
+                              viewModel.promoCodeModel!.error.toString());
+                          _couponController.clear();
+                          setState(() {
+                            discount = viewModel.promoCodeModel?.data?.dicount
+                                    .toString() ??
+                                "0";
+                          });
+                        } else {
+                          SnackbarService.showErrorSnackbar(context,
+                              viewModel.promoCodeModel!.error.toString());
+                        }
+                      },
+                      child: Container(
+                        height: 38.0,
+                        // Adjust based on your drawable padding
+                        decoration: BoxDecoration(
+                          color: AppColors.black,
+                          // Replace with your drawable's background color
+                          borderRadius: BorderRadius.circular(
+                              8), // Customize as per your drawable
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Center(
+                            child: TextUtils.display(
+                              AppStrings.apply,
+                              color: AppColors.white,
+                              fontSize: 11.0,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
-                    ),)
-                    ,
+                    ),
                   ],
                 ),
               ),
@@ -592,16 +604,27 @@ class _CartScreenState extends State<CartScreen> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        TextUtils.display(
-                          AppStrings.proceedToCheckout,
-                          fontFamily: "Poppins",
-                          fontSize: 16.0,
-                          color: AppColors.white,
-                          fontWeight: FontWeight.w600,
+                        GestureDetector(
+                          onTap: () {
+                            NavigationService.navigateToWithData(
+                                const MemberCheckoutScreen(),
+                                data: {
+                                  "discount": discount,
+                                  "coupon": _couponController.text.toString(),
+                                  "buy_now": AppConstants.blankLimit
+                                });
+                          },
+                          child: TextUtils.display(
+                            AppStrings.proceedToCheckout,
+                            fontFamily: "Poppins",
+                            fontSize: 16.0,
+                            color: AppColors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         const SizedBox(width: 5.0),
-                        PngImage.asset('assets/cart_icon_new.png',width: 20.0,
-                            height: 20.0),
+                        PngImage.asset('assets/cart_icon_new.png',
+                            width: 20.0, height: 20.0),
                       ],
                     ),
                   ),
