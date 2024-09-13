@@ -95,4 +95,7 @@ abstract class BaseApiService {
   Future<BaseResponse<T>> favourite<T>(
       Map<String, dynamic> requestBody,
       T Function(Map<String, dynamic>) fromJson);
+  Future<BaseResponse<T>> addAddressMobile<T>(
+      Map<String, dynamic> requestBody,
+      T Function(Map<String, dynamic>) fromJson);
 }

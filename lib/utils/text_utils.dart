@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TextUtils {
   // Method to display text with default styling
@@ -19,7 +20,8 @@ class TextUtils {
         fontSize: fontSize,
         fontWeight: fontWeight,
         color: color,
-        fontFamily: fontFamily, // Apply the custom font here
+        fontFamily: fontFamily,
+        // Apply the custom font here
         decoration: decoration,
       ),
       textAlign: textAlign,
@@ -61,13 +63,21 @@ class TextUtils {
     TextInputType keyboardType = TextInputType.text, // To specify keyboard type
     String? hintText, // Text to show as hint
     EdgeInsetsGeometry? contentPadding, // Padding for the text field
+    Color? backgroundColor,
     void Function(String)? onChanged, // Callback for text changes
+    int? maxDigits,
+    bool editable = true, // Optional parameter to make the text field editable
   }) {
     // Attach listener to the TextEditingController if a callback is provided
     if (onChanged != null) {
       controller.addListener(() {
         onChanged(controller.text);
       });
+    }
+    List<TextInputFormatter> inputFormatters = [];
+    if (maxDigits != null) {
+      inputFormatters.add(FilteringTextInputFormatter.digitsOnly);
+      inputFormatters.add(LengthLimitingTextInputFormatter(maxDigits));
     }
 
     return TextField(
@@ -90,6 +100,11 @@ class TextUtils {
         ),
         contentPadding: contentPadding,
         // Apply padding for the text field
+        filled: backgroundColor != null,
+        // Enable filled background only if backgroundColor is provided
+        fillColor: backgroundColor,
+        // Set the background color
+        enabled: editable,
         border: const OutlineInputBorder(),
         // Default border
         focusedBorder: OutlineInputBorder(
