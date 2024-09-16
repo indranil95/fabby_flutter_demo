@@ -98,4 +98,13 @@ abstract class BaseApiService {
   Future<BaseResponse<T>> addAddressMobile<T>(
       Map<String, dynamic> requestBody,
       T Function(Map<String, dynamic>) fromJson);
+  Future<BaseResponse<T>> checkout<T>(
+      Map<String, dynamic> requestBody,
+      T Function(Map<String, dynamic>) fromJson);
+  Future<BaseResponse<T>> deleteAddress<T>(
+      Map<String, dynamic> requestBody,
+      T Function(Map<String, dynamic>) fromJson);
+  Future<BaseResponse<T>> getCustomerAddress<T>(
+      Map<String, dynamic> requestBody,
+      T Function(Map<String, dynamic>) fromJson);
 }

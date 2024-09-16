@@ -74,6 +74,7 @@ class TextUtils {
         onChanged(controller.text);
       });
     }
+
     List<TextInputFormatter> inputFormatters = [];
     if (maxDigits != null) {
       inputFormatters.add(FilteringTextInputFormatter.digitsOnly);
@@ -92,6 +93,8 @@ class TextUtils {
       maxLines: maxLines,
       obscureText: obscureText,
       keyboardType: keyboardType,
+      inputFormatters: inputFormatters,
+      readOnly: !editable, // Make it read-only when not editable
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: TextStyle(
@@ -99,14 +102,9 @@ class TextUtils {
           fontFamily: fontFamily, // Apply the custom font for hint text
         ),
         contentPadding: contentPadding,
-        // Apply padding for the text field
-        filled: backgroundColor != null,
-        // Enable filled background only if backgroundColor is provided
-        fillColor: backgroundColor,
-        // Set the background color
-        enabled: editable,
+        filled: true, // Always fill the background
+        fillColor: backgroundColor ?? Colors.transparent, // Keep the background color consistent
         border: const OutlineInputBorder(),
-        // Default border
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: color.withOpacity(0.8)),
         ),
@@ -116,6 +114,7 @@ class TextUtils {
       ),
     );
   }
+
 
   static Widget errorText(
     String text, {

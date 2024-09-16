@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_fabby_demo/colors/colors.dart';
 import 'package:flutter_fabby_demo/strings/strings.dart';
 import 'package:flutter_fabby_demo/utils/logger_service.dart';
@@ -124,6 +123,7 @@ class _AddNewAddressSheetState extends State<AddNewAddressSheet> {
     _countryController = TextEditingController();
     setState(() {
       country="India";
+      _countryController.text=country;
     });
     // Set up listeners for each controller
     _firstNameController.addListener(() {
@@ -371,9 +371,11 @@ class _AddNewAddressSheetState extends State<AddNewAddressSheet> {
                 fontWeight: FontWeight.normal,
                 color: AppColors.recentStroke,
                 hintColor: AppColors.lightGray,
+                maxDigits: 10,
                 textAlign: TextAlign.start,
                 maxLines: 1,
                 fontFamily: 'Poppins',
+                keyboardType: TextInputType.number,
                 hintText: AppStrings.phoneNumber,
                 backgroundColor: AppColors.white,
                 contentPadding: const EdgeInsets.symmetric(
@@ -556,10 +558,10 @@ class _AddNewAddressSheetState extends State<AddNewAddressSheet> {
                 textAlign: TextAlign.start,
                 maxLines: 1,
                 fontFamily: 'Poppins',
-                hintText: AppStrings.pinCode,
                 maxDigits: 6,
                 keyboardType: TextInputType.number,
                 backgroundColor: AppColors.white,
+                editable: false,
                 contentPadding: const EdgeInsets.symmetric(
                     vertical: 10.0, horizontal: 15.0),
               ),
@@ -836,6 +838,10 @@ class _AddNewAddressSheetState extends State<AddNewAddressSheet> {
           ),
         ),
       ),
+      bottomNavigationBar: Container(
+    color: AppColors.couponBack,
+    padding: const EdgeInsets.all(10.0),
+    child:,),
     );
   }
 

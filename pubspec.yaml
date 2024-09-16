@@ -45,6 +45,7 @@ dependencies:
   json_serializable: ^6.0.0
   smooth_page_indicator: ^1.2.0+3
   webview_flutter: ^4.8.0
+  lottie: ^3.0.0
 
 
 
@@ -123,6 +124,7 @@ flutter:
     - assets/payment_icons.png
     - assets/payment_selected.svg
     - assets/payment_unselected.svg
+    - assets/tick_anim_new.json
 
   fonts:
     - family: DmSerifDisplay
