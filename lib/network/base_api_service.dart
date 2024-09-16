@@ -66,4 +66,16 @@ abstract class BaseApiService {
       String guestId,
       T Function(Map<String, dynamic>) fromJson,
       );
+
+  // Future<BaseResponse<T>> getPrevOrder<T>(
+  //     int userId,
+  //     T Function(Map<String, dynamic>) fromJson,
+  //     );
+  Future<BaseResponse<T>> getPrevOrder<T>(
+      Map<String, dynamic> requestBody,
+      T Function(Map<String, dynamic>) fromJson);
+
+  Future<BaseResponse<T>> getNotificationList<T>(
+      Map<String, dynamic> requestBody,
+      T Function(Map<String, dynamic>) fromJson);
 }

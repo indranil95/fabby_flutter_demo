@@ -4,6 +4,8 @@ import 'package:flutter_fabby_demo/models/blogs_detail_model.dart';
 import 'package:flutter_fabby_demo/repository/contact_us_repository.dart';
 import 'package:flutter_fabby_demo/repository/forgotpassword_repository.dart';
 import 'package:flutter_fabby_demo/repository/login_repository.dart';
+import 'package:flutter_fabby_demo/repository/notification_repository.dart';
+import 'package:flutter_fabby_demo/repository/order_History_repository.dart';
 import 'package:flutter_fabby_demo/repository/otp_repository.dart';
 import 'package:flutter_fabby_demo/repository/resetpassword_otp_repository.dart';
 import 'package:flutter_fabby_demo/repository/resetpassword_repository.dart';
@@ -16,6 +18,8 @@ import 'package:flutter_fabby_demo/viewModels/dashboard_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/blogdetail_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/forgotpassword_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/login_viewmodel.dart';
+import 'package:flutter_fabby_demo/viewModels/notification_viewmodel.dart';
+import 'package:flutter_fabby_demo/viewModels/orderhistory_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/otp_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/resetpassword_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/resetpasswordotp_viewmodel.dart';
@@ -100,6 +104,16 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => BlogDetailViewModel(
             BlogDetailRepository(ApiService()),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => OrderhistoryViewmodel(
+            OrderHistoryRepository(ApiService()),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => NotificationViewmodel(
+            NotificationRepository(ApiService()),
           ),
         ),
       ],

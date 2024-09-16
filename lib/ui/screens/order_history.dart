@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fabby_demo/ui/lists/products_list_vertical.dart';
 import 'package:flutter_fabby_demo/ui/screens/top_bar_detail.dart';
+import 'package:flutter_fabby_demo/viewModels/orderhistory_viewmodel.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -12,6 +13,7 @@ import '../../strings/strings.dart';
 import '../../utils/logger_service.dart';
 import '../../viewModels/dashboard_viewmodel.dart';
 import '../../viewModels/productlist_viewmodel.dart';
+import '../lists/orderHistoryList.dart';
 import '../lists/products_list_vertical.dart';
 
 class OrderHistoryScreen extends StatefulWidget {
@@ -21,18 +23,39 @@ class OrderHistoryScreen extends StatefulWidget {
 }
 
 class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
-  late DashboardViewModel viewModel;
+  late OrderhistoryViewmodel viewModel;
   TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    viewModel = Provider.of<DashboardViewModel>(context, listen: false);
+    viewModel = Provider.of<OrderhistoryViewmodel>(context, listen: false);
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // viewModel.loadAllProduct(AppConstants.allProduct, "");
+      _fetchOrderList();
     });
   }
 
+  Future<void> _fetchOrderList() async {
+    // Fetch mainId and guestId asynchronously
+    String mainId = await viewModel.getMainId();
+    String? guestId = await viewModel.getGuestId();
+    
+    final requestBody = {
+      'user_id': mainId,
+      'offset': 1,
+      'filter': "All product",
+      'store_id': 1,
+      'type': "order_list",
+      'search':""
+      // Handle the case where guestId is null
+    };
+    LoggerService.d("main id", mainId);
+    // LoggerService.d("requestBody", $requestBody)
+    // viewModel.getPreOrder(49);
+    viewModel.getPreOrder(requestBody);
+  }
 
   // List of sorting options
   final List<String> sortingOptions = [
@@ -53,7 +76,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
     final data = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
 
     return Scaffold(
-      appBar: const TopBarDetail(title: AppStrings.products),
+      appBar: const TopBarDetail(title: AppStrings.orderHistory),
       body: Column(
         children: [
           // Search bar with custom icon
@@ -151,8 +174,9 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
           ),
 
           // Product list
-          Expanded(
-            child: Consumer<DashboardViewModel>(
+          Container(
+            height: 400, // Set a fixed height or use constraints based on your design
+            child: Consumer<OrderhistoryViewmodel>(
               builder: (context, viewModel, child) {
                 if (viewModel.loading) {
                   return Center(
@@ -163,13 +187,32 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
 
                 return Padding(
                   padding: const EdgeInsets.all(16.0),
-                  // child: ProductsListVertical(
-                  //   items: viewModel.allProductData?.data ?? [],
+                  // child: OrderHistorylist(
+                  //   items: viewModel.previousOrderModel?.data,
                   // ),
                 );
               },
             ),
           ),
+          // Expanded(
+          //   child: Consumer<OrderhistoryViewmodel>(
+          //     builder: (context, viewModel, child) {
+          //       if (viewModel.loading) {
+          //         return Center(
+          //           child: LoadingAnimationWidget.staggeredDotsWave(
+          //               color: AppColors.fabbyBondiBlue, size: 50.0),
+          //         );
+          //       }
+          //
+          //       return Padding(
+          //         padding: const EdgeInsets.all(16.0),
+          //         child: OrderHistorylist(
+          //           items: viewModel.previousOrderModel?.data?.data ?? [],
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );

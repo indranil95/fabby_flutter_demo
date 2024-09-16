@@ -769,5 +769,151 @@ class ApiService extends BaseApiService {
     }
   }
 
+  // @override
+  // Future<BaseResponse<T>> getPrevOrder<T>(
+  //     int userId,
+  //     T Function(Map<String, dynamic>) fromJson
+  //     ) async {
+  //   const String endpoint = "prevOrderWebMobile";
+  //   final fullUrl = Uri.parse('$baseUrl$endpoint');
+  //
+  //   try {
+  //     // Log the request URL and parameters
+  //     LoggerService.i('Request URL: $fullUrl');
+  //     LoggerService.i('Request Body: userid: $userId');
+  //
+  //     // Convert productIds to the correct format for the API request
+  //     final body = <String, String>{};
+  //
+  //     body['userid'] = userId.toString();
+  //     body['offset'] = "1";
+  //     body['filter'] = "All product";
+  //     body['store_id'] = "1";
+  //     body['type'] = "order_list";
+  //     body['search'] = "";
+  //
+  //     final response = await http.post(
+  //       fullUrl,
+  //       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+  //       body: body,
+  //     );
+  //
+  //     // Log the response status code and body
+  //     LoggerService.i('Response Status Code: ${response.statusCode}');
+  //     LoggerService.i('Response Body: ${response.body}');
+  //
+  //     if (response.statusCode == 200) {
+  //       final data = json.decode(response.body) as Map<String, dynamic>;
+  //       return BaseResponse<T>(
+  //         data: fromJson(data),
+  //         statusCode: response.statusCode,
+  //       );
+  //     } else {
+  //       return BaseResponse<T>(
+  //         statusCode: response.statusCode,
+  //         error: 'Error: ${response.statusCode}',
+  //       );
+  //     }
+  //   } catch (e) {
+  //     // Log the exception
+  //     LoggerService.e('Exception: $e');
+  //     return BaseResponse<T>(
+  //       error: 'Exception: $e',
+  //     );
+  //   }
+  // }
 
+  @override
+  Future<BaseResponse<T>> getPrevOrder<T>(Map<String, dynamic> requestBody,
+      T Function(Map<String, dynamic> p1) fromJson) async {
+    const String endpoint = "prevOrderWebMobile";
+    final fullUrl = Uri.parse('$baseUrl$endpoint');
+
+    try {
+      // Log the request URL and method
+      LoggerService.i('Request URL: $fullUrl');
+      LoggerService.i('Request Body: ${json.encode(requestBody)}');
+
+      final headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxNSIsImp0aSI6IjFmZTdmZTVmMzE5YTE5NTMxOGUwMmI0N2ZhMDNlNGE0MjU4N2NkMzQwNzU2Y2ExOTdlYzczNjY1MTM1Yjc0YTBmMDJiOTMwOWM4M2U2MGY5IiwiaWF0IjoxNzI0OTI5MTg2LCJuYmYiOjE3MjQ5MjkxODYsImV4cCI6MTc1NjQ2NTE4Niwic3ViIjoiNDkiLCJzY29wZXMiOltdfQ.AufdmMwKb4nxf6hQsU8GILP4XYVzy37lF7vGPogOP6l0qdtqJMODhZGFxPe2J3KiR-PmOlgf-zmmy_NauEPn5xaEqJgdmx4ktjjtwh6XlICsiSjQsS8trYBs88kb5Md9MT7f8UTB25HwBM6TCMLfla3o1qMrc2pGRCf_TAH3i3XxhIGR8P5F3NtCvVeqWTh5-NEKQ0DGONFLQx89E9AjuMVfKsF-e5dCWt5SP31dnn-bzcgX6Um5hzqOIMqf8mVFbzwSD3ASrL78Xy9ajlMXU7CcapTMf-u9b-Hit_gLjeCjA4jl7kM3M_QJcrPobLp_3rLIhv6SlR-GjGVeG0rY6yj367A-ORLE8nw0w5b_Lvn0oRr61YJ1KfkCyz4Qu5pU9jhqAmW8Mv9JcYVM7V1cOL-4_YoPO_4qj3P5UgFvYtw8pBk0V9xGai-MmtHoOL-NYLqTawrhVCWf69frkD-6q3NRDJ_jdR2BKUogddip489ByeeJywtIRZI3uPAdRQzbqzRot9b1175zvCcZC3sh2dIWNQrlH6e1ZlxaJXG11Zov7nJ4V4xemXL1o85iVGHoYPJpNbY1hKShDrpxOsAf24hxzD0iW0lJ96e0BHZhW9oLre5vmhC89pJ7D6d-PtQu7JLvlGkSvDlUS3xZuB1PiBJ8ufAP5cJ-TKwderKvjfA', // Add the Bearer token here
+      };
+
+      final response = await http.post(
+        fullUrl,
+        headers: headers,
+        body: json.encode(requestBody),
+      );
+
+      // Log the response status code and body
+      LoggerService.i('Response Status Code: ${response.statusCode}');
+      LoggerService.i('Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+        return BaseResponse<T>(
+          data: fromJson(data),
+          statusCode: response.statusCode,
+        );
+      } else {
+        return BaseResponse<T>(
+          statusCode: response.statusCode,
+          error: 'Error: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      // Log the exception
+      LoggerService.e('Exception: $e');
+      return BaseResponse<T>(
+        error: 'Exception: $e',
+      );
+    }
+  }
+
+  @override
+  Future<BaseResponse<T>> getNotificationList<T>(Map<String, dynamic> requestBody,
+      T Function(Map<String, dynamic> p1) fromJson) async {
+    const String endpoint = "notificatiolistWeb";
+    final fullUrl = Uri.parse('$baseUrl$endpoint');
+
+    try {
+      // Log the request URL and method
+      LoggerService.i('Request URL: $fullUrl');
+      LoggerService.i('Request Body: ${json.encode(requestBody)}');
+
+      final headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxNSIsImp0aSI6IjFmZTdmZTVmMzE5YTE5NTMxOGUwMmI0N2ZhMDNlNGE0MjU4N2NkMzQwNzU2Y2ExOTdlYzczNjY1MTM1Yjc0YTBmMDJiOTMwOWM4M2U2MGY5IiwiaWF0IjoxNzI0OTI5MTg2LCJuYmYiOjE3MjQ5MjkxODYsImV4cCI6MTc1NjQ2NTE4Niwic3ViIjoiNDkiLCJzY29wZXMiOltdfQ.AufdmMwKb4nxf6hQsU8GILP4XYVzy37lF7vGPogOP6l0qdtqJMODhZGFxPe2J3KiR-PmOlgf-zmmy_NauEPn5xaEqJgdmx4ktjjtwh6XlICsiSjQsS8trYBs88kb5Md9MT7f8UTB25HwBM6TCMLfla3o1qMrc2pGRCf_TAH3i3XxhIGR8P5F3NtCvVeqWTh5-NEKQ0DGONFLQx89E9AjuMVfKsF-e5dCWt5SP31dnn-bzcgX6Um5hzqOIMqf8mVFbzwSD3ASrL78Xy9ajlMXU7CcapTMf-u9b-Hit_gLjeCjA4jl7kM3M_QJcrPobLp_3rLIhv6SlR-GjGVeG0rY6yj367A-ORLE8nw0w5b_Lvn0oRr61YJ1KfkCyz4Qu5pU9jhqAmW8Mv9JcYVM7V1cOL-4_YoPO_4qj3P5UgFvYtw8pBk0V9xGai-MmtHoOL-NYLqTawrhVCWf69frkD-6q3NRDJ_jdR2BKUogddip489ByeeJywtIRZI3uPAdRQzbqzRot9b1175zvCcZC3sh2dIWNQrlH6e1ZlxaJXG11Zov7nJ4V4xemXL1o85iVGHoYPJpNbY1hKShDrpxOsAf24hxzD0iW0lJ96e0BHZhW9oLre5vmhC89pJ7D6d-PtQu7JLvlGkSvDlUS3xZuB1PiBJ8ufAP5cJ-TKwderKvjfA', // Add the Bearer token here
+      };
+
+      final response = await http.post(
+        fullUrl,
+        headers: headers,
+        body: json.encode(requestBody),
+      );
+
+      // Log the response status code and body
+      LoggerService.i('Response Status Code: ${response.statusCode}');
+      LoggerService.i('Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+        return BaseResponse<T>(
+          data: fromJson(data),
+          statusCode: response.statusCode,
+        );
+      } else {
+        return BaseResponse<T>(
+          statusCode: response.statusCode,
+          error: 'Error: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      // Log the exception
+      LoggerService.e('Exception: $e');
+      return BaseResponse<T>(
+        error: 'Exception: $e',
+      );
+    }
+  }
 }
