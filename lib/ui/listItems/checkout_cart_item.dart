@@ -11,6 +11,7 @@ class CheckoutCartItem extends StatefulWidget {
   final int discountType;
   final String discountValue;
   final String subtitlevalue;
+  final num cartCount;
 
   const CheckoutCartItem({
     super.key,
@@ -21,6 +22,7 @@ class CheckoutCartItem extends StatefulWidget {
     required this.discountType,
     required this.discountValue,
     required this.subtitlevalue,
+    required this.cartCount,
   });
 
   @override
@@ -28,6 +30,21 @@ class CheckoutCartItem extends StatefulWidget {
 }
 
 class _CheckoutCartItemState extends State<CheckoutCartItem> {
+  String calculatePrice() {
+    double price = double.parse(widget.price);
+    double discountValue = double.parse(widget.discountValue);
+    double finalPrice;
+
+    if (widget.discountType == 1) {
+      // Flat discount
+      finalPrice = (price - discountValue) * widget.cartCount;
+    } else {
+      // Percentage discount
+      finalPrice = (price - (price * (discountValue / 100))) * widget.cartCount;
+    }
+
+    return finalPrice.toStringAsFixed(2);
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,19 +56,17 @@ class _CheckoutCartItemState extends State<CheckoutCartItem> {
             padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
             child: Row(
               children: [
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(15.0),
+                    topRight: Radius.circular(15.0),
                   ),
-                  child: SizedBox(
-                    width: 70,
-                    height: 70,
-                    child: Center(
-                      child: CustomNetworkImage(
-                          imageUrl: widget.imgurl,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                  child:
+                  CustomNetworkImage(
+                    imageUrl: widget.imgurl,
+                    width: 100.0,
+                    height: 90.0,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 const SizedBox(width: 10), // For spacing between the CardView and TextViews
@@ -72,11 +87,11 @@ class _CheckoutCartItemState extends State<CheckoutCartItem> {
                             ),
                           ),
                           TextUtils.display(
-                            widget.titlevalue, // Set dynamic title value here
+                            "₹${calculatePrice()}", // Set dynamic title value here
                             fontFamily: "Poppins",
                             fontSize: 14,
                             color: AppColors.removeTextColor, // Equivalent to @color/remove_text_color
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.normal,
 
                           ),
                         ],

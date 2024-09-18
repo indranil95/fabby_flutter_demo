@@ -5,6 +5,7 @@ import 'package:flutter_fabby_demo/repository/contact_us_repository.dart';
 import 'package:flutter_fabby_demo/repository/forgotpassword_repository.dart';
 import 'package:flutter_fabby_demo/repository/login_repository.dart';
 import 'package:flutter_fabby_demo/repository/member_checkout_repository.dart';
+import 'package:flutter_fabby_demo/repository/member_payment_repository.dart';
 import 'package:flutter_fabby_demo/repository/otp_repository.dart';
 import 'package:flutter_fabby_demo/repository/product_detail_repository.dart';
 import 'package:flutter_fabby_demo/repository/resetpassword_otp_repository.dart';
@@ -20,6 +21,7 @@ import 'package:flutter_fabby_demo/viewModels/blogdetail_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/forgotpassword_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/login_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/member_checkout_viewModel.dart';
+import 'package:flutter_fabby_demo/viewModels/member_payment_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/otp_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/product_detail_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/resetpassword_viewmodel.dart';
@@ -120,6 +122,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => MemberCheckoutViewModel(
             MemberCheckoutRepository(ApiService()),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => MemberPaymentViewmodel(
+            MemberPaymentRepository(ApiService()),
           ),
         ),
       ],

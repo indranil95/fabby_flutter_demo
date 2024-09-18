@@ -838,10 +838,6 @@ class _AddNewAddressSheetState extends State<AddNewAddressSheet> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-    color: AppColors.couponBack,
-    padding: const EdgeInsets.all(10.0),
-    child:,),
     );
   }
 

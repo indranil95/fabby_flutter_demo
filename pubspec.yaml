@@ -124,6 +124,7 @@ flutter:
     - assets/payment_icons.png
     - assets/payment_selected.svg
     - assets/payment_unselected.svg
+    - assets/checkout_pay_image.png
     - assets/tick_anim_new.json
 
   fonts:

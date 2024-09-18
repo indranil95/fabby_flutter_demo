@@ -38,7 +38,7 @@ class _SuccessMessageCardState extends State<SuccessMessageCard> {
               TextUtils.display(
                 widget.title,
                 fontSize: 18.0,
-                fontFamily: 'DMSerifRegular',
+                fontFamily: 'DMSerifDisplay',
                 color: Colors.black,
                 textAlign: TextAlign.center,
                 maxLines: widget.maxLines

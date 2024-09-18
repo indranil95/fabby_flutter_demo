@@ -34,16 +34,17 @@ class _CheckoutCartListState extends State<CheckoutCartList> {
         // Ensure your BlogsListItems widget matches the structure of Data class
         return CheckoutCartItem(
           imgurl: dataItem.product?.productImage ?? "",
-          title: dataItem.product?.productImage ?? "",
+          title: dataItem.product?.productName ?? "",
           subtitle: AppConstants.weight,
           price: dataItem.product?.price ?? "",
           discountValue: dataItem.product?.offers != null
-              ? dataItem.product?.offers?.discountValue
-              : 0.0,
+              ? (dataItem.product?.offers?.discountValue?.toString() ?? "0.0")
+              : "0.0",
           discountType: dataItem.product?.offers != null
               ? dataItem.product?.offers?.discountType
               : 0,
           subtitlevalue: "Quantity : ${dataItem.cartCount}N",
+          cartCount:dataItem.cartCount ?? 0,
         );
       },
     ));
