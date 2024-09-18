@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_fabby_demo/models/blogs_model.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/profile_model.dart';
 import '../utils/logger_service.dart';
 import 'base_api_service.dart';
 import 'base_response.dart';
@@ -768,60 +769,6 @@ class ApiService extends BaseApiService {
       );
     }
   }
-
-  // @override
-  // Future<BaseResponse<T>> getPrevOrder<T>(
-  //     int userId,
-  //     T Function(Map<String, dynamic>) fromJson
-  //     ) async {
-  //   const String endpoint = "prevOrderWebMobile";
-  //   final fullUrl = Uri.parse('$baseUrl$endpoint');
-  //
-  //   try {
-  //     // Log the request URL and parameters
-  //     LoggerService.i('Request URL: $fullUrl');
-  //     LoggerService.i('Request Body: userid: $userId');
-  //
-  //     // Convert productIds to the correct format for the API request
-  //     final body = <String, String>{};
-  //
-  //     body['userid'] = userId.toString();
-  //     body['offset'] = "1";
-  //     body['filter'] = "All product";
-  //     body['store_id'] = "1";
-  //     body['type'] = "order_list";
-  //     body['search'] = "";
-  //
-  //     final response = await http.post(
-  //       fullUrl,
-  //       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-  //       body: body,
-  //     );
-  //
-  //     // Log the response status code and body
-  //     LoggerService.i('Response Status Code: ${response.statusCode}');
-  //     LoggerService.i('Response Body: ${response.body}');
-  //
-  //     if (response.statusCode == 200) {
-  //       final data = json.decode(response.body) as Map<String, dynamic>;
-  //       return BaseResponse<T>(
-  //         data: fromJson(data),
-  //         statusCode: response.statusCode,
-  //       );
-  //     } else {
-  //       return BaseResponse<T>(
-  //         statusCode: response.statusCode,
-  //         error: 'Error: ${response.statusCode}',
-  //       );
-  //     }
-  //   } catch (e) {
-  //     // Log the exception
-  //     LoggerService.e('Exception: $e');
-  //     return BaseResponse<T>(
-  //       error: 'Exception: $e',
-  //     );
-  //   }
-  // }
 
   @override
   Future<BaseResponse<T>> getPrevOrder<T>(Map<String, dynamic> requestBody,

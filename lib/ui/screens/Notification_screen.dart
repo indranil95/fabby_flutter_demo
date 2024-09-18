@@ -30,11 +30,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   Future<void> _fetchOrderList() async {
     // Fetch mainId and guestId asynchronously
-    // String mainId = await viewModel.getMainId();
-    // String? guestId = await viewModel.getGuestId();
+    String mainId = await viewModel.getMainId();
+    String? guestId = await viewModel.getGuestId();
 
     final requestBody = {
-      'user_id': 49,
+      'user_id': mainId,
       'filter': "",
       'store_id': 1,
       'type': "notification_short",
@@ -42,7 +42,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
       // Handle the case where guestId is null
     };
     LoggerService.d("main id", 1);
-    // LoggerService.d("requestBody", $requestBody)
+    LoggerService.d("main", mainId);
+    LoggerService.d("guest", guestId);
     // viewModel.getPreOrder(49);
     viewModel.getNotificationList(requestBody);
   }

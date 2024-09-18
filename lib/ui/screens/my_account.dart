@@ -3,6 +3,7 @@ import 'package:flutter_fabby_demo/ui/screens/top_bar_detail.dart';
 
 import '../../strings/strings.dart';
 import 'Notification_screen.dart';
+import 'profile_screen.dart';
 import 'order_history.dart';
 
 class MyAccountScreen extends StatefulWidget {
@@ -95,10 +96,10 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
           onTap: () {
             // Handle navigation here
             if (title == 'Profile') {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => ProfileScreen()),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ProfileScreen()),
+              );
             } else if (title == 'Order History') {
               Navigator.push(
                 context,

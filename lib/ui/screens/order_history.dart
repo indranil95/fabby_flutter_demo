@@ -77,144 +77,150 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
 
     return Scaffold(
       appBar: const TopBarDetail(title: AppStrings.orderHistory),
-      body: Column(
-        children: [
-          // Search bar with custom icon
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    blurRadius: 10.0,
-                    offset: Offset(0, 5),
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Search bar with custom icon
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.3),
+                      blurRadius: 10.0,
+                      offset: Offset(0, 5),
+                    ),
+                  ],
+                ),
+                child: TextField(
+                  controller: _searchController,
+                  onSubmitted: (value) {
+                    // Perform search when user submits input
+                    // Update your viewModel or function to handle search
+                    LoggerService.d("Search:","This has been clicked");
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Search your favorite product',
+                    border: InputBorder.none,
+                    contentPadding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 16.0),
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        // Perform search when search icon is tapped
+                        // Update your viewModel or function to handle search
+                        LoggerService.d("Search 2:","This has been clicked");
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 16.0), // Add padding to move icon away from the edge
+                        child: Icon(Icons.search, color: AppColors.fabbyBondiBlue),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            // Filter dropdown
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Sort By :',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.0,
+                      color: Colors.black,
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(color: Colors.grey),
+                      color: Colors.white,
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        value: selectedSortOption,
+                        icon: const Icon(Icons.arrow_drop_down),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedSortOption = newValue!;
+                            // Handle filter action here based on selectedSortOption
+                            // e.g., viewModel.sortProducts(selectedSortOption);
+                            LoggerService.d("Filter:",selectedSortOption);
+                          });
+                        },
+                        items: sortingOptions.map((String option) {
+                          return DropdownMenuItem<String>(
+                            value: option,
+                            child: Text(
+                              option,
+                              style: const TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.black,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
                   ),
                 ],
               ),
-              child: TextField(
-                controller: _searchController,
-                onSubmitted: (value) {
-                  // Perform search when user submits input
-                  // Update your viewModel or function to handle search
-                  LoggerService.d("Search:","This has been clicked");
-                },
-                decoration: InputDecoration(
-                  hintText: 'Search your favorite product',
-                  border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 16.0),
-                  suffixIcon: GestureDetector(
-                    onTap: () {
-                      // Perform search when search icon is tapped
-                      // Update your viewModel or function to handle search
-                      LoggerService.d("Search 2:","This has been clicked");
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 16.0), // Add padding to move icon away from the edge
-                      child: Icon(Icons.search, color: AppColors.fabbyBondiBlue),
+            ),
+
+            // Product list
+            Container(
+              height: 500,
+              // Set a fixed height or use constraints based on your design
+              child: Consumer<OrderhistoryViewmodel>(
+                builder: (context, viewModel, child) {
+                  if (viewModel.loading) {
+                    return Center(
+                      child: LoadingAnimationWidget.staggeredDotsWave(
+                          color: AppColors.fabbyBondiBlue, size: 50.0),
+                    );
+                  }
+
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: OrderHistorylist(
+                      items: viewModel.previousOrderModel?.data?.data,
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
             ),
-          ),
-
-          // Filter dropdown
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  'Sort By :',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0,
-                    color: Colors.black,
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
-                    border: Border.all(color: Colors.grey),
-                    color: Colors.white,
-                  ),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      value: selectedSortOption,
-                      icon: const Icon(Icons.arrow_drop_down),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          selectedSortOption = newValue!;
-                          // Handle filter action here based on selectedSortOption
-                          // e.g., viewModel.sortProducts(selectedSortOption);
-                          LoggerService.d("Filter:",selectedSortOption);
-                        });
-                      },
-                      items: sortingOptions.map((String option) {
-                        return DropdownMenuItem<String>(
-                          value: option,
-                          child: Text(
-                            option,
-                            style: const TextStyle(
-                              fontSize: 14.0,
-                              color: Colors.black,
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // Product list
-          Container(
-            height: 400, // Set a fixed height or use constraints based on your design
-            child: Consumer<OrderhistoryViewmodel>(
-              builder: (context, viewModel, child) {
-                if (viewModel.loading) {
-                  return Center(
-                    child: LoadingAnimationWidget.staggeredDotsWave(
-                        color: AppColors.fabbyBondiBlue, size: 50.0),
-                  );
-                }
-
-                return Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  // child: OrderHistorylist(
-                  //   items: viewModel.previousOrderModel?.data,
-                  // ),
-                );
-              },
-            ),
-          ),
-          // Expanded(
-          //   child: Consumer<OrderhistoryViewmodel>(
-          //     builder: (context, viewModel, child) {
-          //       if (viewModel.loading) {
-          //         return Center(
-          //           child: LoadingAnimationWidget.staggeredDotsWave(
-          //               color: AppColors.fabbyBondiBlue, size: 50.0),
-          //         );
-          //       }
-          //
-          //       return Padding(
-          //         padding: const EdgeInsets.all(16.0),
-          //         child: OrderHistorylist(
-          //           items: viewModel.previousOrderModel?.data?.data ?? [],
-          //         ),
-          //       );
-          //     },
-          //   ),
-          // ),
-        ],
-      ),
+            const SizedBox(
+              height: 20,
+            )
+            // Expanded(
+            //   child: Consumer<OrderhistoryViewmodel>(
+            //     builder: (context, viewModel, child) {
+            //       if (viewModel.loading) {
+            //         return Center(
+            //           child: LoadingAnimationWidget.staggeredDotsWave(
+            //               color: AppColors.fabbyBondiBlue, size: 50.0),
+            //         );
+            //       }
+            //
+            //       return Padding(
+            //         padding: const EdgeInsets.all(16.0),
+            //         child: OrderHistorylist(
+            //           items: viewModel.previousOrderModel?.data?.data ?? [],
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // ),
+          ],
+        ),
+      )
     );
   }
 }

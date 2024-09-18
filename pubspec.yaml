@@ -42,6 +42,7 @@ dependencies:
   mailer: ^5.1.0
   loading_animation_widget: ^1.2.1
   flutter_html: ^3.0.0-beta.2
+  image_picker: ^0.8.7+3
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -102,6 +103,7 @@ flutter:
     - assets/delete_icon_wishlist.svg
     - assets/delete_icon_item.svg
     - assets/ic_no_data.svg
+    - assets/defaultProfile.png
 
   fonts:
     - family: DmSerifDisplay
