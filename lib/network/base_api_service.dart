@@ -125,4 +125,9 @@ abstract class BaseApiService {
   Future<BaseResponse<T>> getNotificationList<T>(
       Map<String, dynamic> requestBody,
       T Function(Map<String, dynamic>) fromJson);
+
+  Future<BaseResponse<T>> getProfile<T>(
+      int userId,
+      T Function(Map<String, dynamic>) fromJson,
+      );
 }

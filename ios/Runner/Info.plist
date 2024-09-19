@@ -45,11 +45,15 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>instagram</string>
-        <string>comgooglemaps</string>
-        <string>tel</string>
-    </array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>instagram</string>
+		<string>comgooglemaps</string>
+		<string>tel</string>
+	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>We need access to the camera for updating your profile picture.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your photo library to select a profile picture.</string>
 </dict>
 </plist>

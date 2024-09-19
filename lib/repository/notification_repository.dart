@@ -20,5 +20,4 @@ class NotificationRepository{
 
     return response.data;
   }
-
 }

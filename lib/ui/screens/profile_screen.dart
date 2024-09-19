@@ -1,11 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_fabby_demo/models/profile_model.dart';
 import 'package:flutter_fabby_demo/ui/screens/top_bar_detail.dart';
+import 'package:flutter_fabby_demo/viewModels/profile_viewmodel.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 import '../../colors/colors.dart';
 import '../../strings/strings.dart';
+import '../../utils/logger_service.dart';
 import '../../utils/text_utils.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -19,14 +23,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
 
+  late ProfileViewModel viewModel;
   bool isMale = true;
   bool isEditingPersonalInfo = false;
   bool isEditingEmail = false;
   bool isEditingMobile = false;
   bool isDefaultImage = true; // For handling the "Delete Profile Picture" state
 
-  late PickedFile _imageFile;
+  // late PickedFile _imageFile;
+  // final ImagePicker _picker = ImagePicker();
+  File? _imageFile;  // Update to File? type for picked images
   final ImagePicker _picker = ImagePicker();
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel = Provider.of<ProfileViewModel>(context, listen: false);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _fetchProfileData();
+    });
+  }
+
+  Future<void> _fetchProfileData() async {
+    // Fetch mainId and guestId asynchronously
+    // String mainId = await viewModel.getMainId();
+    //
+    // LoggerService.d("main", mainId);
+    // int userId = int.parse(mainId);
+    viewModel.getProfile(49);
+    if (viewModel.profileData != null) {
+      // Set the profile data to the controllers
+      setState(() {
+        nameController.text = viewModel.profileData?.data?[0].fullname ?? '';
+        lastNameController.text = viewModel.profileData?.data?[0].lastname ?? '';
+        emailController.text = viewModel.profileData?.data?[0].email ?? '';
+        mobileController.text = viewModel.profileData?.data?[0].mobile ?? '';
+        if ((viewModel.profileData?.data?[0].gender ?? '') == 'Male') {
+          isMale = true;
+        }  // Assuming gender is a string
+        // Handle profile picture and other fields if needed
+      }); 
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +95,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   CircleAvatar(
                     radius: 50,
                     backgroundColor: Colors.pink.shade100,
-                    backgroundImage: const AssetImage(
-                        'assets/defaultProfile.png'),
+                    backgroundImage: _imageFile == null
+                        ? const AssetImage('assets/defaultProfile.png') // Default profile image
+                        : FileImage(_imageFile!) as ImageProvider, // Selected image
                   ),
                   const SizedBox(width: 16),
                   Column(
@@ -67,11 +106,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       TextButton(
                         onPressed: () {
                           // Handle change image
-                          bottomSheet();
-                          setState(() {
-                            isDefaultImage =
-                            false; // Enable delete option after image change
-                          });
+                          showModalBottomSheet(
+                            context: context,
+                            builder: ((builder) => bottomSheet()),
+                          );
+                          // setState(() {
+                          //   isDefaultImage =
+                          //   false; // Enable delete option after image change
+                          // });
                         },
                         child: const Text(
                           'Change Image',
@@ -267,53 +309,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget bottomSheet() {
     return Container(
       height: 100.0,
-      width: MediaQuery
-          .of(context)
-          .size
-          .width,
-      margin: EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 20,
-      ),
+      width: MediaQuery.of(context).size.width,
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Column(
         children: <Widget>[
-          Text(
-            "Choose Profile photo",
-            style: TextStyle(
-              fontSize: 20.0,
-            ),
+          const Text(
+            "Choose Profile Photo",
+            style: TextStyle(fontSize: 20.0),
           ),
-          SizedBox(
-            height: 20,
-          ),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.camera),
-              onPressed: () {
-                takePhoto(ImageSource.camera);
-              },
-            ),
-            Text("Camera"),
-
-            IconButton(
-              icon: Icon(Icons.image),
-              onPressed: () {
-                takePhoto(ImageSource.gallery);
-              },
-            ),
-            Text("Gallery"),
-          ])
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.camera),
+                onPressed: () {
+                  takePhoto(ImageSource.camera);
+                  Navigator.of(context).pop(); // Close the bottom sheet after taking a photo
+                },
+              ),
+              const Text("Camera"),
+              const SizedBox(width: 20),
+              IconButton(
+                icon: const Icon(Icons.image),
+                onPressed: () {
+                  takePhoto(ImageSource.gallery);
+                  Navigator.of(context).pop(); // Close the bottom sheet after selecting an image
+                },
+              ),
+              const Text("Gallery"),
+            ],
+          )
         ],
       ),
     );
   }
 
+  // Function to take a photo or select from the gallery
   void takePhoto(ImageSource source) async {
-    final pickedFile = await _picker.pickImage(
-      source: source,
-    );
+    final pickedFile = await _picker.pickImage(source: source);
+
     setState(() {
-      _imageFile = pickedFile as PickedFile;
+      if (pickedFile != null) {
+        _imageFile = File(pickedFile.path);  // Assign picked image to the _imageFile variable
+        isDefaultImage = false;  // Update the image state
+      }
     });
   }
 }

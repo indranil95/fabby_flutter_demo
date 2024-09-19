@@ -10,6 +10,7 @@ import 'package:flutter_fabby_demo/repository/notification_repository.dart';
 import 'package:flutter_fabby_demo/repository/order_History_repository.dart';
 import 'package:flutter_fabby_demo/repository/otp_repository.dart';
 import 'package:flutter_fabby_demo/repository/product_detail_repository.dart';
+import 'package:flutter_fabby_demo/repository/profile_repository.dart';
 import 'package:flutter_fabby_demo/repository/resetpassword_otp_repository.dart';
 import 'package:flutter_fabby_demo/repository/resetpassword_repository.dart';
 import 'package:flutter_fabby_demo/repository/signup_repository.dart';
@@ -28,6 +29,7 @@ import 'package:flutter_fabby_demo/viewModels/notification_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/orderhistory_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/otp_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/product_detail_viewmodel.dart';
+import 'package:flutter_fabby_demo/viewModels/profile_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/resetpassword_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/resetpasswordotp_viewmodel.dart';
 import 'package:flutter_fabby_demo/viewModels/signup_viewmodel.dart';
@@ -141,6 +143,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => NotificationViewmodel(
             NotificationRepository(ApiService()),
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ProfileViewModel(
+            ProfileRepository(ApiService()),
           ),
         ),
       ],
