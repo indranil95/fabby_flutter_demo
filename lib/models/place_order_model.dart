@@ -15,10 +15,10 @@ class PlaceOrderModel {
     required this.success,
   });
 
-  factory PlaceOrderModel.fromJson(Map<String, dynamic> json) =>
+  /*factory PlaceOrderModel.fromJson(Map<String, dynamic> json) =>
       _$PlaceOrderModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PlaceOrderModelToJson(this);
+  Map<String, dynamic> toJson() => _$PlaceOrderModelToJson(this);*/
 }
 
 @JsonSerializable()
@@ -83,9 +83,9 @@ class Data {
     required this.userId,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
+  /*factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DataToJson(this);
+  Map<String, dynamic> toJson() => _$DataToJson(this);*/
 }
 
 @JsonSerializable()
@@ -163,10 +163,10 @@ class OrderDetail {
     required this.vatRate,
   });
 
-  factory OrderDetail.fromJson(Map<String, dynamic> json) =>
+  /*factory OrderDetail.fromJson(Map<String, dynamic> json) =>
       _$OrderDetailFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OrderDetailToJson(this);
+  Map<String, dynamic> toJson() => _$OrderDetailToJson(this);*/
 }
 
 @JsonSerializable()
@@ -248,9 +248,9 @@ class Product {
     required this.width,
   });
 
-  factory Product.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);
+  /*factory Product.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ProductToJson(this);
+  Map<String, dynamic> toJson() => _$ProductToJson(this);*/
 }
 
 @JsonSerializable()
@@ -282,7 +282,7 @@ class Store {
     required this.storeWorkingHours,
   });
 
-  factory Store.fromJson(Map<String, dynamic> json) => _$StoreFromJson(json);
+  /*factory Store.fromJson(Map<String, dynamic> json) => _$StoreFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StoreToJson(this);
+  Map<String, dynamic> toJson() => _$StoreToJson(this);*/
 }
