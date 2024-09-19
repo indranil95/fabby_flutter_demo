@@ -1374,5 +1374,47 @@ class ApiService extends BaseApiService {
       );
     }
   }
+  @override
+  Future<BaseResponse<T>> placeOrder<T>(
+      Map<String, dynamic> requestBody,
+      T Function(Map<String, dynamic> p1) fromJson) async {
+    const String endpoint = "placeOrder";
+    final fullUrl = Uri.parse('$baseUrl$endpoint');
+
+    try {
+      // Log the request URL and method
+      LoggerService.i('Request URL: $fullUrl');
+      LoggerService.i('Request Body: ${json.encode(requestBody)}');
+
+      final response = await http.post(
+        fullUrl,
+        headers: {'Content-Type': 'application/json','Authorization': 'Bearer $token',},
+        body: json.encode(requestBody),
+      );
+
+      // Log the response status code and body
+      LoggerService.i('Response Status Code: ${response.statusCode}');
+      LoggerService.i('Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+        return BaseResponse<T>(
+          data: fromJson(data),
+          statusCode: response.statusCode,
+        );
+      } else {
+        return BaseResponse<T>(
+          statusCode: response.statusCode,
+          error: 'Error: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      // Log the exception
+      LoggerService.e('Exception: $e');
+      return BaseResponse<T>(
+        error: 'Exception: $e',
+      );
+    }
+  }
 
 }

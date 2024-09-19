@@ -624,7 +624,7 @@ class _CartScreenState extends State<CartScreen> {
                         ),
                         const SizedBox(width: 5.0),
                         PngImage.asset('assets/cart_icon_new.png',
-                            width: 20.0, height: 20.0),
+                            width: 20.0, height: 20.0,color: AppColors.white, ),
                       ],
                     ),
                   ),

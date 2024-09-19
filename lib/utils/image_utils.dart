@@ -6,7 +6,12 @@ import 'package:http/http.dart' as http;
 
 
 class PngImage {
-  static Widget asset(String assetPath, {double width = 25.0, double height = 25.0}) {
+  static Widget asset(
+      String assetPath, {
+        double width = 25.0,
+        double height = 25.0,
+        Color? color, // Add color parameter
+      }) {
     return SizedBox(
       width: width,
       height: height,
@@ -15,10 +20,12 @@ class PngImage {
         width: width,
         height: height,
         fit: BoxFit.cover,
+        color: color, // Apply the color tint
       ),
     );
   }
 }
+
 
 class SvgImage {
   static Widget asset(String assetPath, {double width = 25.0, double height = 25.0}) {

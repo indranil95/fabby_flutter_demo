@@ -5,6 +5,7 @@ import 'package:flutter_fabby_demo/viewModels/member_payment_viewmodel.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../AppConstant/app_constant.dart';
 import '../../colors/colors.dart';
 import '../../strings/strings.dart';
 import '../../utils/logger_service.dart';
@@ -13,6 +14,7 @@ import '../../utils/text_utils.dart';
 import '../dialog/add_new_address_sheet.dart';
 import '../dialog/address_update_dialog.dart';
 import '../dialog/edit_address_sheet.dart';
+import '../lists/checkout_cart_list.dart';
 
 class MemberPaymentScreen extends StatefulWidget {
   const MemberPaymentScreen({super.key});
@@ -74,6 +76,59 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
       }
       // You can use this data to send a request or perform other actions
     }
+  }
+  String setTotalValue(String subtotal, String discount) {
+    // Replace commas and convert to double for subtotal and discount
+    double subtotalValue = double.parse(subtotal.replaceAll(",", ""));
+    double shippingCharges;
+
+    // Determine shipping charges based on subtotal
+    if (subtotalValue >= 900) {
+      shippingCharges = 0.0;
+    } else {
+      shippingCharges = 50.0;
+    }
+
+    double discountValue = double.parse(discount.replaceAll(",", ""));
+
+    // Calculate total
+    double total = subtotalValue - discountValue + shippingCharges;
+
+    // Use the removeDecimalPoints function
+    String finalValue = removeDecimalPoints(total.toString());
+
+    // Assuming you have Constants.rupeeSign defined
+    const String rupeeSign = '₹'; // Replace with your rupee sign constant
+
+    // Return the total value as a formatted string
+    return rupeeSign + " " + finalValue;
+  }
+  String removeDecimalPoints(String input) {
+    // Remove commas from the input string
+    String cleanInput = input.replaceAll(",", "");
+
+    // Convert the clean string to a double
+    double doubleValue = double.parse(cleanInput);
+
+    // Round the double value to the nearest integer
+    int integerValue = doubleValue.round();
+
+    // Convert the integer to a string and return
+    return integerValue.toString();
+  }
+  Future<void> _fetchCartList() async {
+    // Fetch mainId and guestId asynchronously
+    String mainId = await viewModel.getMainId();
+    String? guestId = await viewModel.getGuestId();
+
+    final requestBody = {
+      'buy_now': AppConstants.blankLimit,
+      'store_id': AppConstants.storeId,
+      'user_id': int.parse(mainId),
+      'guestid': guestId, // Handle the case where guestId is null
+    };
+
+    viewModel.cartDataList(requestBody);
   }
 
   void _showAddNewAddressSheet(BuildContext context) async {
@@ -190,6 +245,7 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
   @override
   void initState() {
     viewModel = Provider.of<MemberPaymentViewmodel>(context, listen: false);
+    _fetchCartList();
     Future.microtask(() {
       final data =
           ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
@@ -226,6 +282,8 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
             }
             final items =
                 viewModel.customerAddressModel?.data?.customerAddress ?? [];
+            final cartItems = viewModel.cartData?.data?.carts;
+            final cartData = viewModel.cartData?.data;
             return Column(
               children: [
                 Row(
@@ -732,6 +790,165 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
                           ],
                         ),
                       ),
+
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 10.0),
+                  width: double.infinity,
+                  height: 500.0,
+                  color: AppColors.paymentSelectBack,
+                  child: Column(
+                    children: [
+                      Visibility(
+                          visible: cartItems?.isNotEmpty ?? false,
+                          child: CheckoutCartList(items: cartItems ?? [])),
+                      Container(
+                        margin: const EdgeInsets.all(10),
+                        child: Row(
+                          children: [
+                            TextUtils.display(
+                              AppStrings.subtotal,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13,
+                              color: AppColors.sortTextColor,
+                            ),
+                            const Spacer(),
+                            TextUtils.display(
+                              removeDecimalPoints(
+                                  cartData?.subtotal ?? "0"),
+                              fontFamily: 'DmSerifDisplay',
+                              fontWeight: FontWeight.normal,
+                              fontSize: 13,
+                              color: AppColors.sortTextColor,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(10),
+                        child: Row(
+                          children: [
+                            TextUtils.display(
+                              AppStrings.couponDiscount,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14,
+                              color: AppColors.sortTextColor,
+                            ),
+                            const Spacer(),
+                            TextUtils.display(
+                              discountString,
+                              fontFamily: 'DmSerifDisplay',
+                              fontWeight: FontWeight.normal,
+                              fontSize: 13,
+                              color: AppColors.sortTextColor,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(10),
+                        child: Row(
+                          children: [
+                            TextUtils.display(
+                              AppStrings.shippingCharges,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14,
+                              color: AppColors.sortTextColor,
+                            ),
+                            const Spacer(),
+                            int.parse(removeDecimalPoints(
+                                cartData?.subtotal ?? "0")) >=
+                                900
+                                ? TextUtils.display(
+                              "₹ 0",
+                              fontFamily: 'DmSerifDisplay',
+                              fontWeight: FontWeight.normal,
+                              fontSize: 13,
+                              color: AppColors.sortTextColor,
+                            )
+                                : TextUtils.display(
+                              "₹ 50",
+                              fontFamily: 'DmSerifDisplay',
+                              fontWeight: FontWeight.normal,
+                              fontSize: 13,
+                              color: AppColors.sortTextColor,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: double.infinity,
+                        // Equivalent to match_parent
+                        height: 1.0,
+                        // Equivalent to 1dp height
+                        margin:
+                        const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                        // Equivalent to layout_marginStart, layout_marginTop, layout_marginEnd
+                        color: AppColors
+                            .white, // Equivalent to android:background="@color/white"
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(10),
+                        child: Row(
+                          children: [
+                            TextUtils.display(
+                              AppStrings.total,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                              color: AppColors.sortTextColor,
+                            ),
+                            const Spacer(),
+                            TextUtils.display(
+                              setTotalValue(removeDecimalPoints(cartData?.subtotal ?? "0"),discountString),
+                              fontFamily: 'DmSerifDisplay',
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14,
+                              color: AppColors.sortTextColor,
+                            ),
+                          ],
+                        ),
+                      ),
+                      GestureDetector(onTap: (){
+
+                      },child: Container(
+                        margin: const EdgeInsetsDirectional.all(10.0),
+                        alignment: AlignmentDirectional.center,
+                        width: double.infinity,
+                        height: 50.0,
+                        child: Card(
+                          color: AppColors.fabbyBondiBlue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                20.0), // Add curve here
+                          ),
+                          child: SizedBox(
+                            width: double.infinity,
+                            // Ensure the Card takes full width of the container
+                            height: double.infinity,
+                            // Ensure the Card takes full height of the container
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: TextUtils.display(
+                                AppStrings.payNow,
+                                fontSize: 14.0,
+                                // Increased fontSize for larger text
+                                color: AppColors.white,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w600,
+                                textAlign:
+                                TextAlign.center, // Center the text
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),)
+
                     ],
                   ),
                 ),

@@ -107,4 +107,7 @@ abstract class BaseApiService {
   Future<BaseResponse<T>> getCustomerAddress<T>(
       Map<String, dynamic> requestBody,
       T Function(Map<String, dynamic>) fromJson);
+  Future<BaseResponse<T>> placeOrder<T>(
+      Map<String, dynamic> requestBody,
+      T Function(Map<String, dynamic>) fromJson);
 }
