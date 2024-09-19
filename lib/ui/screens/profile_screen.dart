@@ -25,6 +25,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool isEditingMobile = false;
   bool isDefaultImage = true; // For handling the "Delete Profile Picture" state
 
+  late PickedFile _imageFile;
+  final ImagePicker _picker = ImagePicker();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +36,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start, // Align all to the left
+            crossAxisAlignment: CrossAxisAlignment.start,
+            // Align all to the left
             children: [
               // Profile Picture Section
               Align(
@@ -53,7 +57,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   CircleAvatar(
                     radius: 50,
                     backgroundColor: Colors.pink.shade100,
-                    backgroundImage: const AssetImage('assets/defaultProfile.png'),
+                    backgroundImage: const AssetImage(
+                        'assets/defaultProfile.png'),
                   ),
                   const SizedBox(width: 16),
                   Column(
@@ -62,8 +67,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       TextButton(
                         onPressed: () {
                           // Handle change image
+                          bottomSheet();
                           setState(() {
-                            isDefaultImage = false; // Enable delete option after image change
+                            isDefaultImage =
+                            false; // Enable delete option after image change
                           });
                         },
                         child: const Text(
@@ -71,7 +78,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           style: TextStyle(
                             color: Colors.blueAccent,
                             decoration: TextDecoration.underline,
-                            decorationColor: Colors.blueAccent, // Set underline color to blue
+                            decorationColor: Colors.blueAccent,
+                            // Set underline color to blue
                             fontFamily: 'Poppins',
                           ),
                         ),
@@ -90,7 +98,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           style: TextStyle(
                             color: Colors.blueAccent,
                             decoration: TextDecoration.underline,
-                            decorationColor: Colors.blueAccent, // Set underline color to blue
+                            decorationColor: Colors.blueAccent,
+                            // Set underline color to blue
                             fontFamily: 'Poppins',
                           ),
                         ),
@@ -110,7 +119,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const SizedBox(height: 8),
               _buildTextField(nameController, 'Pranay', isEditingPersonalInfo),
               const SizedBox(height: 8),
-              _buildTextField(lastNameController, 'Barua', isEditingPersonalInfo),
+              _buildTextField(
+                  lastNameController, 'Barua', isEditingPersonalInfo),
 
               const SizedBox(height: 16),
 
@@ -157,7 +167,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 });
               }),
               const SizedBox(height: 8),
-              _buildTextField(emailController, 'pranay@appic.me', isEditingEmail),
+              _buildTextField(
+                  emailController, 'pranay@appic.me', isEditingEmail),
               const SizedBox(height: 16),
               _buildSaveButton(), // Save button moved to left
 
@@ -187,7 +198,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 onPressed: () {
                   // Handle password reset
                 },
-                child: const Text('Reset Password', style: TextStyle(color: Colors.black)),
+                child: const Text(
+                    'Reset Password', style: TextStyle(color: Colors.black)),
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(color: Colors.black),
                 ),
@@ -200,14 +212,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, String hint, bool isEditable) {
+  Widget _buildTextField(TextEditingController controller, String hint,
+      bool isEditable) {
     return TextField(
       controller: controller,
       enabled: isEditable, // Enable/disable based on edit state
       decoration: InputDecoration(
         hintText: hint,
         filled: true,
-        fillColor: isEditable ? Colors.white : Colors.grey.shade200, // Change color when editable
+        fillColor: isEditable ? Colors.white : Colors.grey.shade200,
+        // Change color when editable
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide.none,
@@ -216,7 +230,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildSectionTitle(String title, String actionText, VoidCallback? onActionTap) {
+  Widget _buildSectionTitle(String title, String actionText,
+      VoidCallback? onActionTap) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -248,7 +263,61 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+
+  Widget bottomSheet() {
+    return Container(
+      height: 100.0,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width,
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
+      child: Column(
+        children: <Widget>[
+          Text(
+            "Choose Profile photo",
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.camera),
+              onPressed: () {
+                takePhoto(ImageSource.camera);
+              },
+            ),
+            Text("Camera"),
+
+            IconButton(
+              icon: Icon(Icons.image),
+              onPressed: () {
+                takePhoto(ImageSource.gallery);
+              },
+            ),
+            Text("Gallery"),
+          ])
+        ],
+      ),
+    );
+  }
+
+  void takePhoto(ImageSource source) async {
+    final pickedFile = await _picker.pickImage(
+      source: source,
+    );
+    setState(() {
+      _imageFile = pickedFile as PickedFile;
+    });
+  }
 }
+
 
 
 
