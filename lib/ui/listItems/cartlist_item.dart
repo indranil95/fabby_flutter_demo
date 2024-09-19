@@ -116,7 +116,7 @@ class _WishlistItemState extends State<CartListItem> {
   @override
   Widget build(BuildContext context) {
     double finalPrice = calculatePrice();
-    LoggerService.d("isInitiallyTicked item ${widget.isInitiallyTicked}");
+    //LoggerService.d("isInitiallyTicked item ${widget.isInitiallyTicked}");
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: Column(

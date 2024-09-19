@@ -1,6 +1,8 @@
+
 import '../models/add_address_model.dart';
 import '../models/cart_data_model.dart';
 import '../models/customer_address_model.dart';
+import '../models/place_order_model.dart';
 import '../network/api_service.dart';
 
 class MemberPaymentRepository {
@@ -49,10 +51,10 @@ class MemberPaymentRepository {
 
     return response.data;
   }
-  Future<CartDataModel?> placeOrder(Map<String, dynamic> requestBody) async {
-    final response = await apiService.cartData<CartDataModel>(
+  Future<PlaceOrderModel?> placeOrder(Map<String, dynamic> requestBody) async {
+    final response = await apiService.placeOrder<PlaceOrderModel>(
       requestBody,
-          (json) => CartDataModel.fromJson(json), // Adjust according to your model
+          (json) => PlaceOrderModel.fromJson(json), // Adjust according to your model
     );
 
     if (response.error != null) {

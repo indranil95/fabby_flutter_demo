@@ -6,6 +6,7 @@ as LoginData; // Add prefix
 import '../models/add_address_model.dart';
 import '../models/cart_data_model.dart';
 import '../models/customer_address_model.dart';
+import '../models/place_order_model.dart';
 import '../utils/logger_service.dart';
 import '../utils/shared_prefs.dart';
 
@@ -30,6 +31,9 @@ class MemberPaymentViewmodel extends ChangeNotifier {
   CartDataModel? _cartData;
 
   CartDataModel? get cartData => _cartData;
+  PlaceOrderModel? _placeOrderModelNew;
+
+  PlaceOrderModel? get placeOrderModelNew => _placeOrderModelNew;
 
   Future<void> sendAddAddressMobileRequest(
       Map<String, dynamic> requestBody) async {
@@ -85,6 +89,26 @@ class MemberPaymentViewmodel extends ChangeNotifier {
       }
 
       _cartData = response;
+      _error = '';
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
+  }
+  Future<void> placeOrder(Map<String, dynamic> requestBody) async {
+    _loading = true;
+    notifyListeners();
+
+    try {
+      final response = await repository.placeOrder(requestBody);
+
+      if (response == null) {
+        throw Exception('Failed to send contact us request');
+      }
+
+      _placeOrderModelNew = response;
       _error = '';
     } catch (e) {
       _error = e.toString();
