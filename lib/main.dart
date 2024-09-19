@@ -131,6 +131,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => MemberPaymentViewmodel(
             MemberPaymentRepository(ApiService()),
+          ),
+        ),
+        ChangeNotifierProvider(
           create: (context) => OrderhistoryViewmodel(
             OrderHistoryRepository(ApiService()),
           ),
