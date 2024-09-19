@@ -46,14 +46,7 @@ dependencies:
   smooth_page_indicator: ^1.2.0+3
   webview_flutter: ^4.8.0
   lottie: ^3.0.0
-
-
-
-
-
-
-
-
+  image_picker: ^0.8.7+3
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -126,6 +119,7 @@ flutter:
     - assets/payment_unselected.svg
     - assets/checkout_pay_image.png
     - assets/tick_anim_new.json
+    - assets/defaultProfile.png
 
   fonts:
     - family: DmSerifDisplay

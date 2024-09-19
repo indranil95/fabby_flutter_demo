@@ -164,7 +164,7 @@ class AppStrings {
   static const String pleaseEnterVerificationCode = 'Please Enter Verification code.';
   static const String enterYourPassword = 'Enter your password';
   static const String confirmPassword = 'Confirm password';
-  static const String myAccounts = 'My Accounts';
+  static const String myAccounts = 'My Account';
   static const String logout = 'Logout';
   static const String hello = 'Hello,';
   static const String profile = 'Profile';

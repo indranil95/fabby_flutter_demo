@@ -16,6 +16,13 @@ abstract class BaseApiService {
       String charLimit,
       T Function(Map<String, dynamic>) fromJson);
 
+  Future<BaseResponse<T>> getProducts<T>(
+      String searchOrSort,
+      String paginate,
+      String limit,
+      String charLimit,
+      T Function(Map<String, dynamic>) fromJson);
+
   Future<BaseResponse<T>> blogList<T>(String paginate, String limit,
       String charLimit, T Function(Map<String, dynamic>) fromJson);
 
@@ -108,6 +115,16 @@ abstract class BaseApiService {
       Map<String, dynamic> requestBody,
       T Function(Map<String, dynamic>) fromJson);
   Future<BaseResponse<T>> placeOrder<T>(
+
+  // Future<BaseResponse<T>> getPrevOrder<T>(
+  //     int userId,
+  //     T Function(Map<String, dynamic>) fromJson,
+  //     );
+  Future<BaseResponse<T>> getPrevOrder<T>(
+      Map<String, dynamic> requestBody,
+      T Function(Map<String, dynamic>) fromJson);
+
+  Future<BaseResponse<T>> getNotificationList<T>(
       Map<String, dynamic> requestBody,
       T Function(Map<String, dynamic>) fromJson);
 }

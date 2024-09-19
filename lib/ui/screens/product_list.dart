@@ -8,7 +8,10 @@ import 'package:provider/provider.dart';
 import '../../AppConstant/app_constant.dart';
 import '../../colors/colors.dart';
 import '../../strings/strings.dart';
+import '../../utils/logger_service.dart';
 import '../../viewModels/dashboard_viewmodel.dart';
+import '../../viewModels/productlist_viewmodel.dart';
+import '../lists/products_list_vertical.dart';
 
 class ProductListScreen extends StatefulWidget {
   const ProductListScreen({super.key});
@@ -18,7 +21,8 @@ class ProductListScreen extends StatefulWidget {
 
 class _ProductListScreenState extends State<ProductListScreen> {
   late DashboardViewModel viewModel;
-  final TextEditingController _searchController = TextEditingController();
+  // late ProductlistViewmodel viewModel;
+  TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -41,6 +45,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
   // Currently selected option
   String selectedSortOption = "All Product";
+  String sortBy = "";
+  String searchTxt = "";
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +76,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 onSubmitted: (value) {
                   // Perform search when user submits input
                   // Update your viewModel or function to handle search
+                  LoggerService.d("Search:","This has been clicked");
                 },
                 decoration: InputDecoration(
                   hintText: 'Search your favorite product',
@@ -79,6 +86,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     onTap: () {
                       // Perform search when search icon is tapped
                       // Update your viewModel or function to handle search
+                      LoggerService.d("Search 2:","This has been clicked");
                     },
                     child: const Padding(
                       padding: EdgeInsets.only(right: 16.0), // Add padding to move icon away from the edge
@@ -120,6 +128,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           selectedSortOption = newValue!;
                           // Handle filter action here based on selectedSortOption
                           // e.g., viewModel.sortProducts(selectedSortOption);
+                          LoggerService.d("Filter:",selectedSortOption);
                         });
                       },
                       items: sortingOptions.map((String option) {

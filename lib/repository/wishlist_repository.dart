@@ -76,7 +76,5 @@ class WishlistRepository{
 
     return response.data;
   }
-
-
-
+  
 }
