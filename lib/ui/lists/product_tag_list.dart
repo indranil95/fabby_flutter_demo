@@ -10,7 +10,7 @@ class ProductTagList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoggerService.d("listSize ${items.length}");
+   // LoggerService.d("listSize ${items.length}");
     return GridView.builder(
       padding: const EdgeInsets.all(0), // Optional padding
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

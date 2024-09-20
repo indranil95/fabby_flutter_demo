@@ -144,6 +144,28 @@ class MemberPaymentViewmodel extends ChangeNotifier {
 
     return mainId;
   }
+  Future<Map<String, String>> accountLoginData() async {
+    final hashMap = <String, String>{};
+
+    try {
+      final prefs = await SharedPrefsHelper.getInstance();
+      LoginData.Data? loginUserData = prefs.getObject<LoginData.Data>(
+        'loginUserObject',
+            (Map<String, dynamic> json) => LoginData.Data.fromJson(json),
+      );
+
+      if (loginUserData != null) {
+        hashMap["mobile"] = loginUserData.mobile ?? ''; // Extract mobile
+        hashMap["email"] = loginUserData.email ?? ''; // Extract email
+        hashMap["fullname"] = loginUserData.fullname ?? ''; // Extract fullname
+      }
+    } catch (e) {
+      LoggerService.e('Exception: $e');
+    }
+
+    return hashMap;
+  }
+
 
   Future<String?> getGuestId() async {
     final prefs = await SharedPrefsHelper.getInstance();

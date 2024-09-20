@@ -76,7 +76,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 onSubmitted: (value) {
                   // Perform search when user submits input
                   // Update your viewModel or function to handle search
-                  LoggerService.d("Search:","This has been clicked");
+                  //LoggerService.d("Search:","This has been clicked");
                 },
                 decoration: InputDecoration(
                   hintText: 'Search your favorite product',
@@ -86,7 +86,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                     onTap: () {
                       // Perform search when search icon is tapped
                       // Update your viewModel or function to handle search
-                      LoggerService.d("Search 2:","This has been clicked");
+                      //LoggerService.d("Search 2:","This has been clicked");
                     },
                     child: const Padding(
                       padding: EdgeInsets.only(right: 16.0), // Add padding to move icon away from the edge
@@ -128,7 +128,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           selectedSortOption = newValue!;
                           // Handle filter action here based on selectedSortOption
                           // e.g., viewModel.sortProducts(selectedSortOption);
-                          LoggerService.d("Filter:",selectedSortOption);
+                          //LoggerService.d("Filter:",selectedSortOption);
                         });
                       },
                       items: sortingOptions.map((String option) {

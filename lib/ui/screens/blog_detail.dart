@@ -31,7 +31,7 @@ class _BlogScreenState extends State<BlogScreen> {
       if (slug.isNotEmpty && slug != AppConstants.noData) {
         viewModel.getBlogDetailRequest(slug);
         viewModel.blogsList("10");
-        LoggerService.d("init State","I am running");
+       // LoggerService.d("init State","I am running");
       }
     });
   }
@@ -40,7 +40,7 @@ class _BlogScreenState extends State<BlogScreen> {
   Widget build(BuildContext context) {
     final data = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     slug =data?['slug'] ?? AppConstants.noData;
-    LoggerService.d("slug $slug");
+   // LoggerService.d("slug $slug");
     return Scaffold(
       appBar: const TopBarDetail(title: AppStrings.blogs),
       body: Consumer<BlogDetailViewModel>(
@@ -86,7 +86,7 @@ class _BlogScreenState extends State<BlogScreen> {
                       child: RecentblogList(
                         items: viewModel.blogsModelData?.data.articles ?? [],
                         onMoveToBlogDetail: (int index) {
-                          LoggerService.d('Blog Detail clicked at index: $index');
+                        //  LoggerService.d('Blog Detail clicked at index: $index');
                           final items = viewModel.blogsModelData?.data.articles ?? [];
                           final item = items[index];
                           NavigationService.navigateToWithData(const BlogScreen(), data: {"slug": item.slug});

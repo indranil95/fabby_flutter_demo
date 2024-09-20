@@ -50,7 +50,7 @@ class _WishlistItemState extends State<WishlistItem> {
 
   @override
   Widget build(BuildContext context) {
-    LoggerService.d("isInitiallyTicked item ${widget.isInitiallyTicked}");
+  //  LoggerService.d("isInitiallyTicked item ${widget.isInitiallyTicked}");
     return Container(
       width: 180,
       margin: const EdgeInsets.only(left: 5, right: 5, bottom: 10),

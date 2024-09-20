@@ -130,7 +130,7 @@ class _ResetPasswordOtpScreenState extends State<ResetPasswordOtpScreen> {
                   if (kDebugMode) {
                     print(value);
                   }
-                  LoggerService.d("hi ", "length ${value.length}");
+                  //LoggerService.d("hi ", "length ${value.length}");
                   if (value.length == 6) {
                     completionStat = true;
                   } else {
@@ -147,7 +147,7 @@ class _ResetPasswordOtpScreenState extends State<ResetPasswordOtpScreen> {
             ),
             GestureDetector(
               onTap: () async {
-                LoggerService.d("hi ", completionStat);
+                //LoggerService.d("hi ", completionStat);
                 if (completionStat) {
                   final requestBody = {
                     'email_or_mobile': emailValue,

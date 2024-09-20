@@ -26,8 +26,8 @@ class WishListList extends StatelessWidget {
   Widget build(BuildContext context) {
     // Flatten the list of Data objects from all WishListModel instances
     final List<Data> allData = items;
-    LoggerService.d("list ", allData.length);
-    LoggerService.d("areAllItemsSelected list  ", areAllItemsSelected);
+   // LoggerService.d("list ", allData.length);
+   // LoggerService.d("areAllItemsSelected list  ", areAllItemsSelected);
     return Expanded(
         child: GridView.builder(
       padding: const EdgeInsets.all(0), // Optional padding

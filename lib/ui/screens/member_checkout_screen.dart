@@ -59,7 +59,7 @@ class _MemberCheckoutScreenState extends State<MemberCheckoutScreen> {
 
     if (result != null) {
       // Handle the result (request body) here
-      LoggerService.d('Request Body: $result');
+    //  LoggerService.d('Request Body: $result');
       await viewModel.sendAddAddressMobileRequest(result);
       if (viewModel.addAddressData?.success == true) {
         showSuccessCardDialog(
@@ -107,7 +107,7 @@ class _MemberCheckoutScreenState extends State<MemberCheckoutScreen> {
 
     if (result != null) {
       // Handle the result (request body) here
-      LoggerService.d('Request Body: $result');
+     // LoggerService.d('Request Body: $result');
       await viewModel.sendAddAddressMobileRequest(result);
       if (viewModel.addAddressData?.success == true) {
         showSuccessCardDialog(
@@ -241,7 +241,7 @@ class _MemberCheckoutScreenState extends State<MemberCheckoutScreen> {
     discount = data?['discount'] ?? "0";
     coupon = data?['coupon'] ?? "0";
     buyNow = data?['buy_now'] ?? AppConstants.blankLimit;
-    LoggerService.d("discount $discount");
+   // LoggerService.d("discount $discount");
     return Scaffold(
       appBar: const TopBarDetail(title: AppStrings.checkoutFirstCaps),
       backgroundColor: AppColors.fabbyBack,
@@ -362,14 +362,14 @@ class _MemberCheckoutScreenState extends State<MemberCheckoutScreen> {
                                     }
                                   },
                                   onEdit: (int index) {
-                                    LoggerService.d(
-                                        'Tick clicked at index: $index');
+                                    /*LoggerService.d(
+                                        'Tick clicked at index: $index');*/
                                     final item = items[index];
                                     _showEditAddressSheet(context, item.id);
                                   },
                                   onItemSelected: (int index) async {
-                                    LoggerService.d(
-                                        'plus clicked at index: $index');
+                                    /*LoggerService.d(
+                                        'plus clicked at index: $index');*/
                                     final item = items[index];
                                     customerAddressId=item.id.toString();
                                   },

@@ -51,7 +51,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
       'search':""
       // Handle the case where guestId is null
     };
-    LoggerService.d("main id", mainId);
+   // LoggerService.d("main id", mainId);
     // LoggerService.d("requestBody", $requestBody)
     // viewModel.getPreOrder(49);
     viewModel.getPreOrder(requestBody);
@@ -100,7 +100,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                   onSubmitted: (value) {
                     // Perform search when user submits input
                     // Update your viewModel or function to handle search
-                    LoggerService.d("Search:","This has been clicked");
+                  //  LoggerService.d("Search:","This has been clicked");
                   },
                   decoration: InputDecoration(
                     hintText: 'Search your favorite product',
@@ -110,7 +110,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                       onTap: () {
                         // Perform search when search icon is tapped
                         // Update your viewModel or function to handle search
-                        LoggerService.d("Search 2:","This has been clicked");
+                      //  LoggerService.d("Search 2:","This has been clicked");
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(right: 16.0), // Add padding to move icon away from the edge
@@ -152,7 +152,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                             selectedSortOption = newValue!;
                             // Handle filter action here based on selectedSortOption
                             // e.g., viewModel.sortProducts(selectedSortOption);
-                            LoggerService.d("Filter:",selectedSortOption);
+                          //  LoggerService.d("Filter:",selectedSortOption);
                           });
                         },
                         items: sortingOptions.map((String option) {

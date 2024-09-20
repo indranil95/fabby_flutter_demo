@@ -23,7 +23,7 @@ class _CheckoutCartListState extends State<CheckoutCartList> {
   Widget build(BuildContext context) {
     // Flatten the list of Data objects from all WishListModel instances
     final List<Carts> allData = widget.items;
-    LoggerService.d("list ", allData.length);
+   // LoggerService.d("list ", allData.length);
     return Expanded(
         child: ListView.builder(
       scrollDirection: Axis.vertical,

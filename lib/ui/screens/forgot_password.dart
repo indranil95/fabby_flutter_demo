@@ -220,7 +220,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           maxLines: 1,
           message: s,
           onButtonPressed: () {
-            LoggerService.d("hi","press");
+          //  LoggerService.d("hi","press");
             Future.delayed(const Duration(seconds: 1), ()
             {
               NavigationService.replaceWithData(

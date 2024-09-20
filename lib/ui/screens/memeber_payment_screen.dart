@@ -38,6 +38,7 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
   String paymentMethod = "card";
   String orderValue = "";
   String totalValue = "";
+  String mainOrderId = "";
 
   void _showEditAddressSheet(
     BuildContext context,
@@ -72,7 +73,7 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
 
     if (result != null) {
       // Handle the result (request body) here
-      LoggerService.d('Request Body: $result');
+     // LoggerService.d('Request Body: $result');
       await viewModel.sendAddAddressMobileRequest(result);
       if (viewModel.addAddressData?.success == true) {
         showSuccessCardDialog(
@@ -196,7 +197,7 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
 
     if (result != null) {
       // Handle the result (request body) here
-      LoggerService.d('Request Body: $result');
+     // LoggerService.d('Request Body: $result');
       await viewModel.sendAddAddressMobileRequest(result);
       if (viewModel.addAddressData?.success == true) {
         showSuccessCardDialog(
@@ -226,21 +227,29 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
       },
     );
   }
-  void showOrderSuccessDialog(BuildContext context, String s) {
+  void showOrderSuccessDialog(BuildContext context, String orderId) {
     showDialog(
       context: context,
+      barrierDismissible: false, // Prevent dismissing by tapping outside
       builder: (BuildContext context) {
-        return OrderSuccessCard(
-          orderId: s,
-          onButtonPressed: () {
-            NavigationService.goBack();
-            NavigationService.goBack();
-            NavigationService.goBack();
-          },
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10), // Rounded edges
+          ),
+          child: OrderSuccessCard(
+            orderId: orderId,
+            onButtonPressed: () {
+              // Close the dialog and navigate back multiple times
+              NavigationService.goBack(); // Close the dialog
+              NavigationService.goBack(); // Additional navigation logic
+              NavigationService.goBack();
+            },
+          ),
         );
       },
     );
   }
+
 
   Future<void> _fetchCustomerAddress(String id) async {
     final requestBody = {
@@ -317,6 +326,7 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     // Do something when payment is successful
     print("Payment Successful: ${response.paymentId}");
+    showOrderSuccessDialog(context, mainOrderId);
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
@@ -329,15 +339,25 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
     print("External Wallet: ${response.walletName}");
   }
 
-  void openCheckout() {
+  void openCheckout( String orderId, String setFinalValue) async{
+    final result = await viewModel.accountLoginData();
+    final userMobile = result['mobile'];
+    final userEmail = result['email'];
+    final userFullName = result['fullname'];
+    double total = double.parse(setFinalValue);
+    total =total * 100;
     var options = {
       'key': 'rzp_test_DVjk9unA2TPV3Q', // Replace with your Razorpay API key
-      'amount': , // Amount in the smallest currency unit (e.g., 50000 for ₹500.00)
-      'name': 'Your Company Name',
-      'description': 'Payment for some service',
+      'amount': total, // Amount in the smallest currency unit (e.g., 50000 for ₹500.00)
+    "currency": "INR",
+    "send_sms_hash": true,
+    "allow_rotation": false,
+      'name': userFullName,
+      "reference_id" : orderId,
+      'description': 'Payment Order no. $orderId',
       'prefill': {
-        'contact': '9876543210',
-        'email': 'example@razorpay.com',
+        'contact': userMobile,
+        'email': userEmail,
       },
       'external': {
         'wallets': ['paytm'],
@@ -1037,7 +1057,11 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
                               };
                              await viewModel.placeOrder(requestBody);
                               if(viewModel.placeOrderModelNew?.success == true){
-
+                                final orderId = viewModel.placeOrderModelNew?.data.orderId.toString() ?? ""; // Use null-aware operator
+                                mainOrderId=orderId;
+                                if (orderId.isNotEmpty) {
+                                  openCheckout(orderId,setFinalValue(removeDecimalPoints(cartData?.subtotal ?? "0"),discountString)); // Only call if orderId is not empty
+                                }
                               }else{
                                 SnackbarService.showErrorSnackbar(context, "Something went wrong!");
                               }

@@ -79,7 +79,7 @@ class _FrequentlyboughtchooseitemlistState extends State<Frequentlyboughtchoosei
 
   @override
   Widget build(BuildContext context) {
-    LoggerService.d("stat:", "listSize ${widget.items?.length}");
+   // LoggerService.d("stat:", "listSize ${widget.items?.length}");
 
     return ListView.builder(
       scrollDirection: Axis.vertical,

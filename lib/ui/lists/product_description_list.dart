@@ -13,7 +13,7 @@ class ProductDescriptionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoggerService.d("stat:","listSize ${items?.length}");
+   // LoggerService.d("stat:","listSize ${items?.length}");
     return ListView.builder(
       scrollDirection: Axis.vertical,
       itemCount: items?.length ?? 0,

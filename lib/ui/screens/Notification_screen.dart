@@ -41,9 +41,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
       'search': ""
       // Handle the case where guestId is null
     };
-    LoggerService.d("main id", 1);
-    LoggerService.d("main", mainId);
-    LoggerService.d("guest", guestId);
+   // LoggerService.d("main id", 1);
+   // LoggerService.d("main", mainId);
+   // LoggerService.d("guest", guestId);
     // viewModel.getPreOrder(49);
     viewModel.getNotificationList(requestBody);
   }

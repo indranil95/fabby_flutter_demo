@@ -137,7 +137,7 @@ class _BlogListScreenState extends State<BlogListScreen> {
                 child: BlogsListVertical(
                   items: viewModel.blogsModelData?.data.articles ?? [],
                   onMoveToBlogDetail: (int index) {
-                    LoggerService.d('Blog Detail clicked at index: $index');
+                  //  LoggerService.d('Blog Detail clicked at index: $index');
                     final items = viewModel.blogsModelData?.data.articles ?? [];
                     final item = items[index];
                     NavigationService.navigateToWithData(const BlogScreen(), data: {"slug": item.slug});

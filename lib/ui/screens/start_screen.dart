@@ -34,19 +34,19 @@ class _StartScreenState extends State<StartScreen> {
     // Delay for demo purposes
 
     loginSuccess = await viewModel.getLoginSuccess();
-    LoggerService.d("check:","loginSuccess $loginSuccess");
+    //LoggerService.d("check:","loginSuccess $loginSuccess");
     if (loginSuccess?.isNotEmpty == true) {
-      LoggerService.d("check:","loginSuccess if");
+      //LoggerService.d("check:","loginSuccess if");
       goToHomeScreen();
     } else{
-      LoggerService.d("check:","loginSuccess else");
+      //LoggerService.d("check:","loginSuccess else");
       guestId = await viewModel.getGuestId();
-      LoggerService.d("check:","guestId $guestId");
+      //LoggerService.d("check:","guestId $guestId");
       if (guestId?.isNotEmpty == true) {
-        LoggerService.d("check:","guestId if");
+        //LoggerService.d("check:","guestId if");
         goToHomeScreen();
       } else {
-        LoggerService.d("check:","guestId else");
+        //LoggerService.d("check:","guestId else");
         viewModel.loadGuest();
         await Future.delayed(const Duration(seconds: 4));
         if (viewModel.guestSuccess) {

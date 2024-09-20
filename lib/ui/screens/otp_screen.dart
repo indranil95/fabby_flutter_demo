@@ -126,7 +126,7 @@ class _OtpScreenState extends State<OtpScreen> {
                   if (kDebugMode) {
                     print(value);
                   }
-                  LoggerService.d("hi ", "length ${value.length}");
+                 // LoggerService.d("hi ", "length ${value.length}");
                   if (value.length == 6) {
                     completionStat = true;
                   } else {
@@ -143,7 +143,7 @@ class _OtpScreenState extends State<OtpScreen> {
             ),
             GestureDetector(
               onTap: () async {
-                LoggerService.d("hi ", completionStat);
+               // LoggerService.d("hi ", completionStat);
                 if (completionStat) {
                   final requestBody = {
                     'email_or_mobile': emailValue,

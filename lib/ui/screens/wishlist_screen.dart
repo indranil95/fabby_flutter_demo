@@ -133,7 +133,7 @@ class _WishListScreenState extends State<WishListScreen> {
   void _toggleSelectAll(int totalItems) {
     setState(() {
       areAllItemsSelected = !areAllItemsSelected;
-      LoggerService.d("areAllItemsSelected $areAllItemsSelected");
+      //LoggerService.d("areAllItemsSelected $areAllItemsSelected");
       selectedIds.clear();
       selectedProductIds.clear();
 
@@ -246,7 +246,7 @@ class _WishListScreenState extends State<WishListScreen> {
                             const SizedBox(width: 10.0),
                             GestureDetector(
                               onTap: () async {
-                                LoggerService.d("message", selectedIds);
+                                //LoggerService.d("message", selectedIds);
                                 if (selectedIds.isEmpty) {
                                   SnackbarService.showErrorSnackbar(context,
                                       'Please select a product to remove');
@@ -280,8 +280,8 @@ class _WishListScreenState extends State<WishListScreen> {
                         items: items as List<Data>,
                         onMoveToCart: (int index) async {
                           // Handle move to cart action here
-                          LoggerService.d(
-                              'Move to Cart clicked at index: $index');
+                          /*LoggerService.d(
+                              'Move to Cart clicked at index: $index');*/
                           final item = items[index];
                           String mainId = await viewModel.getMainId();
                           String? guestId = await viewModel.getGuestId();
@@ -307,7 +307,7 @@ class _WishListScreenState extends State<WishListScreen> {
                         },
                         onDelete: (int index) async {
                           // Handle delete action here
-                          LoggerService.d('Delete clicked at index: $index');
+                          //LoggerService.d('Delete clicked at index: $index');
                           final item = items[index];
                           final requestBody = {
                             'ids': item.id,
@@ -319,7 +319,7 @@ class _WishListScreenState extends State<WishListScreen> {
                         },
                         onTick: (int index) {
                           // Handle tick action here
-                          LoggerService.d('Tick clicked at index: $index');
+                          //LoggerService.d('Tick clicked at index: $index');
                           final item = items[index];
                           _onItemTick(item.id, item.productId);
                           _updateItemCountDisplay(itemCount);

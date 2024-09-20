@@ -225,7 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             items: viewModel.blogsModelData?.data.articles ?? [],
                             onMoveToBlogDetail: (int index) {
                               // Handle move to cart action here
-                              LoggerService.d('Blog Detail clicked at index: $index');
+                             // LoggerService.d('Blog Detail clicked at index: $index');
                               final items = viewModel.blogsModelData?.data.articles ?? [];
                               final item=items[index];
                               /*NavigationService.navigateToWithData(
