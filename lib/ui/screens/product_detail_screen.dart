@@ -201,7 +201,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               viewModel.productDetailMode?.data?.productDescription;
           relatedProducts = viewModel.productDetailMode?.data?.relatedProducts;
           similarProducts = viewModel.productDetailMode?.data?.similarProducts;
-          LoggerService.d("products: ", products?.length);
+          //LoggerService.d("products: ", products?.length);
 
           if (products != null && products.isNotEmpty) {
             _imageUrls = products
@@ -244,7 +244,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   "₹ ${removeDecimalPoints(products[0].price.toString())} /-";
             }
 
-            LoggerService.d("listSize", _tag.length);
+            //LoggerService.d("listSize", _tag.length);
             productName = products[0].productName ?? "";
 
             // Ensure the UI is updated
@@ -252,7 +252,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               setState(() {}); // Update the state after the build
             });
           } else {
-            LoggerService.d('No products available');
+            //LoggerService.d('No products available');
             _imageUrls = []; // Clear images if no products are available
           }
 
@@ -658,7 +658,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   ),
                                 ),
                                 onPressed: () async {
-                                  LoggerService.d("pinCodeText: ", _callCheck);
+                                  //LoggerService.d("pinCodeText: ", _callCheck);
                                   if (_callCheck) {
                                     await viewModel.checkEstimateDelivery(
                                         _pinCodeController.text);
@@ -851,9 +851,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 if (viewModel.addToCartModelBuyNow?.success ==
                                     true) {
                                   if (loginSuccess?.isNotEmpty == true) {
-                                    LoggerService.d("stat: ", "member");
+                                    //LoggerService.d("stat: ", "member");
                                   } else {
-                                    LoggerService.d("stat: ", "guest");
+                                    //LoggerService.d("stat: ", "guest");
                                   }
                                 } else {
                                   SnackbarService.showErrorSnackbar(
@@ -988,7 +988,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ),
                           GestureDetector(
                             onTap: () async {
-                              LoggerService.d("check: ", "click");
+                              //LoggerService.d("check: ", "click");
                               String mainId = await viewModel.getMainId();
                               String? guestId = await viewModel.getGuestId();
                               for (int i = 0;
@@ -1056,7 +1056,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     child: SimilarProductList(
                       items: similarProducts,
                       onMoveToProductDetail: (i) {
-                        LoggerService.d("ok: ",i);
+                        //LoggerService.d("ok: ",i);
                         final productId=similarProducts?[i].id ?? 0;
                         _callProductList(productId.toString());
                       },

@@ -859,7 +859,7 @@ class ApiService extends BaseApiService {
 
       final response = await http.post(
         fullUrl,
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json','Authorization': 'Bearer $token',},
         body: json.encode(requestBody),
       );
 
