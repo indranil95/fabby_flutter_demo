@@ -230,7 +230,9 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
         return OrderSuccessCard(
           orderId: s,
           onButtonPressed: () {
-            NavigationService.navigateAndClearStack(const HomeScreen());
+            NavigationService.goBack();
+            NavigationService.goBack();
+            NavigationService.goBack();
           },
         );
       },

@@ -28,9 +28,7 @@ class PlaceOrderModel {
                 statusCode: json["status_code"]?.toString() ?? '', // Safely convert to String
                 data: Data.fromJson(json["data"] ?? {}), // Provide an empty map if 'data' is null
                 success: json["success"] ?? false, // Default to false if 'success' is null
-                error: (json["error"] is int) ? json["error"].toString() // Convert int to String
-                    : (json["error"] is String) ? json["error"] // Use String directly
-                    : '0', // Default to '0' if 'error' is neither String nor int
+                error: json["error"] // Default to '0' if 'error' is neither String nor int
             );
         } catch (e) {
             print('Error parsing PlaceOrderModel: $e');
@@ -50,47 +48,47 @@ class PlaceOrderModel {
 
 class Data {
     Data({
-        required this.storeId,
+        /*required this.storeId,
         required this.shippingCharges,
         required this.updatedStatus,
-        required this.totalVatAmount,
+        required this.totalVatAmount,*/
         required this.product,
-        required this.paymentOrderReference,
+        /*required this.paymentOrderReference,
         required this.customerAddressId,
-        required this.totalAmountExclVat,
+        required this.totalAmountExclVat,*/
         required this.orderId,
-        required this.orderTypes,
-        required this.couponDiscountAmount,
+        /*required this.orderTypes,*/
+        /*required this.couponDiscountAmount,
         required this.createdAt,
-        required this.tax,
+        required this.tax,*/
         required this.store,
         required this.orderDetail,
-        required this.userId,
+        /*required this.userId,
         required this.paymentId,
         required this.orderAmount,
-        required this.id,
+        required this.id,*/
         required this.orderStatusCatalog,
     });
 
-    String storeId;
+    /*String storeId;
     double shippingCharges;
     String updatedStatus;
-    String totalVatAmount; // Keep as string
+    String totalVatAmount;*/ // Keep as string
     List<OrderDetail> product;
-    String paymentOrderReference;
+    /*String paymentOrderReference;
     String customerAddressId;
-    double totalAmountExclVat;
+    double totalAmountExclVat;*/
     String orderId;
-    int orderTypes;
-    int couponDiscountAmount;
+    /*int orderTypes;*/
+    /*int couponDiscountAmount;
     String createdAt;
-    double tax;
+    double tax;*/
     List<Store> store;
     List<OrderDetail> orderDetail;
-    int userId;
+    /*int userId;
     int paymentId;
     double orderAmount;
-    int id;
+    int id;*/
     List<dynamic> orderStatusCatalog;
 
     factory Data.fromJson(Map<String, dynamic> json) {
@@ -115,7 +113,7 @@ class Data {
 
             // Safely extract and convert fields with type checks
             return Data(
-                storeId: json["store_id"] is int
+                /*storeId: json["store_id"] is int
                     ? json["store_id"].toString()
                     : json["store_id"] as String? ?? '',
                 shippingCharges: json["shipping_charges"] is String
@@ -126,33 +124,33 @@ class Data {
                 updatedStatus: json["updated_status"] as String? ?? '',
                 totalVatAmount: json["total_vat_amount"] is String
                     ? double.tryParse(json["total_vat_amount"]) ?? 0.0
-                    : (json["total_vat_amount"] is double ? json["total_vat_amount"].toDouble() : 0.0),
+                    : (json["total_vat_amount"] is double ? json["total_vat_amount"].toDouble() : 0.0),*/
                 product: (json["product"] as List<dynamic>? ?? [])
                     .map((x) => OrderDetail.fromJson(x as Map<String, dynamic>))
                     .toList(),
-                paymentOrderReference: json["payment_orderReference"] as String? ?? '',
+               /* paymentOrderReference: json["payment_orderReference"] as String? ?? '',
                 customerAddressId: json["customer_address_id"] as String? ?? '',
                 totalAmountExclVat: json["total_amount_excl_vat"] is String
                     ? double.tryParse(json["total_amount_excl_vat"]) ?? 0.0
-                    : (json["total_amount_excl_vat"] is double ? json["total_amount_excl_vat"] : 0.0),
+                    : (json["total_amount_excl_vat"] is double ? json["total_amount_excl_vat"] : 0.0),*/
                 orderId: json["orderId"] as String? ?? '',
-                orderTypes: json["order_types"] is int
+                /*orderTypes: json["order_types"] is int
                     ? json["order_types"]
-                    : (json["order_types"] is String ? int.tryParse(json["order_types"] as String? ?? '') ?? 0 : 0),
-                couponDiscountAmount: json["coupon_discount_amount"] is String
+                    : (json["order_types"] is String ? int.tryParse(json["order_types"] as String? ?? '') ?? 0 : 0),*/
+                /*couponDiscountAmount: json["coupon_discount_amount"] is String
                     ? double.tryParse(json["coupon_discount_amount"]) ?? 0.0
                     : (json["coupon_discount_amount"] is double ? json["coupon_discount_amount"] : 0.0),
                 createdAt: json["created_at"] as String? ?? '',
                 tax: json["tax"] is String
                     ? double.tryParse(json["tax"]) ?? 0.0
-                    : (json["tax"] is double ? json["tax"] : 0.0),
+                    : (json["tax"] is double ? json["tax"] : 0.0),*/
                 store: (json["store"] as List<dynamic>? ?? [])
                     .map((x) => Store.fromJson(x as Map<String, dynamic>))
                     .toList(),
                 orderDetail: (json["order_detail"] as List<dynamic>? ?? [])
                     .map((x) => OrderDetail.fromJson(x as Map<String, dynamic>))
                     .toList(),
-                userId: json["user_id"] is int
+                /*userId: json["user_id"] is int
                     ? json["user_id"]
                     : (json["user_id"] is String ? int.tryParse(json["user_id"] as String? ?? '') ?? 0 : 0),
                 paymentId: json["payment_id"] is int
@@ -163,7 +161,7 @@ class Data {
                     : (json["order_amount"] is double ? json["order_amount"] : 0.0),
                 id: json["id"] is int
                     ? json["id"]
-                    : (json["id"] is String ? int.tryParse(json["id"] as String? ?? '') ?? 0 : 0),
+                    : (json["id"] is String ? int.tryParse(json["id"] as String? ?? '') ?? 0 : 0),*/
                 orderStatusCatalog: (json["orderStatusCatalog"] as List<dynamic>? ?? []).toList(),
             );
 
@@ -178,25 +176,25 @@ class Data {
 
 
     Map<String, dynamic> toJson() => {
-        "store_id": storeId,
+        /*"store_id": storeId,
         "shipping_charges": shippingCharges,
         "updated_status": updatedStatus,
-        "total_vat_amount": totalVatAmount,
+        "total_vat_amount": totalVatAmount,*/
         "product": List<dynamic>.from(product.map((x) => x.toJson())),
-        "payment_orderReference": paymentOrderReference,
+        /*"payment_orderReference": paymentOrderReference,
         "customer_address_id": customerAddressId,
-        "total_amount_excl_vat": totalAmountExclVat,
+        "total_amount_excl_vat": totalAmountExclVat,*/
         "orderId": orderId,
-        "order_types": orderTypes,
-        "coupon_discount_amount": couponDiscountAmount,
+        /*"order_types": orderTypes,*/
+        /*"coupon_discount_amount": couponDiscountAmount,
         "created_at": createdAt,
-        "tax": tax,
+        "tax": tax,*/
         "store": List<dynamic>.from(store.map((x) => x.toJson())),
         "order_detail": List<dynamic>.from(orderDetail.map((x) => x.toJson())),
-        "user_id": userId,
+        /*"user_id": userId,
         "payment_id": paymentId,
         "order_amount": orderAmount,
-        "id": id,
+        "id": id,*/
         "orderStatusCatalog": List<dynamic>.from(orderStatusCatalog.map((x) => x)),
     };
 }

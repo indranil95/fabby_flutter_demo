@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_fabby_demo/models/product_detail_model.dart';
 import 'package:flutter_fabby_demo/ui/lists/frequestly_bought_together_list.dart';
@@ -32,6 +33,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   late String estimateDeliveryDate;
   late TextEditingController _pinCodeController;
   List<int> selectedProductIds = [];
+  String addToCartStatus="";
 
   // Error messages and visibility flags for each text field
   String _pinError = "";
@@ -779,6 +781,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 if (viewModel.addToCartModel?.success == true) {
                                   if (viewModel.addToCartModel?.statusCode ==
                                       "Success") {
+                                    setState(() {
+                                      addToCartStatus="1";
+                                    });
                                     addToCartDialog(context,
                                         AppStrings.addedToCart, productName);
                                   } else {
@@ -814,7 +819,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                     Expanded(
                                       child: Center(
                                         child: TextUtils.display(
-                                          AppStrings.addedToCart,
+                                          addToCartStatus.isNotEmpty?AppStrings.addedToCart:AppStrings.addToCart,
                                           fontFamily: 'Poppins',
                                           fontSize: 13.0,
                                           fontWeight: FontWeight.w400,
