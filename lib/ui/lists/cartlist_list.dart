@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_fabby_demo/models/cart_data_model.dart';
 import 'package:flutter_fabby_demo/ui/listItems/cartlist_item.dart';
-import 'package:flutter_fabby_demo/utils/logger_service.dart';
 
 class CartListList extends StatefulWidget {
   final List<Carts> items; // Ensure this matches your data type
@@ -83,8 +82,6 @@ class _CartListListState extends State<CartListList> {
   Widget build(BuildContext context) {
     // Flatten the list of Data objects from all WishListModel instances
     final List<Carts> allData = widget.items;
-    LoggerService.d("list ", allData.length);
-    LoggerService.d("areAllItemsSelected list  ", widget.areAllItemsSelected);
     return Expanded(
         child: ListView.builder(
       scrollDirection: Axis.vertical,

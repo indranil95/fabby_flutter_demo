@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fabby_demo/ui/dialog/order_success_card.dart';
+import 'package:flutter_fabby_demo/ui/screens/home_screen.dart';
 import 'package:flutter_fabby_demo/ui/screens/top_bar_detail.dart';
 import 'package:flutter_fabby_demo/utils/image_utils.dart';
 import 'package:flutter_fabby_demo/viewModels/member_payment_viewmodel.dart';
@@ -9,6 +11,7 @@ import '../../AppConstant/app_constant.dart';
 import '../../colors/colors.dart';
 import '../../strings/strings.dart';
 import '../../utils/logger_service.dart';
+import '../../utils/navigation_service.dart';
 import '../../utils/snackbar_utils.dart';
 import '../../utils/text_utils.dart';
 import '../dialog/add_new_address_sheet.dart';
@@ -29,6 +32,9 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
   bool _isCodSelected = false;
   bool _isSameAddress = true;
   bool _isDifferentAddress = false;
+  String paymentMethod = "card";
+  String orderValue = "";
+  String totalValue = "";
 
   void _showEditAddressSheet(
     BuildContext context,
@@ -102,6 +108,32 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
 
     // Return the total value as a formatted string
     return rupeeSign + " " + finalValue;
+  }
+  String setFinalValue(String subtotal, String discount) {
+    // Replace commas and convert to double for subtotal and discount
+    double subtotalValue = double.parse(subtotal.replaceAll(",", ""));
+    double shippingCharges;
+
+    // Determine shipping charges based on subtotal
+    if (subtotalValue >= 900) {
+      shippingCharges = 0.0;
+    } else {
+      shippingCharges = 50.0;
+    }
+
+    double discountValue = double.parse(discount.replaceAll(",", ""));
+
+    // Calculate total
+    double total = subtotalValue - discountValue + shippingCharges;
+
+    // Use the removeDecimalPoints function
+    String finalValue = removeDecimalPoints(total.toString());
+
+    // Assuming you have Constants.rupeeSign defined
+    const String rupeeSign = '₹'; // Replace with your rupee sign constant
+
+    // Return the total value as a formatted string
+    return finalValue;
   }
   String removeDecimalPoints(String input) {
     // Remove commas from the input string
@@ -187,6 +219,19 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
             _fetchCustomerAddress(customerAddressId);
           },
           buttonText: 'ok', maxLines: 1, // Customize button text if needed
+        );
+      },
+    );
+  }
+  void showOrderSuccessDialog(BuildContext context, String s) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return OrderSuccessCard(
+          orderId: s,
+          onButtonPressed: () {
+            NavigationService.navigateAndClearStack(const HomeScreen());
+          },
         );
       },
     );
@@ -284,6 +329,9 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
                 viewModel.customerAddressModel?.data?.customerAddress ?? [];
             final cartItems = viewModel.cartData?.data?.carts;
             final cartData = viewModel.cartData?.data;
+            final totalValue = removeDecimalPoints(viewModel.cartData?.data?.subtotal ??"0");
+            final orderValue = viewModel.cartData?.data?.subtotal.toString();
+
             return Column(
               children: [
                 Row(
@@ -528,6 +576,7 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
+                                    paymentMethod="card";
                                     _isOnlinePaymentSelected = true;
                                     _isCodSelected =
                                         false; // Deselect COD if online payment is selected
@@ -583,6 +632,7 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
+                                    paymentMethod="cash";
                                     _isCodSelected = true;
                                     _isOnlinePaymentSelected =
                                         false; // Deselect online payment if COD is selected
@@ -914,8 +964,62 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
                           ],
                         ),
                       ),
-                      GestureDetector(onTap: (){
+                      GestureDetector(onTap: () async{
+                        String mainId = await viewModel.getMainId();
+                        String? guestId = await viewModel.getGuestId();
+                        if(paymentMethod == "card"){
+                            if(customerAddressId.isNotEmpty){
+                              final requestBody = {
+                                'buy_now': buyNowString,
+                                'coupon_code': couponString,
+                                'customer_address_id': customerAddressId,
+                                'device_type': " ",
+                                'final_total': setFinalValue(removeDecimalPoints(cartData?.subtotal ?? "0"),discountString),
+                                'guest_id': guestId,
+                                'order_amount': orderValue,
+                                'paymentMethod': paymentMethod,
+                                'payment_orderReference': "",
+                                'shipping_charges': AppConstants.cartRemoveSingleCartCount.toString(),
+                                'store_id': AppConstants.storeId,
+                                'tax': AppConstants.cartRemoveSingleCartCount,
+                                'user_id': mainId,
+                              };
+                             await viewModel.placeOrder(requestBody);
+                              if(viewModel.placeOrderModelNew?.success == true){
 
+                              }else{
+                                SnackbarService.showErrorSnackbar(context, "Something went wrong!");
+                              }
+                            }else{
+                              SnackbarService.showErrorSnackbar(context, "please select Address");
+                            }
+                        }else{
+                          if(customerAddressId.isNotEmpty){
+                            final requestBody = {
+                              'buy_now': buyNowString,
+                              'coupon_code': couponString,
+                              'customer_address_id': customerAddressId,
+                              'device_type': " ",
+                              'final_total': setFinalValue(removeDecimalPoints(cartData?.subtotal ?? "0"),discountString),
+                              'guest_id': guestId,
+                              'order_amount': orderValue,
+                              'paymentMethod': paymentMethod,
+                              'payment_orderReference': "",
+                              'shipping_charges': AppConstants.cartRemoveSingleCartCount.toString(),
+                              'store_id': AppConstants.storeId,
+                              'tax': AppConstants.cartRemoveSingleCartCount,
+                              'user_id': mainId,
+                            };
+                            await viewModel.placeOrder(requestBody);
+                            if(viewModel.placeOrderModelNew?.success == true){
+                              showOrderSuccessDialog(context,viewModel.placeOrderModelNew?.data.orderId.toString() ?? "");
+                            }else{
+                              SnackbarService.showErrorSnackbar(context, "Something went wrong!");
+                            }
+                          }else{
+                            SnackbarService.showErrorSnackbar(context, "please select Address");
+                          }
+                        }
                       },child: Container(
                         margin: const EdgeInsetsDirectional.all(10.0),
                         alignment: AlignmentDirectional.center,

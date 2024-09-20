@@ -54,4 +54,11 @@ class NavigationService {
   static void goBackToRoot() {
     navigatorKey.currentState?.popUntil((route) => route.isFirst);
   }
+  // Push a new route and remove all previous routes
+  static Future<void> navigateAndClearStack(Widget page) {
+    return navigatorKey.currentState?.pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => page),
+          (Route<dynamic> route) => false,
+    ) ?? Future.value();
+  }
 }

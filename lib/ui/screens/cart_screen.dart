@@ -59,7 +59,6 @@ class _CartScreenState extends State<CartScreen> {
 
   String _getCouponCode() {
     String couponCode = _couponController.text;
-    LoggerService.d('Coupon Code: $couponCode');
     return couponCode;
   }
 
@@ -100,7 +99,6 @@ class _CartScreenState extends State<CartScreen> {
   void _toggleSelectAll(int totalItems) {
     setState(() {
       areAllItemsSelected = !areAllItemsSelected;
-      LoggerService.d("areAllItemsSelected $areAllItemsSelected");
       selectedIds.clear();
       selectedProductIds.clear();
 
@@ -184,7 +182,6 @@ class _CartScreenState extends State<CartScreen> {
             }*/
             final items = viewModel.cartData?.data?.carts;
             final itemCount = items?.length ?? 0;
-            LoggerService.d("itemCount: ", itemCount);
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -224,7 +221,6 @@ class _CartScreenState extends State<CartScreen> {
                           children: [
                             GestureDetector(
                               onTap: () async {
-                                LoggerService.d("message", selectedIds);
                                 if (selectedIds.isEmpty) {
                                   SnackbarService.showErrorSnackbar(context,
                                       'Please select a product to remove');
@@ -332,13 +328,11 @@ class _CartScreenState extends State<CartScreen> {
                           }
                         },
                         onTick: (int index) {
-                          LoggerService.d('Tick clicked at index: $index');
                           final item = items[index];
                           _onItemTick(item.id, item.product!.productId);
                           _updateItemCountDisplay(itemCount);
                         },
                         onPlus: (int index) async {
-                          LoggerService.d('plus clicked at index: $index');
                           final item = items[index];
                           String mainId = await viewModel.getMainId();
                           String? guestId = await viewModel.getGuestId();
@@ -362,7 +356,6 @@ class _CartScreenState extends State<CartScreen> {
                           }
                         },
                         onMinus: (int index) async {
-                          LoggerService.d('Minus clicked at index: $index');
                           final item = items[index];
                           String mainId = await viewModel.getMainId();
                           String? guestId = await viewModel.getGuestId();
@@ -389,7 +382,6 @@ class _CartScreenState extends State<CartScreen> {
                         // Pass this to the list
                         onTotalPriceChange: (double newTotalPrice) {
                           // Update the total price when it changes
-                          LoggerService.d("total price", newTotalPrice);
                           setState(() {
                             totalPrice = newTotalPrice;
                           });
