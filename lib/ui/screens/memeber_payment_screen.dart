@@ -6,6 +6,7 @@ import 'package:flutter_fabby_demo/utils/image_utils.dart';
 import 'package:flutter_fabby_demo/viewModels/member_payment_viewmodel.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 import '../../AppConstant/app_constant.dart';
 import '../../colors/colors.dart';
@@ -27,6 +28,8 @@ class MemberPaymentScreen extends StatefulWidget {
 }
 
 class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
+  late Razorpay _razorpay;
+
   late MemberPaymentViewmodel viewModel;
   bool _isOnlinePaymentSelected = true;
   bool _isCodSelected = false;
@@ -291,6 +294,10 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
 
   @override
   void initState() {
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
     viewModel = Provider.of<MemberPaymentViewmodel>(context, listen: false);
     _fetchCartList();
     Future.microtask(() {
@@ -302,6 +309,48 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
     });
     super.initState();
   }
+  @override
+  void dispose() {
+    super.dispose();
+    _razorpay.clear(); // Removes all listeners
+  }
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    // Do something when payment is successful
+    print("Payment Successful: ${response.paymentId}");
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    // Handle payment error
+    print("Payment Error: ${response.code} | ${response.message}");
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    // Handle external wallet payments
+    print("External Wallet: ${response.walletName}");
+  }
+
+  void openCheckout() {
+    var options = {
+      'key': 'rzp_test_DVjk9unA2TPV3Q', // Replace with your Razorpay API key
+      'amount': , // Amount in the smallest currency unit (e.g., 50000 for ₹500.00)
+      'name': 'Your Company Name',
+      'description': 'Payment for some service',
+      'prefill': {
+        'contact': '9876543210',
+        'email': 'example@razorpay.com',
+      },
+      'external': {
+        'wallets': ['paytm'],
+      }
+    };
+
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {

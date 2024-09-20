@@ -55,5 +55,10 @@
 	<string>We need access to the camera for updating your profile picture.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photo library to select a profile picture.</string>
+	<key>NSCameraUsageDescription</key>
+    <string>Need access to camera for QR code scanning</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Need access to microphone for audio recording</string>
+
 </dict>
 </plist>
