@@ -62,7 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           isMale = true;
         }  // Assuming gender is a string
         // Handle profile picture and other fields if needed
-      }); 
+      });
     }
   }
 
@@ -294,6 +294,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: ElevatedButton(
         onPressed: () {
           // Handle save action
+          
         },
         child: const Text('Save', style: TextStyle(color: Colors.white)),
         style: ElevatedButton.styleFrom(
