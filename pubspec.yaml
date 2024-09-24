@@ -122,6 +122,7 @@ flutter:
     - assets/checkout_pay_image.png
     - assets/tick_anim_new.json
     - assets/defaultProfile.png
+    - assets/whatsapp.svg
 
   fonts:
     - family: DmSerifDisplay
