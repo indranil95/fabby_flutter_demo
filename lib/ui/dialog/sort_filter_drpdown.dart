@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fabby_demo/utils/image_utils.dart';
+// Required for SVG support
 
 class SortAndFilterDropdown {
   final BuildContext context;
   final Widget partnerView;
   final String result;
+  final int productId;
   final OnAdapterItemClickListener itemClick;
 
   SortAndFilterDropdown({
     required this.context,
     required this.partnerView,
     required this.result,
+    required this.productId,
     required this.itemClick,
   });
 
@@ -38,12 +42,12 @@ class SortAndFilterDropdown {
     final color = result == sortOption ? Colors.grey[300] : Colors.transparent;
     return InkWell(
       onTap: () {
-        itemClick.onClick(sortOption);
+        itemClick.onClick(sortOption,productId);
         Navigator.of(context).pop();
       },
       child: Container(
         color: color,
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: Text(label),
       ),
     );
@@ -58,11 +62,11 @@ class SortAndFilterDropdown {
           content: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              _buildShareOption(Icons.whatsapp, Constants.whatsApp),
-              _buildShareOption(Icons.facebook, Constants.faceBook),
-              _buildShareOption(Icons.twitter, Constants.twitter),
-              _buildShareOption(Icons.camera, Constants.instagram),
-              _buildShareOption(Icons.share, Constants.share),
+              _buildShareOption('assets/whatsapp.svg', Constants.whatsApp),
+              _buildShareOption('assets/facebook_menu.svg', Constants.faceBook),
+              _buildShareOption('assets/twitter_icon.svg', Constants.twitter),
+              _buildShareOption('assets/instagram_menu.svg', Constants.instagram),
+              _buildShareOption('assets/share_icon_menu.svg', Constants.share),
             ],
           ),
         );
@@ -70,11 +74,11 @@ class SortAndFilterDropdown {
     );
   }
 
-  Widget _buildShareOption(IconData icon, int option) {
+  Widget _buildShareOption(String assetPath, int option) {
     return IconButton(
-      icon: Icon(icon),
+      icon: SvgImage.asset(assetPath, width: 24, height: 24),
       onPressed: () {
-        itemClick.onClick(option);
+        itemClick.onClick(option.toString(),productId);
         Navigator.of(context).pop();
       },
     );
@@ -83,7 +87,7 @@ class SortAndFilterDropdown {
 
 // Helper interface to handle item clicks
 abstract class OnAdapterItemClickListener {
-  void onClick(String sortOption);
+  void onClick(String sortOption,int productId);
 }
 
 class Constants {
@@ -95,8 +99,8 @@ class Constants {
 
   static const int whatsApp = 80;
   static const int faceBook = 81;
-  static const int twitter = 82;
-  static const int instagram = 83;
+  static const int twitter = 83;
+  static const int instagram = 82;
   static const int share = 84;
   static const int dismiss = 85;
 }

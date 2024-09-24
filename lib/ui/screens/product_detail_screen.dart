@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_fabby_demo/models/product_detail_model.dart';
 import 'package:flutter_fabby_demo/ui/lists/frequestly_bought_together_list.dart';
 import 'package:flutter_fabby_demo/ui/lists/product_description_list.dart';
@@ -12,6 +12,7 @@ import 'package:flutter_fabby_demo/viewModels/product_detail_viewmodel.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../AppConstant/app_constant.dart';
 import '../../colors/colors.dart';
@@ -21,6 +22,7 @@ import '../../utils/navigation_service.dart';
 import '../../utils/text_utils.dart';
 import '../dialog/custom_add_to_cart_dialog.dart';
 import '../dialog/custom_dialog.dart';
+import '../dialog/sort_filter_drpdown.dart';
 import '../lists/frequently_bought_choose_item_list.dart';
 import '../lists/product_tag_list.dart';
 import 'checkout_screen.dart';
@@ -36,7 +38,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   late String estimateDeliveryDate;
   late TextEditingController _pinCodeController;
   List<int> selectedProductIds = [];
-  String addToCartStatus="";
+  String addToCartStatus = "";
 
   // Error messages and visibility flags for each text field
   String _pinError = "";
@@ -312,624 +314,697 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         child: SvgImage.asset('assets/ic_no_data.svg',
                             width: double.infinity, height: 250.0),
                       ),
-                Row(children: [Expanded(child: Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      color: AppColors.productDetailBack,
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    child: Column(children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              margin: const EdgeInsets.all(10.0),
-                              child: TextUtils.displayLargeText(
-                                productName,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.normal, // Regular
-                                fontSize: 18.0,
-                              ),
-                            ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                          width: double.infinity,
+                          margin: const EdgeInsets.all(10.0),
+                          decoration: BoxDecoration(
+                            color: AppColors.productDetailBack,
+                            borderRadius: BorderRadius.circular(20.0),
                           ),
-                          const SizedBox(width: 10.0),
-                          // This provides the 10dp space
-                          Container(
-                            margin: const EdgeInsets.all(10.0),
-                            child: PngImage.asset(
-                              'assets/share_pro_details.png',
-                              width: 30.0,
-                              height: 30.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Visibility(visible:_tag.isNotEmpty,child: Container(
-                        margin: const EdgeInsets.all(10.0),
-                        height: 200.0,
-                        child: Flexible(child: ProductTagList(items: _tag) ,),
-                      ),),
-
-                      Container(
-                        width: double.infinity,
-                        // Equivalent to match_parent
-                        height: 1.0,
-                        // Equivalent to 1dp height
-                        margin:
-                        const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                        // Equivalent to layout_marginStart, layout_marginTop, layout_marginEnd
-                        color: Colors
-                            .white, // Equivalent to android:background="@color/white"
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 10.0, right: 10.0),
-                        height: 50.0,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: TextUtils.display(
-                                priceText,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                color: AppColors.sortTextColor,
-                                fontSize: 14.0,
-                                fontFamily: 'Poppins',
-                              ),
-                            ),
-                            Visibility(
-                              visible: showStrikeOffText,
-                              child: TextUtils.display(
-                                strikeOffText.toString(),
-                                color: AppColors.sortTextColor,
-                                fontSize: 14.0,
-                                fontFamily: 'Poppins',
-                              ),
-                            ),
-                            Visibility(
-                              visible: showOffers,
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5.0),
-                                ),
-                                color: AppColors.cardBackColor,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 4.0, horizontal: 8.0),
-                                  child: TextUtils.display(
-                                    offersText.toString(),
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                    fontFamily: 'Poppins',
+                          child: Column(children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    margin: const EdgeInsets.all(10.0),
+                                    child: TextUtils.displayLargeText(
+                                      productName,
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.normal, // Regular
+                                      fontSize: 18.0,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        // Equivalent to match_parent
-                        height: 1.0,
-                        // Equivalent to 1dp height
-                        margin:
-                        const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                        // Equivalent to layout_marginStart, layout_marginTop, layout_marginEnd
-                        color: Colors
-                            .white, // Equivalent to android:background="@color/white"
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            margin:
-                            const EdgeInsets.only(left: 10.0, right: 10.0),
-                            height: 50.0,
-                            child: TextUtils.display(
-                              AppStrings.premiumQuality,
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.normal,
-                              color: AppColors.productDetailText,
-                              fontFamily: 'Poppins',
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            margin:
-                            const EdgeInsets.only(left: 10.0, right: 10.0),
-                            height: 50.0,
-                            child: TextUtils.display(
-                              AppStrings.thirtyDayMoneyBackGuarantee,
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.normal,
-                              color: AppColors.productDetailText,
-                              fontFamily: 'Poppins',
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            margin:
-                            const EdgeInsets.only(left: 10.0, right: 10.0),
-                            height: 50.0,
-                            child: TextUtils.display(
-                              AppStrings.fastAndFreeShipping,
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.normal,
-                              color: AppColors.productDetailText,
-                              fontFamily: 'Poppins',
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Flexible(
-                              child: Container(
-                                width: double.infinity,
-                                // Equivalent to match_parent
-                                height: 1.0,
-                                // Equivalent to 1dp height
-                                margin:
-                                const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                                // Equivalent to layout_marginStart, layout_marginTop, layout_marginEnd
-                                color: Colors
-                                    .white, // Equivalent to android:background="@color/white"
-                              )),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            margin:
-                            const EdgeInsets.only(left: 10.0, right: 10.0),
-                            height: 50.0,
-                            child: TextUtils.display(
-                              AppStrings.quantity,
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.normal,
-                              color: AppColors.productDetailText,
-                              fontFamily: 'Poppins',
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(
-                                left: 10.0, right: 10.0, top: 5.0, bottom: 5.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
+                                const SizedBox(width: 10.0),
+                                // This provides the 10dp space
                                 GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    SortAndFilterDropdown(
+                                      context: context,
+                                      partnerView: const SizedBox.shrink(),
+                                      // You can pass any Widget if required
+                                      result: Constants.allProductSort,
+                                      // Pass the initial selected sort option
+                                      itemClick:
+                                          MyItemClickListener(context),
+                                      productId: productId,// Implement the listener
+                                    ).showShareDropdown();
+                                    // Show the sort dropdown
+                                  },
                                   child: Container(
-                                    width: 100,
-                                    height: 35,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      // Equivalent to `solid android:color="@color/white"`
-                                      border: Border.all(
-                                        color: AppColors.fabbyBondiBlue,
-                                        // Equivalent to `stroke android:color="@color/light_blue_fabby"`
-                                        width:
-                                        1.0, // Equivalent to `stroke android:width="@dimen/_1sdp"`
-                                      ),
-                                      borderRadius: BorderRadius.circular(
-                                          5.0), // Equivalent to `corners android:radius="5dp"`
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            if (productCount > 1) {
-                                              setState(() {
-                                                productCount = productCount - 1;
-                                              });
-                                            }
-                                          },
-                                          child: Container(
-                                            width: 40.0,
-                                            // Set the desired width for the button
-                                            alignment: Alignment.center,
-                                            child: TextUtils.display(
-                                              '-',
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                        TextUtils.display(
-                                          productCount.toString(),
-                                          // Replace with actual count
-                                          fontSize: 18,
-                                          color: AppColors.sortTextColor,
-                                          // Replace with your color
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              productCount = productCount + 1;
-                                            });
-                                          },
-                                          child: Container(
-                                            width: 40.0,
-                                            // Set the desired width for the button
-                                            alignment: Alignment.center,
-                                            child: TextUtils.display(
-                                              '+',
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                    margin: const EdgeInsets.all(10.0),
+                                    child: PngImage.asset(
+                                      'assets/share_pro_details.png',
+                                      width: 30.0,
+                                      height: 30.0,
                                     ),
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Flexible(
+                            Visibility(
+                              visible: _tag.isNotEmpty,
                               child: Container(
-                                width: double.infinity,
-                                // Equivalent to match_parent
-                                height: 1.0,
-                                // Equivalent to 1dp height
-                                margin:
-                                const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                                // Equivalent to layout_marginStart, layout_marginTop, layout_marginEnd
-                                color: Colors
-                                    .white, // Equivalent to android:background="@color/white"
-                              )),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            margin:
-                            const EdgeInsets.only(left: 10.0, right: 10.0),
-                            height: 50.0,
-                            child: TextUtils.display(
-                              AppStrings.estimateDelivery,
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.normal,
-                              color: AppColors.productDetailText,
-                              fontFamily: 'Poppins',
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 10.0, top: 10.0),
-                        height: 50.0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 200.0,
-                              height: 40.0,
-                              margin: const EdgeInsets.only(right: 10.0),
-                              child: TextField(
-                                controller: _pinCodeController,
-                                decoration: InputDecoration(
-                                  hintText: 'Enter Pincode',
-                                  hintStyle: const TextStyle(
-                                    color: Colors.grey,
-                                    // Replace with your hint color
-                                    fontSize: 13.0,
-                                  ),
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  // Replace with your background color
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 10.0, vertical: 5.0),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    borderSide: const BorderSide(
-                                      color: AppColors.lightGrayAlpha,
-                                      // Change this to your desired border color
-                                      width: 1.0, // Border width when focused
-                                    ), // Adjust radius if needed
-                                  ),
+                                margin: const EdgeInsets.all(10.0),
+                                height: 200.0,
+                                child: Flexible(
+                                  child: ProductTagList(items: _tag),
                                 ),
                               ),
                             ),
                             Container(
-                              width: 100.0,
-                              height: 40.0,
-                              margin: const EdgeInsets.only(left: 10.0),
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColors.fabbyBondiBlue,
-                                  // Ensure this color contrasts with white text
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                ),
-                                onPressed: () async {
-                                  //LoggerService.d("pinCodeText: ", _callCheck);
-                                  if (_callCheck) {
-                                    await viewModel.checkEstimateDelivery(
-                                        _pinCodeController.text);
-                                    if (viewModel.checkEstimateDeliveryModel
-                                        ?.success ==
-                                        true) {
-                                      final estimateDelivery = viewModel
-                                          .checkEstimateDeliveryModel?.data;
-                                      setState(() {
-                                        _showDate = true;
-                                        estimateDeliveryDate =
-                                        "Delivery in ${estimateDelivery?.days} Days, ${estimateDelivery?.date}";
-                                      });
-                                    } else {
-                                      SnackbarService.showErrorSnackbar(
-                                          context,
-                                          viewModel.checkEstimateDeliveryModel
-                                              ?.statusCode ??
-                                              "Something went wrong");
-                                    }
-                                  } else {
-                                    _pinError = AppStrings.thisFieldIsRequired;
-                                    _showPinError = true;
-                                  }
-                                },
-                                child: TextUtils.display(
-                                  AppStrings.check,
-                                  color: Colors.white,
-                                  fontSize: 13.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                              width: double.infinity,
+                              // Equivalent to match_parent
+                              height: 1.0,
+                              // Equivalent to 1dp height
+                              margin: const EdgeInsets.fromLTRB(
+                                  10.0, 10.0, 10.0, 0.0),
+                              // Equivalent to layout_marginStart, layout_marginTop, layout_marginEnd
+                              color: Colors
+                                  .white, // Equivalent to android:background="@color/white"
                             ),
-                          ],
-                        ),
-                      ),
-                      if (_showPinError)
-                        Container(
-                          padding: const EdgeInsets.only(left: 5.0),
-                          alignment: Alignment.topLeft,
-                          child: TextUtils.errorText(
-                            _pinError,
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.red,
-                            textAlign: TextAlign.start,
-                            maxLines: 1,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
-                      if (_showDate)
-                        Container(
-                          padding: const EdgeInsets.only(left: 5.0),
-                          alignment: Alignment.topLeft,
-                          child: TextUtils.errorText(
-                            estimateDeliveryDate,
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.normal,
-                            color: AppColors.productDetailText,
-                            textAlign: TextAlign.start,
-                            maxLines: 1,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 10.0, top: 20.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            // Image
-                            GestureDetector(
-                              onTap: () async {
-                                String mainId = await viewModel.getMainId();
-                                String? guestId = await viewModel.getGuestId();
-                                final requestBody = {
-                                  'slug': slug,
-                                  'product_id': productId,
-                                  'userid': mainId,
-                                  'guestid': guestId,
-                                };
-                                await viewModel.favourite(requestBody);
-                                if (viewModel.favouriteModel?.success == true) {
-                                  showSimpleDialog(
-                                      context,
-                                      viewModel.favouriteModel?.statusCode ??
-                                          "Something went wrong");
-                                } else {
-                                  SnackbarService.showErrorSnackbar(
-                                      context,
-                                      viewModel.favouriteModel?.statusCode ??
-                                          "Something went wrong");
-                                }
-                              },
-                              child: PngImage.asset(
-                                _wishlist
-                                    ? 'assets/wishlist1.png'
-                                    : 'assets/wishlist_grey.png',
-                                width: 55.0,
-                                height: 55.0,
-                              ),
-                            ), // Replace with your image asset
-
-                            const SizedBox(width: 10.0),
-                            // Text with drawable end
-                            GestureDetector(
-                              onTap: () async {
-                                String mainId = await viewModel.getMainId();
-                                String? guestId = await viewModel.getGuestId();
-                                final requestBody = {
-                                  'cart_count': productCount,
-                                  'guestid': guestId,
-                                  'product_id': productId,
-                                  "product_name": productName,
-                                  "store_id": AppConstants.storeId,
-                                  'userid': mainId,
-                                };
-                                await viewModel.addToCart(requestBody);
-                                if (viewModel.addToCartModel?.success == true) {
-                                  if (viewModel.addToCartModel?.statusCode ==
-                                      "Success") {
-                                    setState(() {
-                                      addToCartStatus="1";
-                                    });
-                                    addToCartDialog(context,
-                                        AppStrings.addedToCart, productName);
-                                  } else {
-                                    addToCartDialog(
-                                        context,
-                                        AppStrings.productAlreadyInCart,
-                                        productName);
-                                  }
-                                } else {
-                                  SnackbarService.showErrorSnackbar(
-                                      context,
-                                      viewModel.addToCartModel?.statusCode ??
-                                          "Something went wrong");
-                                }
-                              },
-                              child: Container(
-                                width: 150.0,
-                                height: 50.0,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0),
-                                decoration: BoxDecoration(
-                                  color: AppColors.transparentColor,
-                                  // Replace with your drawable background
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  border: Border.all(
-                                    color: Colors.black, // Black border color
-                                    width: 1.0, // Border width
-                                  ), // Rounded corners
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Expanded(
-                                      child: Center(
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  left: 10.0, right: 10.0),
+                              height: 50.0,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: TextUtils.display(
+                                      priceText,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      color: AppColors.sortTextColor,
+                                      fontSize: 14.0,
+                                      fontFamily: 'Poppins',
+                                    ),
+                                  ),
+                                  Visibility(
+                                    visible: showStrikeOffText,
+                                    child: TextUtils.display(
+                                      strikeOffText.toString(),
+                                      color: AppColors.sortTextColor,
+                                      fontSize: 14.0,
+                                      fontFamily: 'Poppins',
+                                    ),
+                                  ),
+                                  Visibility(
+                                    visible: showOffers,
+                                    child: Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                      ),
+                                      color: AppColors.cardBackColor,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 4.0, horizontal: 8.0),
                                         child: TextUtils.display(
-                                          addToCartStatus.isNotEmpty?AppStrings.addedToCart:AppStrings.addToCart,
+                                          offersText.toString(),
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
                                           fontFamily: 'Poppins',
-                                          fontSize: 13.0,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black,
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(width: 10.0),
-                                    PngImage.asset('assets/cart_icon_new.png',
-                                        width: 20.0, height: 20.0),
-                                    // Replace with your drawable end icon
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
-                            const SizedBox(width: 10.0),
-                            // Card with Text
-                            GestureDetector(
-                              onTap: () async {
-                                String mainId = await viewModel.getMainId();
-                                String? guestId = await viewModel.getGuestId();
-                                String? loginSuccess =
-                                await viewModel.getLoginSuccess();
-                                final requestBody = {
-                                  'buy_now': AppConstants.buyNow,
-                                  'cart_count': AppConstants.wishListCartCount,
-                                  'guestid': guestId,
-                                  'product_id': productId,
-                                  "product_name": productName,
-                                  "store_id": AppConstants.storeId,
-                                  'user_id': mainId,
-                                };
-                                await viewModel.addToCartBuyNow(requestBody);
-                                if (viewModel.addToCartModelBuyNow?.success ==
-                                    true) {
-                                  if (loginSuccess?.isNotEmpty == true) {
-                                    LoggerService.d("stat: ", "member");
-                                    NavigationService.navigateToWithData(
-                                        const MemberCheckoutScreen(),
-                                        data: {
-                                          "discount": AppConstants.buyNowDiscount,
-                                          "coupon": AppConstants.blankLimit,
-                                          "buy_now": AppConstants.buyNow
-                                        });
-                                  } else {
-                                    LoggerService.d("stat: ", "guest");
-                                    NavigationService.navigateToWithData(
-                                        const CheckoutScreen(),
-                                        data: {
-                                          "discount": AppConstants.buyNowDiscount,
-                                          "coupon": AppConstants.blankLimit,
-                                          "buy_now": AppConstants.buyNow
-                                        });
-                                  }
-                                } else {
-                                  SnackbarService.showErrorSnackbar(
-                                      context,
-                                      viewModel.addToCartModelBuyNow
-                                          ?.statusCode ??
-                                          "Something went wrong");
-                                }
-                              },
-                              child: Card(
-                                margin: const EdgeInsets.only(left: 10.0),
-                                color: AppColors.fabbyBondiBlue,
-                                // Replace with your card background color
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                child: SizedBox(
-                                  width: 120.0,
+                            Container(
+                              width: double.infinity,
+                              // Equivalent to match_parent
+                              height: 1.0,
+                              // Equivalent to 1dp height
+                              margin: const EdgeInsets.fromLTRB(
+                                  10.0, 10.0, 10.0, 0.0),
+                              // Equivalent to layout_marginStart, layout_marginTop, layout_marginEnd
+                              color: Colors
+                                  .white, // Equivalent to android:background="@color/white"
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(
+                                      left: 10.0, right: 10.0),
                                   height: 50.0,
-                                  child: Center(
-                                    child: TextUtils.display(
-                                      AppStrings.buyNow,
-                                      fontFamily: 'Poppins',
-                                      fontSize: 14.0,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                    ),
+                                  child: TextUtils.display(
+                                    AppStrings.premiumQuality,
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.normal,
+                                    color: AppColors.productDetailText,
+                                    fontFamily: 'Poppins',
                                   ),
                                 ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(
+                                      left: 10.0, right: 10.0),
+                                  height: 50.0,
+                                  child: TextUtils.display(
+                                    AppStrings.thirtyDayMoneyBackGuarantee,
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.normal,
+                                    color: AppColors.productDetailText,
+                                    fontFamily: 'Poppins',
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(
+                                      left: 10.0, right: 10.0),
+                                  height: 50.0,
+                                  child: TextUtils.display(
+                                    AppStrings.fastAndFreeShipping,
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.normal,
+                                    color: AppColors.productDetailText,
+                                    fontFamily: 'Poppins',
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Flexible(
+                                    child: Container(
+                                  width: double.infinity,
+                                  // Equivalent to match_parent
+                                  height: 1.0,
+                                  // Equivalent to 1dp height
+                                  margin: const EdgeInsets.fromLTRB(
+                                      10.0, 5.0, 10.0, 5.0),
+                                  // Equivalent to layout_marginStart, layout_marginTop, layout_marginEnd
+                                  color: Colors
+                                      .white, // Equivalent to android:background="@color/white"
+                                )),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(
+                                      left: 10.0, right: 10.0),
+                                  height: 50.0,
+                                  child: TextUtils.display(
+                                    AppStrings.quantity,
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.normal,
+                                    color: AppColors.productDetailText,
+                                    fontFamily: 'Poppins',
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(
+                                      left: 10.0,
+                                      right: 10.0,
+                                      top: 5.0,
+                                      bottom: 5.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {},
+                                        child: Container(
+                                          width: 100,
+                                          height: 35,
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            // Equivalent to `solid android:color="@color/white"`
+                                            border: Border.all(
+                                              color: AppColors.fabbyBondiBlue,
+                                              // Equivalent to `stroke android:color="@color/light_blue_fabby"`
+                                              width:
+                                                  1.0, // Equivalent to `stroke android:width="@dimen/_1sdp"`
+                                            ),
+                                            borderRadius: BorderRadius.circular(
+                                                5.0), // Equivalent to `corners android:radius="5dp"`
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                  if (productCount > 1) {
+                                                    setState(() {
+                                                      productCount =
+                                                          productCount - 1;
+                                                    });
+                                                  }
+                                                },
+                                                child: Container(
+                                                  width: 40.0,
+                                                  // Set the desired width for the button
+                                                  alignment: Alignment.center,
+                                                  child: TextUtils.display(
+                                                    '-',
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                              TextUtils.display(
+                                                productCount.toString(),
+                                                // Replace with actual count
+                                                fontSize: 18,
+                                                color: AppColors.sortTextColor,
+                                                // Replace with your color
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    productCount =
+                                                        productCount + 1;
+                                                  });
+                                                },
+                                                child: Container(
+                                                  width: 40.0,
+                                                  // Set the desired width for the button
+                                                  alignment: Alignment.center,
+                                                  child: TextUtils.display(
+                                                    '+',
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Flexible(
+                                    child: Container(
+                                  width: double.infinity,
+                                  // Equivalent to match_parent
+                                  height: 1.0,
+                                  // Equivalent to 1dp height
+                                  margin: const EdgeInsets.fromLTRB(
+                                      10.0, 5.0, 10.0, 5.0),
+                                  // Equivalent to layout_marginStart, layout_marginTop, layout_marginEnd
+                                  color: Colors
+                                      .white, // Equivalent to android:background="@color/white"
+                                )),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(
+                                      left: 10.0, right: 10.0),
+                                  height: 50.0,
+                                  child: TextUtils.display(
+                                    AppStrings.estimateDelivery,
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.normal,
+                                    color: AppColors.productDetailText,
+                                    fontFamily: 'Poppins',
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              margin:
+                                  const EdgeInsets.only(left: 10.0, top: 10.0),
+                              height: 50.0,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: 200.0,
+                                    height: 40.0,
+                                    margin: const EdgeInsets.only(right: 10.0),
+                                    child: TextField(
+                                      controller: _pinCodeController,
+                                      decoration: InputDecoration(
+                                        hintText: 'Enter Pincode',
+                                        hintStyle: const TextStyle(
+                                          color: Colors.grey,
+                                          // Replace with your hint color
+                                          fontSize: 13.0,
+                                        ),
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        // Replace with your background color
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 10.0,
+                                                vertical: 5.0),
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(5.0),
+                                          borderSide: const BorderSide(
+                                            color: AppColors.lightGrayAlpha,
+                                            // Change this to your desired border color
+                                            width:
+                                                1.0, // Border width when focused
+                                          ), // Adjust radius if needed
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 100.0,
+                                    height: 40.0,
+                                    margin: const EdgeInsets.only(left: 10.0),
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            AppColors.fabbyBondiBlue,
+                                        // Ensure this color contrasts with white text
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
+                                        ),
+                                      ),
+                                      onPressed: () async {
+                                        //LoggerService.d("pinCodeText: ", _callCheck);
+                                        if (_callCheck) {
+                                          await viewModel.checkEstimateDelivery(
+                                              _pinCodeController.text);
+                                          if (viewModel
+                                                  .checkEstimateDeliveryModel
+                                                  ?.success ==
+                                              true) {
+                                            final estimateDelivery = viewModel
+                                                .checkEstimateDeliveryModel
+                                                ?.data;
+                                            setState(() {
+                                              _showDate = true;
+                                              estimateDeliveryDate =
+                                                  "Delivery in ${estimateDelivery?.days} Days, ${estimateDelivery?.date}";
+                                            });
+                                          } else {
+                                            SnackbarService.showErrorSnackbar(
+                                                context,
+                                                viewModel
+                                                        .checkEstimateDeliveryModel
+                                                        ?.statusCode ??
+                                                    "Something went wrong");
+                                          }
+                                        } else {
+                                          _pinError =
+                                              AppStrings.thisFieldIsRequired;
+                                          _showPinError = true;
+                                        }
+                                      },
+                                      child: TextUtils.display(
+                                        AppStrings.check,
+                                        color: Colors.white,
+                                        fontSize: 13.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(
-                            left: 10.0, right: 10.0, top: 10.0),
-                        height: 50.0,
-                        child: TextUtils.display(
-                          AppStrings.morePaymentOptions,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.normal,
-                          color: AppColors.productDetailText,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 10.0, right: 10.0,bottom: 10.0),
-                        width: double.infinity,
-                        child: PngImage.asset('assets/payment_icons.png',
-                            width: double.infinity, height: 40.0),
-                      ),
-                    ])),)],),
+                            if (_showPinError)
+                              Container(
+                                padding: const EdgeInsets.only(left: 5.0),
+                                alignment: Alignment.topLeft,
+                                child: TextUtils.errorText(
+                                  _pinError,
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.red,
+                                  textAlign: TextAlign.start,
+                                  maxLines: 1,
+                                  fontFamily: 'Poppins',
+                                ),
+                              ),
+                            if (_showDate)
+                              Container(
+                                padding: const EdgeInsets.only(left: 5.0),
+                                alignment: Alignment.topLeft,
+                                child: TextUtils.errorText(
+                                  estimateDeliveryDate,
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.normal,
+                                  color: AppColors.productDetailText,
+                                  textAlign: TextAlign.start,
+                                  maxLines: 1,
+                                  fontFamily: 'Poppins',
+                                ),
+                              ),
+                            Container(
+                              margin:
+                                  const EdgeInsets.only(left: 10.0, top: 20.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  // Image
+                                  GestureDetector(
+                                    onTap: () async {
+                                      String mainId =
+                                          await viewModel.getMainId();
+                                      String? guestId =
+                                          await viewModel.getGuestId();
+                                      final requestBody = {
+                                        'slug': slug,
+                                        'product_id': productId,
+                                        'userid': mainId,
+                                        'guestid': guestId,
+                                      };
+                                      await viewModel.favourite(requestBody);
+                                      if (viewModel.favouriteModel?.success ==
+                                          true) {
+                                        showSimpleDialog(
+                                            context,
+                                            viewModel.favouriteModel
+                                                    ?.statusCode ??
+                                                "Something went wrong");
+                                      } else {
+                                        SnackbarService.showErrorSnackbar(
+                                            context,
+                                            viewModel.favouriteModel
+                                                    ?.statusCode ??
+                                                "Something went wrong");
+                                      }
+                                    },
+                                    child: PngImage.asset(
+                                      _wishlist
+                                          ? 'assets/wishlist1.png'
+                                          : 'assets/wishlist_grey.png',
+                                      width: 55.0,
+                                      height: 55.0,
+                                    ),
+                                  ), // Replace with your image asset
 
+                                  const SizedBox(width: 10.0),
+                                  // Text with drawable end
+                                  GestureDetector(
+                                    onTap: () async {
+                                      String mainId =
+                                          await viewModel.getMainId();
+                                      String? guestId =
+                                          await viewModel.getGuestId();
+                                      final requestBody = {
+                                        'cart_count': productCount,
+                                        'guestid': guestId,
+                                        'product_id': productId,
+                                        "product_name": productName,
+                                        "store_id": AppConstants.storeId,
+                                        'userid': mainId,
+                                      };
+                                      await viewModel.addToCart(requestBody);
+                                      if (viewModel.addToCartModel?.success ==
+                                          true) {
+                                        if (viewModel
+                                                .addToCartModel?.statusCode ==
+                                            "Success") {
+                                          setState(() {
+                                            addToCartStatus = "1";
+                                          });
+                                          addToCartDialog(
+                                              context,
+                                              AppStrings.addedToCart,
+                                              productName);
+                                        } else {
+                                          addToCartDialog(
+                                              context,
+                                              AppStrings.productAlreadyInCart,
+                                              productName);
+                                        }
+                                      } else {
+                                        SnackbarService.showErrorSnackbar(
+                                            context,
+                                            viewModel.addToCartModel
+                                                    ?.statusCode ??
+                                                "Something went wrong");
+                                      }
+                                    },
+                                    child: Container(
+                                      width: 150.0,
+                                      height: 50.0,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10.0),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.transparentColor,
+                                        // Replace with your drawable background
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        border: Border.all(
+                                          color: Colors
+                                              .black, // Black border color
+                                          width: 1.0, // Border width
+                                        ), // Rounded corners
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Expanded(
+                                            child: Center(
+                                              child: TextUtils.display(
+                                                addToCartStatus.isNotEmpty
+                                                    ? AppStrings.addedToCart
+                                                    : AppStrings.addToCart,
+                                                fontFamily: 'Poppins',
+                                                fontSize: 13.0,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10.0),
+                                          PngImage.asset(
+                                              'assets/cart_icon_new.png',
+                                              width: 20.0,
+                                              height: 20.0),
+                                          // Replace with your drawable end icon
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10.0),
+                                  // Card with Text
+                                  GestureDetector(
+                                    onTap: () async {
+                                      String mainId =
+                                          await viewModel.getMainId();
+                                      String? guestId =
+                                          await viewModel.getGuestId();
+                                      String? loginSuccess =
+                                          await viewModel.getLoginSuccess();
+                                      final requestBody = {
+                                        'buy_now': AppConstants.buyNow,
+                                        'cart_count':
+                                            AppConstants.wishListCartCount,
+                                        'guestid': guestId,
+                                        'product_id': productId,
+                                        "product_name": productName,
+                                        "store_id": AppConstants.storeId,
+                                        'user_id': mainId,
+                                      };
+                                      await viewModel
+                                          .addToCartBuyNow(requestBody);
+                                      if (viewModel
+                                              .addToCartModelBuyNow?.success ==
+                                          true) {
+                                        if (loginSuccess?.isNotEmpty == true) {
+                                          LoggerService.d("stat: ", "member");
+                                          NavigationService.navigateToWithData(
+                                              const MemberCheckoutScreen(),
+                                              data: {
+                                                "discount":
+                                                    AppConstants.buyNowDiscount,
+                                                "coupon":
+                                                    AppConstants.blankLimit,
+                                                "buy_now": AppConstants.buyNow
+                                              });
+                                        } else {
+                                          LoggerService.d("stat: ", "guest");
+                                          NavigationService.navigateToWithData(
+                                              const CheckoutScreen(),
+                                              data: {
+                                                "discount":
+                                                    AppConstants.buyNowDiscount,
+                                                "coupon":
+                                                    AppConstants.blankLimit,
+                                                "buy_now": AppConstants.buyNow
+                                              });
+                                        }
+                                      } else {
+                                        SnackbarService.showErrorSnackbar(
+                                            context,
+                                            viewModel.addToCartModelBuyNow
+                                                    ?.statusCode ??
+                                                "Something went wrong");
+                                      }
+                                    },
+                                    child: Card(
+                                      margin: const EdgeInsets.only(left: 10.0),
+                                      color: AppColors.fabbyBondiBlue,
+                                      // Replace with your card background color
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                      ),
+                                      child: SizedBox(
+                                        width: 120.0,
+                                        height: 50.0,
+                                        child: Center(
+                                          child: TextUtils.display(
+                                            AppStrings.buyNow,
+                                            fontFamily: 'Poppins',
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  left: 10.0, right: 10.0, top: 10.0),
+                              height: 50.0,
+                              child: TextUtils.display(
+                                AppStrings.morePaymentOptions,
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.normal,
+                                color: AppColors.productDetailText,
+                                fontFamily: 'Poppins',
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  left: 10.0, right: 10.0, bottom: 10.0),
+                              width: double.infinity,
+                              child: PngImage.asset('assets/payment_icons.png',
+                                  width: double.infinity, height: 40.0),
+                            ),
+                          ])),
+                    )
+                  ],
+                ),
                 Visibility(
                   visible: productDescription!.isNotEmpty,
                   child: Container(
@@ -1079,7 +1154,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       items: similarProducts,
                       onMoveToProductDetail: (i) {
                         //LoggerService.d("ok: ",i);
-                        final productId=similarProducts?[i].id ?? 0;
+                        final productId = similarProducts?[i].id ?? 0;
                         _callProductList(productId.toString());
                       },
                     ),
@@ -1091,5 +1166,119 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         },
       ),
     );
+  }
+}
+
+class MyItemClickListener implements OnAdapterItemClickListener {
+  final BuildContext context;
+
+  MyItemClickListener(this.context); // Constructor to receive BuildContext
+  @override
+  void onClick(String sortOption,int productId) {
+    LoggerService.d("Selected option: $sortOption");
+    if (sortOption == "80") {
+      shareWhatsapp(context,productId);
+    } else if (sortOption == "81") {
+      shareFacebook(context,productId);
+    } else if (sortOption == "82") {
+      String url=generateLink(productId);
+      shareLinkOnInstagram(url);
+    } else if (sortOption == "83") {
+      shareTextOnTwitter(context,productId);
+    } else if (sortOption == "84") {
+      copy(context,productId);
+    }
+  }
+
+  Future<void> shareWhatsapp(BuildContext context,int productId) async {
+    final String message =
+        generateLink(productId); // Replace with your actual link generation logic
+    final String whatsappUrl = "whatsapp://send?text=$message";
+
+    try {
+      final Uri uri = Uri.parse(whatsappUrl);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri);
+      } else {
+        SnackbarService.showErrorSnackbar(
+            context, "WhatsApp is not installed.");
+      }
+    } catch (e) {
+      SnackbarService.showErrorSnackbar(context, "WhatsApp is not installed.");
+    }
+  }
+
+  Future<void> shareFacebook(BuildContext context,int productId) async {
+    final String link = generateLink(productId); // Replace with your actual link generation logic
+    final String facebookUrl = "https://www.facebook.com/sharer/sharer.php?u=$link";
+
+    final Uri uri = Uri.parse(facebookUrl);
+
+    try {
+      // Check if the Facebook app is installed
+      final bool isFacebookInstalled = await canLaunchUrl(Uri.parse("fb://"));
+
+      if (isFacebookInstalled) {
+        // If Facebook app is installed, use the app with just the URL
+        await launchUrl(Uri.parse("fb://faceweb/f?href=$link"));
+      } else {
+        // Open in browser if Facebook app is not installed
+        await launchUrl(uri);
+      }
+    } catch (e) {
+      SnackbarService.showErrorSnackbar(context, "Could not open Facebook.");
+    }
+  }
+
+  void shareLinkOnInstagram(String url) async {
+    final instagramUrl = 'instagram://url?path=${Uri.encodeFull(url)}';
+
+    if (await canLaunch(instagramUrl)) {
+      await launch(instagramUrl);
+    } else {
+      // Handle the case where Instagram is not installed
+      // You can redirect the user to the Instagram website or use a different sharing method
+      await launch('https://www.instagram.com');
+    }
+  }
+
+  Future<void> shareTextOnTwitter(BuildContext context,int productId) async {
+    final String message = Uri.encodeComponent(generateLink(productId)); // Encode your message properly
+    final String twitterUrl = "https://twitter.com/intent/tweet?text=$message"; // Twitter intent URL
+
+    final Uri uri = Uri.parse(twitterUrl);
+
+    try {
+      // Check if Twitter app is installed
+      final bool isTwitterInstalled = await canLaunchUrl(Uri.parse("twitter://"));
+
+      if (isTwitterInstalled) {
+        // If Twitter app is installed, use the browser intent URL which also works within the app
+        await launchUrl(uri, mode: LaunchMode.externalApplication); // Use externalApplication mode for opening
+      } else {
+        // If not, open in the browser as a fallback
+        await launchUrl(uri, mode: LaunchMode.inAppWebView); // Use inAppWebView for browser fallback
+      }
+    } catch (e) {
+      SnackbarService.showErrorSnackbar(context, "Could not open Twitter.");
+    }
+  }
+
+
+  Future<void> copy(BuildContext context,int productId) async {
+    final String link =
+        generateLink(productId); // Replace with your actual link generation logic
+
+    // Copy the link to the clipboard
+    await Clipboard.setData(ClipboardData(text: link));
+
+    // Show a snackbar or toast indicating the link was copied
+    SnackbarService.showSuccessSnackbar(context, "link copied");
+  }
+
+
+  String generateLink(int productId) {
+    // Implement the link generation logic here
+    return "https://uat.admin.fabbyfurever.com/product/$productId";
   }
 }
