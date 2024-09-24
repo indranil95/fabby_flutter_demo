@@ -66,4 +66,6 @@ class AppConstants {
 
   // Order start limits
   static const int orderStartProductLimit = 1;
+  //razorpay
+  static const String razorpayKey = 'rzp_test_DVjk9unA2TPV3Q';
 }

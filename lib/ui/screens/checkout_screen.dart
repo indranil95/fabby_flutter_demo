@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_fabby_demo/ui/dialog/order_success_card.dart';
-import 'package:flutter_fabby_demo/ui/screens/home_screen.dart';
 import 'package:flutter_fabby_demo/ui/screens/top_bar_detail.dart';
-import 'package:flutter_fabby_demo/utils/image_utils.dart';
-import 'package:flutter_fabby_demo/viewModels/member_payment_viewmodel.dart';
+import 'package:flutter_fabby_demo/viewModels/checkout_viewmodel.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -11,26 +8,27 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../../AppConstant/app_constant.dart';
 import '../../colors/colors.dart';
 import '../../strings/strings.dart';
-import '../../utils/logger_service.dart';
+import '../../utils/image_utils.dart';
 import '../../utils/navigation_service.dart';
 import '../../utils/snackbar_utils.dart';
 import '../../utils/text_utils.dart';
 import '../dialog/add_new_address_sheet.dart';
 import '../dialog/address_update_dialog.dart';
+import '../dialog/custom_dialog.dart';
 import '../dialog/edit_address_sheet.dart';
+import '../dialog/order_success_card.dart';
+import '../lists/checkout_address_list.dart';
 import '../lists/checkout_cart_list.dart';
 
-class MemberPaymentScreen extends StatefulWidget {
-  const MemberPaymentScreen({super.key});
+class CheckoutScreen extends StatefulWidget {
+  const CheckoutScreen({super.key});
 
   @override
-  _MemberPaymentScreenState createState() => _MemberPaymentScreenState();
+  _CheckoutScreenState createState() => _CheckoutScreenState();
 }
 
-class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
-  late Razorpay _razorpay;
-
-  late MemberPaymentViewmodel viewModel;
+class _CheckoutScreenState extends State<CheckoutScreen> {
+  late CheckoutViewModel viewModel;
   bool _isOnlinePaymentSelected = true;
   bool _isCodSelected = false;
   bool _isSameAddress = true;
@@ -39,6 +37,51 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
   String orderValue = "";
   String totalValue = "";
   String mainOrderId = "";
+
+  void _showAddNewAddressSheet(BuildContext context) async {
+    final result = await showModalBottomSheet<Map<String, dynamic>>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: AppColors.transparentColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+        ),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: DraggableScrollableSheet(
+            initialChildSize: 0.6, // Adjust initial size based on your content
+            minChildSize: 0.3, // Minimum size when the sheet is collapsed
+            maxChildSize: 0.9, // Maximum size when the sheet is expanded
+            builder: (context, scrollController) {
+              return AddNewAddressSheet(
+                scrollController:
+                    scrollController, // Pass the scrollController to the sheet
+              );
+            },
+          ),
+        );
+      },
+    );
+
+    if (result != null) {
+      // Handle the result (request body) here
+      //  LoggerService.d('Request Body: $result');
+      await viewModel.sendAddAddressMobileRequest(result);
+      if (viewModel.addAddressData?.success == true) {
+        showSuccessCardDialog(
+          context,
+          "Address saved successfully",
+        );
+      } else {
+        SnackbarService.showErrorSnackbar(
+            context, viewModel.addAddressData!.statusCode.toString());
+      }
+      // You can use this data to send a request or perform other actions
+    }
+  }
 
   void _showEditAddressSheet(
     BuildContext context,
@@ -73,7 +116,7 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
 
     if (result != null) {
       // Handle the result (request body) here
-     // LoggerService.d('Request Body: $result');
+      // LoggerService.d('Request Body: $result');
       await viewModel.sendAddAddressMobileRequest(result);
       if (viewModel.addAddressData?.success == true) {
         showSuccessCardDialog(
@@ -86,6 +129,76 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
       }
       // You can use this data to send a request or perform other actions
     }
+  }
+
+  void showSuccessCardDialog(BuildContext context, String s) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SuccessMessageCard(
+          title: s,
+          onButtonPressed: () {
+            //NavigationService.goBack();
+            _fetchCheckoutData();
+          },
+          buttonText: 'ok', maxLines: 1, // Customize button text if needed
+        );
+      },
+    );
+  }
+
+  void showSimpleDialog(BuildContext context, String s) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomDialog(
+          maxLines: 1,
+          message: s,
+          onButtonPressed: () {
+            //NavigationService.goBack();
+            _fetchCheckoutData();
+          },
+          buttonText: 'ok', // Customize button text if needed
+        );
+      },
+    );
+  }
+
+  Future<void> _fetchCheckoutData() async {
+    String? guestId = await viewModel.getGuestId();
+
+    final requestBody = {
+      'guest_id': guestId, // Handle the case where guestId is null
+    };
+
+    viewModel.checkout(requestBody);
+  }
+  Future<void> _fetchCartList() async {
+    // Fetch mainId and guestId asynchronously
+    String mainId = await viewModel.getMainId();
+    String? guestId = await viewModel.getGuestId();
+
+    final requestBody = {
+      'buy_now': AppConstants.blankLimit,
+      'store_id': AppConstants.storeId,
+      'user_id': int.parse(mainId),
+      'guestid': guestId, // Handle the case where guestId is null
+    };
+
+    viewModel.cartDataList(requestBody);
+  }
+  String removeDecimalPoints(String input) {
+    // Remove commas from the input string
+    String cleanInput = input.replaceAll(",", "");
+
+    // Convert the clean string to a double
+    double doubleValue = double.parse(cleanInput);
+
+    // Round the double value to the nearest integer
+    int integerValue = doubleValue.round();
+
+    // Convert the integer to a string and return
+    return integerValue.toString();
   }
   String setTotalValue(String subtotal, String discount) {
     // Replace commas and convert to double for subtotal and discount
@@ -139,94 +252,6 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
     // Return the total value as a formatted string
     return finalValue;
   }
-  String removeDecimalPoints(String input) {
-    // Remove commas from the input string
-    String cleanInput = input.replaceAll(",", "");
-
-    // Convert the clean string to a double
-    double doubleValue = double.parse(cleanInput);
-
-    // Round the double value to the nearest integer
-    int integerValue = doubleValue.round();
-
-    // Convert the integer to a string and return
-    return integerValue.toString();
-  }
-  Future<void> _fetchCartList() async {
-    // Fetch mainId and guestId asynchronously
-    String mainId = await viewModel.getMainId();
-    String? guestId = await viewModel.getGuestId();
-
-    final requestBody = {
-      'buy_now': AppConstants.blankLimit,
-      'store_id': AppConstants.storeId,
-      'user_id': int.parse(mainId),
-      'guestid': guestId, // Handle the case where guestId is null
-    };
-
-    viewModel.cartDataList(requestBody);
-  }
-
-  void _showAddNewAddressSheet(BuildContext context) async {
-    final result = await showModalBottomSheet<Map<String, dynamic>>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: AppColors.transparentColor,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(20),
-        ),
-      ),
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: DraggableScrollableSheet(
-            initialChildSize: 0.6, // Adjust initial size based on your content
-            minChildSize: 0.3, // Minimum size when the sheet is collapsed
-            maxChildSize: 0.9, // Maximum size when the sheet is expanded
-            builder: (context, scrollController) {
-              return AddNewAddressSheet(
-                scrollController:
-                    scrollController, // Pass the scrollController to the sheet
-              );
-            },
-          ),
-        );
-      },
-    );
-
-    if (result != null) {
-      // Handle the result (request body) here
-     // LoggerService.d('Request Body: $result');
-      await viewModel.sendAddAddressMobileRequest(result);
-      if (viewModel.addAddressData?.success == true) {
-        showSuccessCardDialog(
-          context,
-          "Address saved successfully",
-        );
-      } else {
-        SnackbarService.showErrorSnackbar(
-            context, viewModel.addAddressData!.statusCode.toString());
-      }
-      // You can use this data to send a request or perform other actions
-    }
-  }
-
-  void showSuccessCardDialog(BuildContext context, String s) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return SuccessMessageCard(
-          title: s,
-          onButtonPressed: () {
-            //NavigationService.goBack();
-            _fetchCustomerAddress(customerAddressId);
-          },
-          buttonText: 'ok', maxLines: 1, // Customize button text if needed
-        );
-      },
-    );
-  }
   void showOrderSuccessDialog(BuildContext context, String orderId) {
     showDialog(
       context: context,
@@ -240,8 +265,7 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
             orderId: orderId,
             onButtonPressed: () {
               // Close the dialog and navigate back multiple times
-              NavigationService.goBack(); // Close the dialog
-              NavigationService.goBack(); // Additional navigation logic
+              NavigationService.goBack();
               NavigationService.goBack();
             },
           ),
@@ -249,79 +273,17 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
       },
     );
   }
-
-
-  Future<void> _fetchCustomerAddress(String id) async {
-    final requestBody = {
-      'id': id, // Handle the case where guestId is null
-    };
-
-    await viewModel.getCustomerAddress(requestBody);
-  }
-
-  String setTextColorForSubstring({
-    required String fullText,
-    required String targetText,
-    required Color
-        color, // color is no longer needed for the string output, but keeping it for consistency
-  }) {
-    // Find the start and end index of the target text in the full text
-    int startIndex = fullText.indexOf(targetText);
-
-    if (startIndex >= 0) {
-      int endIndex = startIndex + targetText.length;
-
-      // Create a string to combine the parts
-      String resultText = "";
-
-      if (startIndex > 0) {
-        // Add the part before the target text
-        resultText += fullText.substring(0, startIndex);
-      }
-
-      // Add the target text (would be colored in a UI context)
-      resultText += fullText.substring(startIndex, endIndex);
-
-      if (endIndex < fullText.length) {
-        // Add the part after the target text
-        resultText += fullText.substring(endIndex);
-      }
-
-      return resultText;
-    } else {
-      // If the target text is not found, return the full text
-      return fullText;
-    }
-  }
-
-  String customerAddressId = "";
-  String discountString = "";
-  String couponString = "";
-  String buyNowString = "";
-  String originalText = "Standard Shipping . ₹ 0";
-  String targetText = "₹ 0";
-
+  late Razorpay _razorpay;
   @override
   void initState() {
     _razorpay = Razorpay();
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-    viewModel = Provider.of<MemberPaymentViewmodel>(context, listen: false);
+    viewModel = Provider.of<CheckoutViewModel>(context, listen: false);
+    _fetchCheckoutData();
     _fetchCartList();
-    Future.microtask(() {
-      final data =
-          ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-      if (data != null) {
-        _fetchCustomerAddress(data['customerAddressId']);
-      }
-    });
     super.initState();
-  }
-  @override
-  void dispose() {
-    super.dispose();
-    _razorpay.clear(); // Removes all listeners
   }
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     // Do something when payment is successful
@@ -349,9 +311,9 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
     var options = {
       'key': AppConstants.razorpayKey, // Replace with your Razorpay API key
       'amount': total, // Amount in the smallest currency unit (e.g., 50000 for ₹500.00)
-    "currency": "INR",
-    "send_sms_hash": true,
-    "allow_rotation": false,
+      "currency": "INR",
+      "send_sms_hash": true,
+      "allow_rotation": false,
       'name': userFullName,
       "reference_id" : orderId,
       'description': 'Payment Order no. $orderId',
@@ -370,39 +332,37 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
       print(e.toString());
     }
   }
-
+  String discount = "0";
+  String coupon = AppConstants.noData;
+  String buyNow = AppConstants.blankLimit;
+  String customerAddressId = "";
 
   @override
   Widget build(BuildContext context) {
     final data =
-        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-    customerAddressId = data?['customerAddressId'];
-    discountString = data?['discountString'];
-    couponString = data?['couponString'];
-    buyNowString = data?['buyNowString'];
-
-    //_fetchCustomerAddress(customerAddressId);
-
+    ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    discount = data?['discount'] ?? "0";
+    coupon = data?['coupon'] ?? "0";
+    buyNow = data?['buy_now'] ?? AppConstants.blankLimit;
     return Scaffold(
       appBar: const TopBarDetail(title: AppStrings.checkoutFirstCaps),
       backgroundColor: AppColors.fabbyBack,
       body: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: SingleChildScrollView(child: Consumer<MemberPaymentViewmodel>(
-          builder: (context, viewModel, child) {
+        child: SingleChildScrollView(
+          child:
+              Consumer<CheckoutViewModel>(builder: (context, viewModel, child) {
             if (viewModel.loading) {
               return Center(
                 child: LoadingAnimationWidget.staggeredDotsWave(
                     color: AppColors.fabbyBondiBlue, size: 50.0),
               );
             }
-            final items =
-                viewModel.customerAddressModel?.data?.customerAddress ?? [];
+            final items = viewModel.checkoutModel?.data?.customerAddress ?? [];
             final cartItems = viewModel.cartData?.data?.carts;
             final cartData = viewModel.cartData?.data;
             final totalValue = removeDecimalPoints(viewModel.cartData?.data?.subtotal ??"0");
             final orderValue = viewModel.cartData?.data?.subtotal.toString();
-
             return Column(
               children: [
                 Row(
@@ -435,155 +395,126 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
                     ),
                   ],
                 ),
-                Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.only(
-                      left: 10.0, right: 10.0, bottom: 20.0, top: 10.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5.0),
-                    border: Border.all(
-                      color: AppColors.lightBlueFabby,
-                      width: 1.5,
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 10.0, vertical: 10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Column(
+                  children: [
+                    Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(
+                            left: 10.0, right: 10.0, bottom: 20.0, top: 10.0),
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          // Equivalent to @color/transparent
+                          borderRadius: BorderRadius.circular(5.0),
+                          // Equivalent to android:radius="5dp"
+                          border: Border.all(
+                            color: AppColors.lightBlueFabby,
+                            // Replace with actual color value for @color/light_blue_fabby
+                            width:
+                                1.5, // Replace with actual dimension value for @dimen/_1sdp
+                          ),
+                        ),
+                        child: Column(
                           children: [
-                            TextUtils.display(
-                              AppStrings.contact,
-                              fontFamily: 'DMSerifDisplay',
-                              fontSize: 16.0,
-                              color: AppColors.productDetailText,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            Row(
                               children: [
-                                // Mobile Text
-                                SizedBox(
-                                  width: 200.0,
-                                  child: TextUtils.display(
-                                      items[0].mobileNumber ?? "",
-                                      fontFamily: 'Poppins',
-                                      fontSize: 15.0,
-                                      color: AppColors.removeTextColor,
-                                      maxLines: 1),
-                                ),
-                                const SizedBox(height: 10.0),
-                                // Email Text
-                                SizedBox(
-                                  width: 200.0,
-                                  child: TextUtils.display(items[0].email ?? "",
-                                      fontFamily: 'Poppins',
-                                      fontSize: 15.0,
-                                      color: AppColors.removeTextColor,
-                                      maxLines: 1),
+                                Container(
+                                  margin: const EdgeInsets.only(left: 10.0),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: TextUtils.display(
+                                      AppStrings.yourSavedAddresses,
+                                      fontFamily: 'DmSerifDisplay',
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 16,
+                                      color: AppColors.sortTextColor,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                _showEditAddressSheet(
-                                    context, num.parse(customerAddressId));
-                              },
-                              child: TextUtils.display(AppStrings.changeNew,
-                                  fontFamily: 'DMSerifDisplay',
-                                  fontSize: 16.0,
-                                  color: AppColors.removeTextColor,
-                                  decoration: TextDecoration.underline),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        // Equivalent to match_parent
-                        height: 1.0,
-                        // Equivalent to 1dp height
-                        margin: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                        // Equivalent to layout_marginStart, layout_marginTop, layout_marginEnd
-                        color: AppColors
-                            .fabbyBondiBlue, // Equivalent to android:background="@color/white"
-                      ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 10.0, vertical: 10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            TextUtils.display(AppStrings.shipToSmall,
-                                fontFamily: 'DMSerifDisplay',
-                                fontSize: 16.0,
-                                color: AppColors.productDetailText),
-                            SizedBox(
-                              width: 200.0,
-                              child: TextUtils.display(items[0].location ?? "",
-                                  fontFamily: 'Poppins',
-                                  fontSize: 15.0,
-                                  color: AppColors.removeTextColor,
-                                  maxLines: 1),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                _showEditAddressSheet(
-                                    context, num.parse(customerAddressId));
-                              },
-                              child: TextUtils.display(AppStrings.changeNew,
-                                  fontFamily: 'DMSerifDisplay',
-                                  fontSize: 16.0,
-                                  color: AppColors.removeTextColor,
-                                  decoration: TextDecoration.underline),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        // Equivalent to match_parent
-                        height: 1.0,
-                        // Equivalent to 1dp height
-                        margin: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                        // Equivalent to layout_marginStart, layout_marginTop, layout_marginEnd
-                        color: AppColors
-                            .fabbyBondiBlue, // Equivalent to android:background="@color/white"
-                      ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 10.0, vertical: 10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            TextUtils.display(AppStrings.method,
-                                fontFamily: 'DMSerifDisplay',
-                                fontSize: 16.0,
-                                color: AppColors.productDetailText),
                             Container(
-                              child: TextUtils.display(
-                                setTextColorForSubstring(
-                                    fullText: originalText,
-                                    targetText: targetText,
-                                    color: AppColors.sortTextColor),
-                                fontFamily: 'Poppins',
-                                fontSize: 15.0,
-                                color: AppColors.removeTextColor,
+                              width: double.infinity,
+                              // Equivalent to match_parent
+                              height: 1.0,
+                              // Equivalent to 1dp height
+                              margin:
+                                  const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                              // Equivalent to layout_marginStart, layout_marginTop, layout_marginEnd
+                              color: AppColors
+                                  .lightBlueFabby, // Equivalent to android:background="@color/white"
+                            ),
+                            Visibility(
+                              visible: items.isNotEmpty,
+                              child: SizedBox(
+                                height: 200.0,
+                                child: Checkoutaddresslist(
+                                  items: items,
+                                  onDelete: (int index) async {
+                                    final item = items[index];
+                                    final requestBody = {"id": item.id};
+                                    await viewModel.deleteAddress(requestBody);
+                                    if (viewModel
+                                            .deletedAddressModel?.success ==
+                                        true) {
+                                      showSimpleDialog(context,
+                                          "Address deleted successfully");
+                                    } else {
+                                      SnackbarService.showErrorSnackbar(
+                                          context,
+                                          viewModel
+                                              .deletedAddressModel!.statusCode
+                                              .toString());
+                                    }
+                                  },
+                                  onEdit: (int index) {
+                                    /*LoggerService.d(
+                                        'Tick clicked at index: $index');*/
+                                    final item = items[index];
+                                    _showEditAddressSheet(context, item.id);
+                                  },
+                                  onItemSelected: (int index) async {
+                                    /*LoggerService.d(
+                                        'plus clicked at index: $index');*/
+                                    final item = items[index];
+                                    customerAddressId = item.id.toString();
+                                  },
+                                ),
                               ),
-                            ),
-                            TextUtils.display(
-                              "              ",
-                              fontFamily: 'DMSerifDisplay',
-                              fontSize: 16.0,
-                              color: AppColors.removeTextColor,
-                            ),
+                            )
                           ],
-                        ),
+                        )),
+                    GestureDetector(
+                      onTap: () {
+                        _showAddNewAddressSheet(context);
+                      },
+                      child: Row(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(
+                              left: 10.0,
+                            ),
+                            child: IconButton(
+                              icon: const Icon(Icons.add),
+                              // System "add" icon
+                              onPressed: () {},
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(
+                              right: 10.0,
+                            ),
+                            child: TextUtils.display(
+                              AppStrings.addNewAddress,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 15,
+                              color: AppColors.sortTextColor,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
                 Row(
                   children: [
@@ -632,13 +563,13 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
                         decoration: _isOnlinePaymentSelected
                             ? BoxDecoration(
-                                color: AppColors.lightBlueFabby,
-                                borderRadius: BorderRadius.circular(4.0),
-                                border: Border.all(
-                                  color: AppColors.lightBlueFabby,
-                                  width: 1.5,
-                                ),
-                              )
+                          color: AppColors.lightBlueFabby,
+                          borderRadius: BorderRadius.circular(4.0),
+                          border: Border.all(
+                            color: AppColors.lightBlueFabby,
+                            width: 1.5,
+                          ),
+                        )
                             : null, // No decoration if not selected
                         child: Row(
                           children: [
@@ -650,7 +581,7 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
                                     paymentMethod="card";
                                     _isOnlinePaymentSelected = true;
                                     _isCodSelected =
-                                        false; // Deselect COD if online payment is selected
+                                    false; // Deselect COD if online payment is selected
                                   });
                                 },
                                 child: SvgImage.asset(
@@ -688,13 +619,13 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
                         decoration: _isCodSelected
                             ? BoxDecoration(
-                                color: AppColors.lightBlueFabby,
-                                borderRadius: BorderRadius.circular(4.0),
-                                border: Border.all(
-                                  color: AppColors.lightBlueFabby,
-                                  width: 1.5,
-                                ),
-                              )
+                          color: AppColors.lightBlueFabby,
+                          borderRadius: BorderRadius.circular(4.0),
+                          border: Border.all(
+                            color: AppColors.lightBlueFabby,
+                            width: 1.5,
+                          ),
+                        )
                             : null, // No decoration if not selected
                         child: Row(
                           children: [
@@ -706,7 +637,7 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
                                     paymentMethod="cash";
                                     _isCodSelected = true;
                                     _isOnlinePaymentSelected =
-                                        false; // Deselect online payment if COD is selected
+                                    false; // Deselect online payment if COD is selected
                                   });
                                 },
                                 child: SvgImage.asset(
@@ -795,13 +726,13 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
                         decoration: _isSameAddress
                             ? BoxDecoration(
-                                color: AppColors.lightBlueFabby,
-                                borderRadius: BorderRadius.circular(4.0),
-                                border: Border.all(
-                                  color: AppColors.lightBlueFabby,
-                                  width: 1.5,
-                                ),
-                              )
+                          color: AppColors.lightBlueFabby,
+                          borderRadius: BorderRadius.circular(4.0),
+                          border: Border.all(
+                            color: AppColors.lightBlueFabby,
+                            width: 1.5,
+                          ),
+                        )
                             : null, // No decoration if not selected
                         child: Row(
                           children: [
@@ -812,7 +743,7 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
                                   setState(() {
                                     _isSameAddress = true;
                                     _isDifferentAddress =
-                                        false; // Deselect COD if online payment is selected
+                                    false; // Deselect COD if online payment is selected
                                   });
                                 },
                                 child: SvgImage.asset(
@@ -853,13 +784,13 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
                         decoration: _isDifferentAddress
                             ? BoxDecoration(
-                                color: AppColors.lightBlueFabby,
-                                borderRadius: BorderRadius.circular(4.0),
-                                border: Border.all(
-                                  color: AppColors.lightBlueFabby,
-                                  width: 1.5,
-                                ),
-                              )
+                          color: AppColors.lightBlueFabby,
+                          borderRadius: BorderRadius.circular(4.0),
+                          border: Border.all(
+                            color: AppColors.lightBlueFabby,
+                            width: 1.5,
+                          ),
+                        )
                             : null, // No decoration if not selected
                         child: Row(
                           children: [
@@ -870,7 +801,7 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
                                   setState(() {
                                     _isSameAddress = false;
                                     _isDifferentAddress =
-                                        true; // Deselect online payment if COD is selected
+                                    true; // Deselect online payment if COD is selected
                                   });
                                 },
                                 child: GestureDetector(
@@ -961,7 +892,7 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
                             ),
                             const Spacer(),
                             TextUtils.display(
-                              discountString,
+                              discount,
                               fontFamily: 'DmSerifDisplay',
                               fontWeight: FontWeight.normal,
                               fontSize: 13,
@@ -1026,7 +957,7 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
                             ),
                             const Spacer(),
                             TextUtils.display(
-                              setTotalValue(removeDecimalPoints(cartData?.subtotal ?? "0"),discountString),
+                              setTotalValue(removeDecimalPoints(cartData?.subtotal ?? "0"),discount),
                               fontFamily: 'DmSerifDisplay',
                               fontWeight: FontWeight.normal,
                               fontSize: 14,
@@ -1039,43 +970,43 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
                         String mainId = await viewModel.getMainId();
                         String? guestId = await viewModel.getGuestId();
                         if(paymentMethod == "card"){
-                            if(customerAddressId.isNotEmpty){
-                              final requestBody = {
-                                'buy_now': buyNowString,
-                                'coupon_code': couponString,
-                                'customer_address_id': customerAddressId,
-                                'device_type': " ",
-                                'final_total': setFinalValue(removeDecimalPoints(cartData?.subtotal ?? "0"),discountString),
-                                'guest_id': guestId,
-                                'order_amount': orderValue,
-                                'paymentMethod': paymentMethod,
-                                'payment_orderReference': "",
-                                'shipping_charges': AppConstants.cartRemoveSingleCartCount.toString(),
-                                'store_id': AppConstants.storeId,
-                                'tax': AppConstants.cartRemoveSingleCartCount,
-                                'user_id': mainId,
-                              };
-                             await viewModel.placeOrder(requestBody);
-                              if(viewModel.placeOrderModelNew?.success == true){
-                                final orderId = viewModel.placeOrderModelNew?.data.orderId.toString() ?? ""; // Use null-aware operator
-                                mainOrderId=orderId;
-                                if (orderId.isNotEmpty) {
-                                  openCheckout(orderId,setFinalValue(removeDecimalPoints(cartData?.subtotal ?? "0"),discountString)); // Only call if orderId is not empty
-                                }
-                              }else{
-                                SnackbarService.showErrorSnackbar(context, "Something went wrong!");
+                          if(customerAddressId.isNotEmpty){
+                            final requestBody = {
+                              'buy_now': buyNow,
+                              'coupon_code': coupon,
+                              'customer_address_id': customerAddressId,
+                              'device_type': " ",
+                              'final_total': setFinalValue(removeDecimalPoints(cartData?.subtotal ?? "0"),discount),
+                              'guest_id': guestId,
+                              'order_amount': orderValue,
+                              'paymentMethod': paymentMethod,
+                              'payment_orderReference': "",
+                              'shipping_charges': AppConstants.cartRemoveSingleCartCount.toString(),
+                              'store_id': AppConstants.storeId,
+                              'tax': AppConstants.cartRemoveSingleCartCount,
+                              'user_id': mainId,
+                            };
+                            await viewModel.placeOrder(requestBody);
+                            if(viewModel.placeOrderModelNew?.success == true){
+                              final orderId = viewModel.placeOrderModelNew?.data.orderId.toString() ?? ""; // Use null-aware operator
+                              mainOrderId=orderId;
+                              if (orderId.isNotEmpty) {
+                                openCheckout(orderId,setFinalValue(removeDecimalPoints(cartData?.subtotal ?? "0"),discount)); // Only call if orderId is not empty
                               }
                             }else{
-                              SnackbarService.showErrorSnackbar(context, "please select Address");
+                              SnackbarService.showErrorSnackbar(context, "Something went wrong!");
                             }
+                          }else{
+                            SnackbarService.showErrorSnackbar(context, "please select Address");
+                          }
                         }else{
                           if(customerAddressId.isNotEmpty){
                             final requestBody = {
-                              'buy_now': buyNowString,
-                              'coupon_code': couponString,
+                              'buy_now': buyNow,
+                              'coupon_code': coupon,
                               'customer_address_id': customerAddressId,
                               'device_type': " ",
-                              'final_total': setFinalValue(removeDecimalPoints(cartData?.subtotal ?? "0"),discountString),
+                              'final_total': setFinalValue(removeDecimalPoints(cartData?.subtotal ?? "0"),discount),
                               'guest_id': guestId,
                               'order_amount': orderValue,
                               'paymentMethod': paymentMethod,
@@ -1133,8 +1064,8 @@ class _MemberPaymentScreenState extends State<MemberPaymentScreen> {
                 ),
               ],
             );
-          },
-        )),
+          }),
+        ),
       ),
     );
   }

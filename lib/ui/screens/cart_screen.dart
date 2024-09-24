@@ -17,6 +17,7 @@ import '../../utils/image_utils.dart';
 import '../../utils/logger_service.dart';
 import '../../utils/text_utils.dart';
 import '../dialog/custom_dialog.dart';
+import 'checkout_screen.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -552,7 +553,15 @@ class _CartScreenState extends State<CartScreen> {
               // Guest Checkout LinearLayout equivalent
               Visibility(
                 visible: !memberStat,
-                child: Container(
+                child: GestureDetector(onTap: (){
+                  NavigationService.navigateToWithData(
+                      const CheckoutScreen(),
+                      data: {
+                        "discount": discount,
+                        "coupon": _couponController.text.toString(),
+                        "buy_now": AppConstants.blankLimit
+                      });
+                },child:Container(
                   margin: const EdgeInsets.symmetric(horizontal: 20.0),
                   decoration: BoxDecoration(
                     color: Colors.black,
@@ -579,7 +588,8 @@ class _CartScreenState extends State<CartScreen> {
                       ],
                     ),
                   ),
-                ),
+                ) ,)
+                  ,
               ),
               const SizedBox(height: 16.0),
               Visibility(

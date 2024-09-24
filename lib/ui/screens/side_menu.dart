@@ -6,6 +6,7 @@ import 'package:flutter_fabby_demo/ui/screens/contact_us.dart';
 import 'package:flutter_fabby_demo/ui/screens/login_screen.dart';
 import 'package:flutter_fabby_demo/ui/screens/privacy_policy.dart';
 import 'package:flutter_fabby_demo/ui/screens/wishlist_screen.dart';
+import 'package:flutter_fabby_demo/utils/logger_service.dart';
 
 import '../../utils/image_utils.dart';
 import '../../utils/navigation_service.dart';
@@ -20,6 +21,21 @@ class SideMenuScreen extends StatefulWidget {
 }
 
 class _SideMenuScreenState extends State<SideMenuScreen> {
+  String? loginSuccess;
+  bool memberStat = false;
+  Future<void> _checkLoginStatus() async {
+    loginSuccess = await getLoginSuccess();
+    LoggerService.d("loginSuccess: ",loginSuccess);
+    setState(() {
+      memberStat = loginSuccess?.isNotEmpty == true;
+      LoggerService.d("memberstat: ",memberStat);
+    });
+  }
+  @override
+  void initState() {
+    _checkLoginStatus();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -150,7 +166,7 @@ class _SideMenuScreenState extends State<SideMenuScreen> {
                         ),
                       ),
                       const SizedBox(height: 10.0),
-                      GestureDetector(
+                      Visibility(visible: !memberStat,child: GestureDetector(
                         onTap: () {
                           clearData();
                           NavigationService.replaceWith(const LoginScreen());
@@ -174,7 +190,8 @@ class _SideMenuScreenState extends State<SideMenuScreen> {
                             ),
                           ),
                         ),
-                      )
+                      ))
+
                     ],
                   ),
                 ),
@@ -220,3 +237,8 @@ Future<void> clearData() async {
   final prefs = await SharedPrefsHelper.getInstance();
   prefs.clearAll();
 }
+Future<String?> getLoginSuccess() async {
+  final prefs = await SharedPrefsHelper.getInstance();
+  return prefs.getString('loginSuccess');
+}
+

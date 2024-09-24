@@ -4,6 +4,7 @@ import 'package:flutter_fabby_demo/models/product_detail_model.dart';
 import 'package:flutter_fabby_demo/ui/lists/frequestly_bought_together_list.dart';
 import 'package:flutter_fabby_demo/ui/lists/product_description_list.dart';
 import 'package:flutter_fabby_demo/ui/lists/similar_product_list.dart';
+import 'package:flutter_fabby_demo/ui/screens/member_checkout_screen.dart';
 import 'package:flutter_fabby_demo/ui/screens/top_bar_detail.dart';
 import 'package:flutter_fabby_demo/utils/logger_service.dart';
 import 'package:flutter_fabby_demo/utils/snackbar_utils.dart';
@@ -16,11 +17,13 @@ import '../../AppConstant/app_constant.dart';
 import '../../colors/colors.dart';
 import '../../strings/strings.dart';
 import '../../utils/image_utils.dart';
+import '../../utils/navigation_service.dart';
 import '../../utils/text_utils.dart';
 import '../dialog/custom_add_to_cart_dialog.dart';
 import '../dialog/custom_dialog.dart';
 import '../lists/frequently_bought_choose_item_list.dart';
 import '../lists/product_tag_list.dart';
+import 'checkout_screen.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({super.key});
@@ -856,9 +859,23 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 if (viewModel.addToCartModelBuyNow?.success ==
                                     true) {
                                   if (loginSuccess?.isNotEmpty == true) {
-                                    //LoggerService.d("stat: ", "member");
+                                    LoggerService.d("stat: ", "member");
+                                    NavigationService.navigateToWithData(
+                                        const MemberCheckoutScreen(),
+                                        data: {
+                                          "discount": AppConstants.buyNowDiscount,
+                                          "coupon": AppConstants.blankLimit,
+                                          "buy_now": AppConstants.buyNow
+                                        });
                                   } else {
-                                    //LoggerService.d("stat: ", "guest");
+                                    LoggerService.d("stat: ", "guest");
+                                    NavigationService.navigateToWithData(
+                                        const CheckoutScreen(),
+                                        data: {
+                                          "discount": AppConstants.buyNowDiscount,
+                                          "coupon": AppConstants.blankLimit,
+                                          "buy_now": AppConstants.buyNow
+                                        });
                                   }
                                 } else {
                                   SnackbarService.showErrorSnackbar(
