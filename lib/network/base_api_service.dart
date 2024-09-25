@@ -130,4 +130,7 @@ abstract class BaseApiService {
       int userId,
       T Function(Map<String, dynamic>) fromJson,
       );
+  Future<BaseResponse<T>> updateProfile<T>(
+      Map<String, dynamic> requestBody,
+      T Function(Map<String, dynamic>) fromJson);
 }

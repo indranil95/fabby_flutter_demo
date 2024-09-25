@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_fabby_demo/ui/screens/cart_screen.dart';
-import 'package:flutter_fabby_demo/ui/screens/rightSideMenu.dart';
+import 'package:flutter_fabby_demo/ui/screens/right_side_menu.dart';
 import 'package:flutter_fabby_demo/ui/screens/side_menu.dart';
 import 'package:flutter_fabby_demo/ui/screens/wishlist_screen.dart';
 

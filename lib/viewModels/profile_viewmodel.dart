@@ -45,6 +45,29 @@ class ProfileViewModel extends ChangeNotifier {
     }
   }
 
+  // Fetch profile data
+  Future<void> updateProfile(Map<String, dynamic> requestBody)
+  async {
+    _loading = true;
+    notifyListeners();
+
+    try {
+      final response = await repository.updateProfile(requestBody);
+
+      if (response == null) {
+        throw Exception('Failed to update profile data');
+      }
+
+      _profileData = response;
+      _error = '';
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
+  }
+
   // Utility function to get the main user ID (either guest or logged in)
   Future<String> getMainId() async {
     String mainId = "";

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_fabby_demo/models/profile_model.dart';
+import 'package:flutter_fabby_demo/ui/screens/reset_password_Screen.dart';
 import 'package:flutter_fabby_demo/ui/screens/top_bar_detail.dart';
 import 'package:flutter_fabby_demo/viewModels/profile_viewmodel.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,6 +11,7 @@ import 'package:provider/provider.dart';
 import '../../colors/colors.dart';
 import '../../strings/strings.dart';
 import '../../utils/logger_service.dart';
+import '../../utils/navigation_service.dart';
 import '../../utils/text_utils.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -54,7 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (viewModel.profileData != null) {
       // Set the profile data to the controllers
       setState(() {
-        nameController.text = viewModel.profileData?.data?[0].fullname ?? '';
+        // nameController.text = viewModel.profileData?.data?[0].fullname ?? '';
         lastNameController.text = viewModel.profileData?.data?[0].lastname ?? '';
         emailController.text = viewModel.profileData?.data?[0].email ?? '';
         mobileController.text = viewModel.profileData?.data?[0].mobile ?? '';
@@ -62,7 +64,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           isMale = true;
         }  // Assuming gender is a string
         // Handle profile picture and other fields if needed
+        LoggerService.d('Fetched Profile Data', viewModel.profileData?.data?[0]);
       });
+
     }
   }
 
@@ -161,8 +165,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const SizedBox(height: 8),
               _buildTextField(nameController, 'Pranay', isEditingPersonalInfo),
               const SizedBox(height: 8),
-              _buildTextField(
-                  lastNameController, 'Barua', isEditingPersonalInfo),
+              _buildTextField(lastNameController, '', isEditingPersonalInfo),
 
               const SizedBox(height: 16),
 
@@ -209,8 +212,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 });
               }),
               const SizedBox(height: 8),
-              _buildTextField(
-                  emailController, 'pranay@appic.me', isEditingEmail),
+              _buildTextField(emailController, '', isEditingEmail),
               const SizedBox(height: 16),
               _buildSaveButton(), // Save button moved to left
 
@@ -222,15 +224,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 });
               }),
               const SizedBox(height: 8),
-              _buildTextField(mobileController, '123456789', isEditingMobile),
+              _buildTextField(mobileController, '', isEditingMobile),
               const SizedBox(height: 16),
-              // _buildSectionTitle('Mobile Number', 'Edit', () {
-              //   setState(() {
-              //     // Similar to email, handle edit state here if needed.
-              //   });
-              // }),
-              // const SizedBox(height: 8),
-              // _buildTextField(mobileController, '123456789', false),
               const SizedBox(height: 16),
               _buildSaveButton(), // Save button moved to left
 
@@ -238,7 +233,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               // Reset Password Section
               OutlinedButton(
                 onPressed: () {
-                  // Handle password reset
+                  NavigationService.navigateToWithData(ResetPasswordScreen());
                 },
                 child: const Text(
                     'Reset Password', style: TextStyle(color: Colors.black)),
@@ -294,7 +289,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: ElevatedButton(
         onPressed: () {
           // Handle save action
-          
+          _saveProfile();
         },
         child: const Text('Save', style: TextStyle(color: Colors.white)),
         style: ElevatedButton.styleFrom(
@@ -356,6 +351,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
         isDefaultImage = false;  // Update the image state
       }
     });
+  }
+
+  void _saveProfile() {
+    // Collect the data from text controllers and other inputs
+    String firstName = nameController.text;
+    LoggerService.d("value",nameController.text);
+    String lastName = lastNameController.text;
+    LoggerService.d("value",lastNameController.text);
+    String email = emailController.text;
+    LoggerService.d("value",emailController.text);
+    String mobile = mobileController.text;
+    LoggerService.d("value",mobileController.text);
+    String gender = isMale ? 'Male' : 'Female';
+    File? profileImage = _imageFile; // Optional profile image
+
+    // Example: Creating a map to hold the data
+    Map<String, dynamic> profileData = {
+      'firstName': firstName,
+      'lastName': lastName,
+      'email': email,
+      'mobile': mobile,
+      'gender': gender,
+      // 'profileImage': profileImage?.path, // Pass the file path or handle image upload separately
+    };
+
+    // Print or log the profile data for debugging
+    LoggerService.d("value",profileData);
+
+    // Call your API method here with the profileData
+    viewModel.updateProfile(profileData);
   }
 }
 

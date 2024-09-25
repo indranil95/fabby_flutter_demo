@@ -6,28 +6,25 @@ class ProfileRepository {
 
   ProfileRepository(this.apiService);
 
-  // Function to fetch user profile
-  // Future<ProfileModel?> getProfile(Map<String, dynamic> requestBody) async {
-  //   final response = await apiService.getProfile<ProfileModel>(
-  //     requestBody,
-  //         (json) => ProfileModel.fromJson(json), // Convert the JSON response to ProfileModel
-  //   );
-  //
-  //   // Handle error scenario
-  //   if (response.error != null) {
-  //     throw Exception(response.error);
-  //   }
-  //
-  //   // Return profile data if no error occurred
-  //   return response.data;
-  // }
-
   Future<ProfileModel?> getProfile(
       int userId,
       ) async {
     final response = await apiService.getProfile<ProfileModel>(
       userId,
           (json) => ProfileModel.fromJson(json),
+    );
+
+    if (response.error != null) {
+      throw Exception(response.error);
+    }
+
+    return response.data;
+  }
+
+  Future<ProfileModel?> updateProfile(Map<String, dynamic> requestBody) async {
+    final response = await apiService.updateProfile<ProfileModel>(
+      requestBody,
+          (json) => ProfileModel.fromJson(json), // Adjust according to your model
     );
 
     if (response.error != null) {
