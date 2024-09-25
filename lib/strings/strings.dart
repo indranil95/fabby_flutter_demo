@@ -212,6 +212,6 @@ class AppStrings {
   static const String method = 'Method';
   static const String continueToPayment = 'Continue to payment';
   static const String paymentFailed = 'Payment Failed';
-  static const String defaultWebClientId = '502613426103-rg4tck20lkvsmualu7f45c0b2lb74fmr.apps.googleusercontent.com';
+  static const String defaultWebClientId = '231242326515-31vmm59p1g99gj7o9eladk84n24ej6n0.apps.googleusercontent.com';
   static const String paymentMethod = 'Payment Method';
 }

@@ -1,3 +1,5 @@
+import 'package:flutter_fabby_demo/strings/strings.dart';
+import 'package:flutter_fabby_demo/utils/logger_service.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleSignInService {
@@ -25,7 +27,7 @@ class GoogleSignInService {
       }
       return null; // No account signed in
     } catch (error) {
-      print('Error during Google Sign-In: $error');
+      LoggerService.d('Error during Google Sign-In: $error');
       return null; // Sign-in failed
     }
   }
