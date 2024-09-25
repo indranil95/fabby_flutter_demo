@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_fabby_demo/ui/screens/saved_address.dart';
 import 'package:flutter_fabby_demo/ui/screens/top_bar_detail.dart';
 
 import '../../strings/strings.dart';
@@ -106,10 +107,10 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                 MaterialPageRoute(builder: (context) => OrderHistoryScreen()),
               );
             } else if (title == 'Saved Addresses') {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => SavedAddressesScreen()),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SavedAddressScreen()),
+              );
             } else if (title == 'Notification') {
               Navigator.push(
                 context,
