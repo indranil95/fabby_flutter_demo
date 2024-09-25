@@ -34,6 +34,8 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    <key>GIDClientID</key>
+    <string>231242326515-9jkjlmrdbp1b5tdvq3nqu1tu6hk4m5f2.apps.googleusercontent.com</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -59,6 +61,14 @@
     <string>Need access to camera for QR code scanning</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>Need access to microphone for audio recording</string>
-
+    <key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>com.googleusercontent.apps.231242326515-9jkjlmrdbp1b5tdvq3nqu1tu6hk4m5f2</string>
+        </array>
+      </dict>
+    </array>
 </dict>
 </plist>
