@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_fabby_demo/utils/logger_service.dart';
 import 'package:flutter_fabby_demo/viewModels/start_viewmodel.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:uni_links/uni_links.dart';
+
 
 import '../../utils/navigation_service.dart';
 import '../../utils/shared_prefs.dart';
@@ -19,11 +23,46 @@ class StartScreen extends StatefulWidget {
 class _StartScreenState extends State<StartScreen> {
   String? guestId;
   String? loginSuccess;
+  StreamSubscription? _sub;
 
   @override
   void initState() {
     super.initState();
     _checkFirstTimeLogin();
+    initDeepLinkListener();
+  }
+  Future<void> initDeepLinkListener() async {
+    // Handle the initial deep link when the app is opened via a deep link
+    try {
+      final initialLink = await getInitialLink();
+      if (initialLink != null) {
+        print('Initial Deep Link: $initialLink');
+        // Handle the initial deep link here
+        handleDeepLink(initialLink);
+      }
+    } catch (e) {
+      print('Error getting the initial link: $e');
+    }
+
+    // Listen for deep links when the app is already running
+    _sub = linkStream.listen((String? link) {
+      if (link != null) {
+        print('Deep Link Received: $link');
+        // Handle the deep link here
+        handleDeepLink(link);
+      }
+    });
+  }
+  @override
+  void dispose() {
+    _sub?.cancel();
+    super.dispose();
+  }
+  void handleDeepLink(String link) {
+    // Parse and handle the deep link, for example, navigate to a specific screen
+    print('Handling deep link: $link');
+    // You can use Navigator to push to specific routes based on the link
+    // Navigator.pushNamed(context, 'specific_screen');
   }
 
   Future<void> _checkFirstTimeLogin() async {
