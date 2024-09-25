@@ -129,6 +129,7 @@ flutter:
     - assets/twitter_icon.svg
     - assets/instagram_menu.svg
     - assets/share_icon_menu.svg
+    - assets/resetPassword.png
 
   fonts:
     - family: DmSerifDisplay

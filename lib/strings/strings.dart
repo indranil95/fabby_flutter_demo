@@ -125,7 +125,7 @@ class AppStrings {
   static const String shopNow = "Shop Now";
   static const String shippingDetails = "Shipping Details";
   static const String yourPetsEssentialsJustAClickAway = "Your pet's essentials, just a click away.";
-  static const String addNewAddress = " Add New Address";
+  static const String addNewAddress = "Add New Address";
   static const String payment = "Payment";
   static const String effortlessCheckoutWithVariousPaymentOptions = "Effortless checkout with various payment options.";
   static const String phonepeUpiCardsWalletsNetBanking = "PhonePe (UPI, Cards, Wallets, Net Banking)";
