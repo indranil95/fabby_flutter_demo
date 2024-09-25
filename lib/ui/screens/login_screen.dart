@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 import '../../strings/strings.dart';
 import '../../utils/editable_toggle.dart';
+import '../../utils/google_signin_service.dart';
 import '../../utils/image_utils.dart';
 import '../../utils/logger_service.dart';
 import '../../utils/navigation_service.dart';
@@ -24,6 +25,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  late GoogleSignInService googleSignInService;
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
   late LoginViewModel viewModel;
@@ -35,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+    googleSignInService = GoogleSignInService(); // Initialize the Google Sign-In service
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     viewModel = Provider.of<LoginViewModel>(context, listen: false);
@@ -341,8 +344,52 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           GestureDetector(
-            onTap: () {
-              //NavigationService.replaceWith(const LoginScreen());
+            onTap: () async{
+              // Call the sign-in service and get the user data
+              Map<String, dynamic>? userData = await googleSignInService.signInWithGoogle();
+
+              if (userData != null) {
+                // Print the userData for debugging
+                LoggerService.d('User Data: $userData'); // Print the entire userData map
+                // You can update the UI here or pass the user data to another widget
+                String displayName=userData['name'];
+                String firstName = '';
+                String lastName = '';
+
+                if (displayName != null && displayName.isNotEmpty) {
+                  List<String> parts = displayName.split(" ");
+                  if (parts.isNotEmpty) {
+                    firstName = parts[0];
+                    if (parts.length > 1) {
+                      lastName = parts.sublist(1).join(" ");
+                    }
+                  }
+                }
+                String? gid = userData['id'];
+                String? email=userData['email'];
+                LoggerService.d('gid: $gid');
+                LoggerService.d('User Email: $email');
+                final requestBody = {
+                  'email_or_mobile': email,
+                  'fullname': firstName,
+                  'lastname': lastName,
+                  'gid': gid,
+                  'signin_platform': AppConstants.signUpPlatform,
+                  'user_type': AppConstants.customer,
+                };
+                await viewModel
+                    .sendLoginRequest(
+                    requestBody);
+                if (viewModel.loginData
+                    ?.success == true) {
+                  NavigationService.replaceWith(const HomeScreen());
+                }else{
+                  SnackbarService.showErrorSnackbar(context, viewModel.loginData
+                  !.error.toString());
+                }
+              } else {
+                print('Sign-in failed or was canceled by the user.');
+              }
             },
             child: Container(
               margin: const EdgeInsets.only(top: 10.0),
