@@ -3,7 +3,9 @@ import 'package:flutter_fabby_demo/ui/screens/my_account.dart';
 
 import '../../colors/colors.dart';
 import '../../utils/navigation_service.dart';
+import '../../utils/shared_prefs.dart';
 import 'blog_list.dart';
+import 'login_screen.dart';
 
 class RightsideMenuScreen extends StatefulWidget {
   const RightsideMenuScreen({super.key});
@@ -109,8 +111,9 @@ class _RightsideMenuScreenState extends State<RightsideMenuScreen> {
                 'Logout',
                 style: TextStyle(fontSize: 18.0),
               ),
-              onTap: () {
-                // Handle Logout tap
+              onTap: () async{
+                clearData();
+                NavigationService.replaceWith(const LoginScreen());
               },
             ),
           ],
@@ -118,4 +121,9 @@ class _RightsideMenuScreenState extends State<RightsideMenuScreen> {
       ),
     );
   }
+
+}
+Future<void> clearData() async {
+  final prefs = await SharedPrefsHelper.getInstance();
+  prefs.clearAll();
 }

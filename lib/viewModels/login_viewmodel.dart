@@ -37,10 +37,13 @@ class LoginViewModel extends ChangeNotifier {
 
       _loginData = response;
       _error = '';
-      final prefs = await SharedPrefsHelper.getInstance();
-      await prefs.saveObject<Data>('loginUserObject', response.data!,(Data data) => jsonEncode(data.toJson()), );
-      await prefs.saveString('loginSuccess', "1");
-      await prefs.saveString('accessToken', response.token.toString());
+      if(response.statusCode == 200){
+        final prefs = await SharedPrefsHelper.getInstance();
+        await prefs.saveObject<Data>('loginUserObject', response.data!,(Data data) => jsonEncode(data.toJson()), );
+        await prefs.saveString('loginSuccess', "1");
+        await prefs.saveString('accessToken', response.token.toString());
+      }
+
     } catch (e) {
       LoggerService.d("check:","exception $e");
       _error = e.toString();
