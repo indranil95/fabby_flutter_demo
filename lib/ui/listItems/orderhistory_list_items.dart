@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../utils/logger_service.dart';
+import '../../utils/navigation_service.dart';
+import '../screens/order_detail_screen.dart';
+
 class OrderListItem extends StatefulWidget {
   final String orderDate;
   final String totalPrice;
@@ -119,6 +123,8 @@ class _OrderListItemState extends State<OrderListItem> {
                     OutlinedButton(
                       onPressed: () {
                         // Add action for "View Details" button
+                        LoggerService.d("Test details tapped");
+                        NavigationService.navigateTo(OrderDetailScreen());
                       },
                       style: OutlinedButton.styleFrom(
                         shape: RoundedRectangleBorder(

@@ -123,6 +123,10 @@ class _SavedAddressScreenState extends State<SavedAddressScreen> {
   Widget build(BuildContext context) {
     final data = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
 
+    final Size screenSize = MediaQuery.of(context).size;
+    final double screenHeight = screenSize.height;
+    final double screenWidth = screenSize.width;
+
     return Scaffold(
       appBar: const TopBarDetail(title: AppStrings.checkoutFirstCaps),
       backgroundColor: AppColors.fabbyBack,
@@ -137,6 +141,7 @@ class _SavedAddressScreenState extends State<SavedAddressScreen> {
               );
             }
             final items = viewModel.checkoutModel?.data?.customerAddress ?? [];
+            double containerHeight = 145 * items.length.toDouble();
             return Column(
               children: [
                 Column(
@@ -173,6 +178,7 @@ class _SavedAddressScreenState extends State<SavedAddressScreen> {
                     ),
                     Container(
                         width: double.infinity,
+                        height: containerHeight + 40,
                         margin: const EdgeInsets.only(
                             left: 10.0, right: 10.0, bottom: 20.0, top: 10.0),
                         decoration: BoxDecoration(
@@ -220,7 +226,7 @@ class _SavedAddressScreenState extends State<SavedAddressScreen> {
                             Visibility(
                               visible: items.isNotEmpty,
                               child: SizedBox(
-                                height: 200.0,
+                                height: containerHeight,
                                 child: SavedAddressList(
                                   items: items,
                                   onDelete: (int index) async {

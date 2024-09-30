@@ -31,7 +31,7 @@ class _SavedAddressListState extends State<SavedAddressList> {
     // Flatten the list of Data objects from all WishListModel instances
     final List<CustomerAddress> allData = widget.items;
     LoggerService.d("list ", allData.length);
-    return Expanded(
+    return Container(
         child: ListView.builder(
           scrollDirection: Axis.vertical,
           itemCount: allData.length,
