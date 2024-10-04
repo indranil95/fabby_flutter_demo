@@ -99,7 +99,7 @@ class _OrderListItemState extends State<OrderListItem> {
                           widget.productImage,
                           height: 60,
                           width: 60,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.fill,
                         ),
                         SizedBox(width: 16),
                         Expanded(

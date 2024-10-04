@@ -133,4 +133,7 @@ abstract class BaseApiService {
   Future<BaseResponse<T>> updateProfile<T>(
       Map<String, dynamic> requestBody,
       T Function(Map<String, dynamic>) fromJson);
+
+  Future<BaseResponse<T>> fetchOrderDetails<T>(
+  T Function(Map<String, dynamic>) fromJson);
 }
